@@ -119,6 +119,7 @@ public class JSON {
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.delivery.hub.sdk.model.HubDeliveryStatusResponse.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.delivery.hub.sdk.model.HubHandshakeDeliveryResponse.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.delivery.hub.sdk.model.HubItemDTO.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.zipper.delivery.hub.sdk.model.HubRetryDeliveryResponse.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.delivery.hub.sdk.model.HubStatusEventDTO.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.delivery.hub.sdk.model.InternalPickupLocationDTO.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.delivery.hub.sdk.model.LocationDTO.CustomTypeAdapterFactory());

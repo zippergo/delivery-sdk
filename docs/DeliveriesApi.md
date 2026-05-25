@@ -11,6 +11,7 @@ All URIs are relative to *http://localhost*
 | [**getDeliveryLabelAsset**](DeliveriesApi.md#getDeliveryLabelAsset) | **GET** /delivery/v1/deliveries/{hubTrackingNumber}/label/{filename} | Download a label asset |
 | [**getHandshakeDelivery**](DeliveriesApi.md#getHandshakeDelivery) | **GET** /delivery/v1/deliveries/{deliveryId}/handshake | Get handshake PIN info |
 | [**getQuote**](DeliveriesApi.md#getQuote) | **POST** /delivery/v1/deliveries/quote | Get a delivery quote |
+| [**retryDelivery**](DeliveriesApi.md#retryDelivery) | **POST** /delivery/v1/deliveries/{deliveryId}/retry | Retry a delivery |
 | [**searchDeliveries**](DeliveriesApi.md#searchDeliveries) | **POST** /delivery/v1/deliveries/search | Search deliveries |
 | [**trackDelivery**](DeliveriesApi.md#trackDelivery) | **GET** /delivery/v1/deliveries/track/{hubTrackingNumber} | Track delivery by tracking number |
 
@@ -519,6 +520,78 @@ public class Example {
 | **400** | Invalid request parameters |  -  |
 | **403** | Forbidden — insufficient permissions |  -  |
 | **500** | Internal server error |  -  |
+
+<a id="retryDelivery"></a>
+# **retryDelivery**
+> HubRetryDeliveryResponse retryDelivery(deliveryId, acceptLanguage)
+
+Retry a delivery
+
+Re-dispatches a delivery that ended in a non-delivered terminal state (FAILED, CANCELLED, or REJECTED) by creating a new provider order under the same delivery. The delivery number and tracking stay the same; only a new provider order is created. Returns 409 if the delivery is not in a retryable status.
+
+### Example
+```java
+// Import classes:
+import com.zipper.delivery.hub.sdk.ApiClient;
+import com.zipper.delivery.hub.sdk.ApiException;
+import com.zipper.delivery.hub.sdk.Configuration;
+import com.zipper.delivery.hub.sdk.auth.*;
+import com.zipper.delivery.hub.sdk.models.*;
+import com.zipper.delivery.hub.sdk.api.DeliveriesApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("http://localhost");
+    
+    // Configure HTTP bearer authorization: bearerAuth
+    HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");
+    bearerAuth.setBearerToken("BEARER TOKEN");
+
+    DeliveriesApi apiInstance = new DeliveriesApi(defaultClient);
+    UUID deliveryId = UUID.fromString("550e8400-e29b-41d4-a716-446655440000"); // UUID | UUID of the delivery to retry
+    String acceptLanguage = "en"; // String | Language preference for response content. Supported: en, he
+    try {
+      HubRetryDeliveryResponse result = apiInstance.retryDelivery(deliveryId, acceptLanguage);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling DeliveriesApi#retryDelivery");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **deliveryId** | **UUID**| UUID of the delivery to retry | |
+| **acceptLanguage** | **String**| Language preference for response content. Supported: en, he | [optional] [default to en] [enum: en, he] |
+
+### Return type
+
+[**HubRetryDeliveryResponse**](HubRetryDeliveryResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Retry accepted; delivery re-dispatched |  -  |
+| **403** | Forbidden — insufficient permissions |  -  |
+| **404** | Delivery not found |  -  |
+| **409** | Delivery cannot be retried in its current status |  -  |
 
 <a id="searchDeliveries"></a>
 # **searchDeliveries**

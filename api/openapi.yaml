@@ -551,6 +551,55 @@ paths:
       x-content-type: application/json
       x-accepts:
       - '*/*'
+  /delivery/v1/deliveries/{deliveryId}/retry:
+    post:
+      description: "Re-dispatches a delivery that ended in a non-delivered terminal\
+        \ state (FAILED, CANCELLED, or REJECTED) by creating a new provider order\
+        \ under the same delivery. The delivery number and tracking stay the same;\
+        \ only a new provider order is created. Returns 409 if the delivery is not\
+        \ in a retryable status."
+      operationId: retryDelivery
+      parameters:
+      - description: UUID of the delivery to retry
+        example: 550e8400-e29b-41d4-a716-446655440000
+        explode: false
+        in: path
+        name: deliveryId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: "Language preference for response content. Supported: en, he"
+        explode: false
+        in: header
+        name: Accept-Language
+        required: false
+        schema:
+          default: en
+          enum:
+          - en
+          - he
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/HubRetryDeliveryResponse'
+          description: Retry accepted; delivery re-dispatched
+        "403":
+          description: Forbidden — insufficient permissions
+        "404":
+          description: Delivery not found
+        "409":
+          description: Delivery cannot be retried in its current status
+      summary: Retry a delivery
+      tags:
+      - Deliveries
+      x-accepts:
+      - '*/*'
   /delivery/v1/deliveries/{deliveryId}/cancel:
     post:
       description: "Cancels a delivery that is in CREATED or ASSIGNED status. If the\
@@ -2734,6 +2783,20 @@ components:
         trackingUrl:
           description: Public tracking URL for the delivery
           example: https://track.zipper-go.com/en/HUB-0000001000
+          type: string
+    HubRetryDeliveryResponse:
+      description: Response after requesting a delivery retry
+      example:
+        deliveryId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        status: PROVIDER_ACCEPTED
+      properties:
+        deliveryId:
+          description: UUID of the delivery being retried
+          format: uuid
+          type: string
+        status:
+          description: Delivery status after the retry was accepted
+          example: PROVIDER_ACCEPTED
           type: string
     HubCancelDeliveryResponse:
       description: Response after cancelling a delivery

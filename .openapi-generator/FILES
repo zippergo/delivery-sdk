@@ -32,6 +32,7 @@ docs/HubDeliverySearchDTO.md
 docs/HubDeliveryStatusResponse.md
 docs/HubHandshakeDeliveryResponse.md
 docs/HubItemDTO.md
+docs/HubRetryDeliveryResponse.md
 docs/HubStatusEventDTO.md
 docs/InternalPickupLocationDTO.md
 docs/InternalPickupLocationsApi.md
@@ -120,6 +121,7 @@ src/main/java/com/zipper/delivery/hub/sdk/model/HubDeliverySearchDTO.java
 src/main/java/com/zipper/delivery/hub/sdk/model/HubDeliveryStatusResponse.java
 src/main/java/com/zipper/delivery/hub/sdk/model/HubHandshakeDeliveryResponse.java
 src/main/java/com/zipper/delivery/hub/sdk/model/HubItemDTO.java
+src/main/java/com/zipper/delivery/hub/sdk/model/HubRetryDeliveryResponse.java
 src/main/java/com/zipper/delivery/hub/sdk/model/HubStatusEventDTO.java
 src/main/java/com/zipper/delivery/hub/sdk/model/InternalPickupLocationDTO.java
 src/main/java/com/zipper/delivery/hub/sdk/model/LocationDTO.java

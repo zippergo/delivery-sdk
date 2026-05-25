@@ -36,6 +36,7 @@ import com.zipper.delivery.hub.sdk.model.HubDeliveryQuoteRequest;
 import com.zipper.delivery.hub.sdk.model.HubDeliveryQuoteResponse;
 import com.zipper.delivery.hub.sdk.model.HubDeliveryStatusResponse;
 import com.zipper.delivery.hub.sdk.model.HubHandshakeDeliveryResponse;
+import com.zipper.delivery.hub.sdk.model.HubRetryDeliveryResponse;
 import com.zipper.delivery.hub.sdk.model.PageResponseListHubDeliverySearchDTO;
 import com.zipper.delivery.hub.sdk.model.SearchDeliveriesRequest;
 import java.util.UUID;
@@ -1123,6 +1124,154 @@ public class DeliveriesApi {
 
         okhttp3.Call localVarCall = getQuoteValidateBeforeCall(hubDeliveryQuoteRequest, acceptLanguage, _callback);
         Type localVarReturnType = new TypeToken<HubDeliveryQuoteResponse>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for retryDelivery
+     * @param deliveryId UUID of the delivery to retry (required)
+     * @param acceptLanguage Language preference for response content. Supported: en, he (optional, default to en)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Retry accepted; delivery re-dispatched </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Forbidden — insufficient permissions </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> Delivery not found </td><td>  -  </td></tr>
+        <tr><td> 409 </td><td> Delivery cannot be retried in its current status </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call retryDeliveryCall(@javax.annotation.Nonnull UUID deliveryId, @javax.annotation.Nullable String acceptLanguage, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/delivery/v1/deliveries/{deliveryId}/retry"
+            .replace("{" + "deliveryId" + "}", localVarApiClient.escapeString(deliveryId.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+            "*/*"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        if (acceptLanguage != null) {
+            localVarHeaderParams.put("Accept-Language", localVarApiClient.parameterToString(acceptLanguage));
+        }
+
+
+        String[] localVarAuthNames = new String[] { "bearerAuth" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call retryDeliveryValidateBeforeCall(@javax.annotation.Nonnull UUID deliveryId, @javax.annotation.Nullable String acceptLanguage, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'deliveryId' is set
+        if (deliveryId == null) {
+            throw new ApiException("Missing the required parameter 'deliveryId' when calling retryDelivery(Async)");
+        }
+
+        return retryDeliveryCall(deliveryId, acceptLanguage, _callback);
+
+    }
+
+    /**
+     * Retry a delivery
+     * Re-dispatches a delivery that ended in a non-delivered terminal state (FAILED, CANCELLED, or REJECTED) by creating a new provider order under the same delivery. The delivery number and tracking stay the same; only a new provider order is created. Returns 409 if the delivery is not in a retryable status.
+     * @param deliveryId UUID of the delivery to retry (required)
+     * @param acceptLanguage Language preference for response content. Supported: en, he (optional, default to en)
+     * @return HubRetryDeliveryResponse
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Retry accepted; delivery re-dispatched </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Forbidden — insufficient permissions </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> Delivery not found </td><td>  -  </td></tr>
+        <tr><td> 409 </td><td> Delivery cannot be retried in its current status </td><td>  -  </td></tr>
+     </table>
+     */
+    public HubRetryDeliveryResponse retryDelivery(@javax.annotation.Nonnull UUID deliveryId, @javax.annotation.Nullable String acceptLanguage) throws ApiException {
+        ApiResponse<HubRetryDeliveryResponse> localVarResp = retryDeliveryWithHttpInfo(deliveryId, acceptLanguage);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Retry a delivery
+     * Re-dispatches a delivery that ended in a non-delivered terminal state (FAILED, CANCELLED, or REJECTED) by creating a new provider order under the same delivery. The delivery number and tracking stay the same; only a new provider order is created. Returns 409 if the delivery is not in a retryable status.
+     * @param deliveryId UUID of the delivery to retry (required)
+     * @param acceptLanguage Language preference for response content. Supported: en, he (optional, default to en)
+     * @return ApiResponse&lt;HubRetryDeliveryResponse&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Retry accepted; delivery re-dispatched </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Forbidden — insufficient permissions </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> Delivery not found </td><td>  -  </td></tr>
+        <tr><td> 409 </td><td> Delivery cannot be retried in its current status </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<HubRetryDeliveryResponse> retryDeliveryWithHttpInfo(@javax.annotation.Nonnull UUID deliveryId, @javax.annotation.Nullable String acceptLanguage) throws ApiException {
+        okhttp3.Call localVarCall = retryDeliveryValidateBeforeCall(deliveryId, acceptLanguage, null);
+        Type localVarReturnType = new TypeToken<HubRetryDeliveryResponse>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Retry a delivery (asynchronously)
+     * Re-dispatches a delivery that ended in a non-delivered terminal state (FAILED, CANCELLED, or REJECTED) by creating a new provider order under the same delivery. The delivery number and tracking stay the same; only a new provider order is created. Returns 409 if the delivery is not in a retryable status.
+     * @param deliveryId UUID of the delivery to retry (required)
+     * @param acceptLanguage Language preference for response content. Supported: en, he (optional, default to en)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Retry accepted; delivery re-dispatched </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> Forbidden — insufficient permissions </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> Delivery not found </td><td>  -  </td></tr>
+        <tr><td> 409 </td><td> Delivery cannot be retried in its current status </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call retryDeliveryAsync(@javax.annotation.Nonnull UUID deliveryId, @javax.annotation.Nullable String acceptLanguage, final ApiCallback<HubRetryDeliveryResponse> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = retryDeliveryValidateBeforeCall(deliveryId, acceptLanguage, _callback);
+        Type localVarReturnType = new TypeToken<HubRetryDeliveryResponse>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }

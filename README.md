@@ -159,6 +159,7 @@ Class | Method | HTTP request | Description
 *DeliveriesApi* | [**getDeliveryLabelAsset**](docs/DeliveriesApi.md#getDeliveryLabelAsset) | **GET** /delivery/v1/deliveries/{hubTrackingNumber}/label/{filename} | Download a label asset
 *DeliveriesApi* | [**getHandshakeDelivery**](docs/DeliveriesApi.md#getHandshakeDelivery) | **GET** /delivery/v1/deliveries/{deliveryId}/handshake | Get handshake PIN info
 *DeliveriesApi* | [**getQuote**](docs/DeliveriesApi.md#getQuote) | **POST** /delivery/v1/deliveries/quote | Get a delivery quote
+*DeliveriesApi* | [**retryDelivery**](docs/DeliveriesApi.md#retryDelivery) | **POST** /delivery/v1/deliveries/{deliveryId}/retry | Retry a delivery
 *DeliveriesApi* | [**searchDeliveries**](docs/DeliveriesApi.md#searchDeliveries) | **POST** /delivery/v1/deliveries/search | Search deliveries
 *DeliveriesApi* | [**trackDelivery**](docs/DeliveriesApi.md#trackDelivery) | **GET** /delivery/v1/deliveries/track/{hubTrackingNumber} | Track delivery by tracking number
 *EchoApi* | [**echoV1**](docs/EchoApi.md#echoV1) | **GET** /delivery/v1/echo | Echo a message back
@@ -202,6 +203,7 @@ Class | Method | HTTP request | Description
  - [HubDeliveryStatusResponse](docs/HubDeliveryStatusResponse.md)
  - [HubHandshakeDeliveryResponse](docs/HubHandshakeDeliveryResponse.md)
  - [HubItemDTO](docs/HubItemDTO.md)
+ - [HubRetryDeliveryResponse](docs/HubRetryDeliveryResponse.md)
  - [HubStatusEventDTO](docs/HubStatusEventDTO.md)
  - [InternalPickupLocationDTO](docs/InternalPickupLocationDTO.md)
  - [LocationDTO](docs/LocationDTO.md)
