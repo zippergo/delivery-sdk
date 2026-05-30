@@ -163,6 +163,17 @@ Class | Method | HTTP request | Description
 *DeliveriesApi* | [**searchDeliveries**](docs/DeliveriesApi.md#searchDeliveries) | **POST** /delivery/v1/deliveries/search | Search deliveries
 *DeliveriesApi* | [**trackDelivery**](docs/DeliveriesApi.md#trackDelivery) | **GET** /delivery/v1/deliveries/track/{hubTrackingNumber} | Track delivery by tracking number
 *EchoApi* | [**echoV1**](docs/EchoApi.md#echoV1) | **GET** /delivery/v1/echo | Echo a message back
+*InternalDeliveriesApi* | [**internalCancelDelivery**](docs/InternalDeliveriesApi.md#internalCancelDelivery) | **POST** /delivery/v1/internal/deliveries/{deliveryId}/cancel | Cancel a delivery
+*InternalDeliveriesApi* | [**internalCreateDelivery**](docs/InternalDeliveriesApi.md#internalCreateDelivery) | **POST** /delivery/v1/internal/users/{userId}/deliveries | Create a delivery for a user
+*InternalDeliveriesApi* | [**internalGetDelivery**](docs/InternalDeliveriesApi.md#internalGetDelivery) | **GET** /delivery/v1/internal/deliveries/{deliveryId} | Get delivery status
+*InternalDeliveriesApi* | [**internalGetDeliveryLabel**](docs/InternalDeliveriesApi.md#internalGetDeliveryLabel) | **GET** /delivery/v1/internal/deliveries/{hubTrackingNumber}/label | Get delivery label metadata
+*InternalDeliveriesApi* | [**internalGetDeliveryLabelAsset**](docs/InternalDeliveriesApi.md#internalGetDeliveryLabelAsset) | **GET** /delivery/v1/internal/deliveries/{hubTrackingNumber}/label/{filename} | Download a label asset
+*InternalDeliveriesApi* | [**internalGetHandshakeDelivery**](docs/InternalDeliveriesApi.md#internalGetHandshakeDelivery) | **GET** /delivery/v1/internal/deliveries/{deliveryId}/handshake | Get handshake PIN info
+*InternalDeliveriesApi* | [**internalGetQuote**](docs/InternalDeliveriesApi.md#internalGetQuote) | **POST** /delivery/v1/internal/users/{userId}/deliveries/quote | Get a delivery quote for a user
+*InternalDeliveriesApi* | [**internalRetryDelivery**](docs/InternalDeliveriesApi.md#internalRetryDelivery) | **POST** /delivery/v1/internal/deliveries/{deliveryId}/retry | Retry a delivery
+*InternalDeliveriesApi* | [**internalSearchDeliveries**](docs/InternalDeliveriesApi.md#internalSearchDeliveries) | **POST** /delivery/v1/internal/deliveries/search | Search deliveries
+*InternalDeliveriesApi* | [**internalTrackDelivery**](docs/InternalDeliveriesApi.md#internalTrackDelivery) | **GET** /delivery/v1/internal/deliveries/track/{hubTrackingNumber} | Track delivery by tracking number
+*InternalDeliveriesApi* | [**statusesByIds**](docs/InternalDeliveriesApi.md#statusesByIds) | **POST** /delivery/v1/internal/deliveries/by-ids | Get current status for a list of deliveries
 *InternalPickupLocationsApi* | [**getById**](docs/InternalPickupLocationsApi.md#getById) | **GET** /delivery/v1/internal/pickup-locations/{id} | Get pickup location by external ID
 *PickupLocationsApi* | [**bulkUpsertPickupLocations**](docs/PickupLocationsApi.md#bulkUpsertPickupLocations) | **POST** /delivery/v1/pickup-locations/bulk-upsert | Bulk upsert pickup locations (async)
 *PickupLocationsApi* | [**createPickupLocation**](docs/PickupLocationsApi.md#createPickupLocation) | **POST** /delivery/v1/pickup-locations | Create a pickup location
@@ -187,6 +198,8 @@ Class | Method | HTTP request | Description
  - [CreatePickupLocationRequest](docs/CreatePickupLocationRequest.md)
  - [CreateWebhookRequest](docs/CreateWebhookRequest.md)
  - [DayScheduleDTO](docs/DayScheduleDTO.md)
+ - [DeliveryStatusesRequest](docs/DeliveryStatusesRequest.md)
+ - [DeliveryStatusesResponse](docs/DeliveryStatusesResponse.md)
  - [EchoResponse](docs/EchoResponse.md)
  - [ExponentialRetryBackoffDTO](docs/ExponentialRetryBackoffDTO.md)
  - [Filter](docs/Filter.md)

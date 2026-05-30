@@ -15,6 +15,8 @@ docs/CreatePickupLocationRequest.md
 docs/CreateWebhookRequest.md
 docs/DayScheduleDTO.md
 docs/DeliveriesApi.md
+docs/DeliveryStatusesRequest.md
+docs/DeliveryStatusesResponse.md
 docs/EchoApi.md
 docs/EchoResponse.md
 docs/ExponentialRetryBackoffDTO.md
@@ -34,6 +36,7 @@ docs/HubHandshakeDeliveryResponse.md
 docs/HubItemDTO.md
 docs/HubRetryDeliveryResponse.md
 docs/HubStatusEventDTO.md
+docs/InternalDeliveriesApi.md
 docs/InternalPickupLocationDTO.md
 docs/InternalPickupLocationsApi.md
 docs/LocationDTO.md
@@ -89,6 +92,7 @@ src/main/java/com/zipper/delivery/hub/sdk/StringUtil.java
 src/main/java/com/zipper/delivery/hub/sdk/api/AdminDeliveriesApi.java
 src/main/java/com/zipper/delivery/hub/sdk/api/DeliveriesApi.java
 src/main/java/com/zipper/delivery/hub/sdk/api/EchoApi.java
+src/main/java/com/zipper/delivery/hub/sdk/api/InternalDeliveriesApi.java
 src/main/java/com/zipper/delivery/hub/sdk/api/InternalPickupLocationsApi.java
 src/main/java/com/zipper/delivery/hub/sdk/api/PickupLocationsApi.java
 src/main/java/com/zipper/delivery/hub/sdk/api/PublicTrackingApi.java
@@ -105,6 +109,8 @@ src/main/java/com/zipper/delivery/hub/sdk/model/CallbackConfigDTO.java
 src/main/java/com/zipper/delivery/hub/sdk/model/CreatePickupLocationRequest.java
 src/main/java/com/zipper/delivery/hub/sdk/model/CreateWebhookRequest.java
 src/main/java/com/zipper/delivery/hub/sdk/model/DayScheduleDTO.java
+src/main/java/com/zipper/delivery/hub/sdk/model/DeliveryStatusesRequest.java
+src/main/java/com/zipper/delivery/hub/sdk/model/DeliveryStatusesResponse.java
 src/main/java/com/zipper/delivery/hub/sdk/model/EchoResponse.java
 src/main/java/com/zipper/delivery/hub/sdk/model/ExponentialRetryBackoffDTO.java
 src/main/java/com/zipper/delivery/hub/sdk/model/Filter.java

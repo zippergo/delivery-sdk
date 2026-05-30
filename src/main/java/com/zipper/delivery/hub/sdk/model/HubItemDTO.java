@@ -70,6 +70,26 @@ public class HubItemDTO {
   @javax.annotation.Nullable
   private String description;
 
+  public static final String SERIALIZED_NAME_WEIGHT_KG = "weightKg";
+  @SerializedName(SERIALIZED_NAME_WEIGHT_KG)
+  @javax.annotation.Nullable
+  private Double weightKg;
+
+  public static final String SERIALIZED_NAME_LENGTH_CM = "lengthCm";
+  @SerializedName(SERIALIZED_NAME_LENGTH_CM)
+  @javax.annotation.Nullable
+  private Double lengthCm;
+
+  public static final String SERIALIZED_NAME_WIDTH_CM = "widthCm";
+  @SerializedName(SERIALIZED_NAME_WIDTH_CM)
+  @javax.annotation.Nullable
+  private Double widthCm;
+
+  public static final String SERIALIZED_NAME_HEIGHT_CM = "heightCm";
+  @SerializedName(SERIALIZED_NAME_HEIGHT_CM)
+  @javax.annotation.Nullable
+  private Double heightCm;
+
   public HubItemDTO() {
   }
 
@@ -149,6 +169,82 @@ public class HubItemDTO {
   }
 
 
+  public HubItemDTO weightKg(@javax.annotation.Nullable Double weightKg) {
+    this.weightKg = weightKg;
+    return this;
+  }
+
+  /**
+   * Optional package weight in kilograms
+   * @return weightKg
+   */
+  @javax.annotation.Nullable
+  public Double getWeightKg() {
+    return weightKg;
+  }
+
+  public void setWeightKg(@javax.annotation.Nullable Double weightKg) {
+    this.weightKg = weightKg;
+  }
+
+
+  public HubItemDTO lengthCm(@javax.annotation.Nullable Double lengthCm) {
+    this.lengthCm = lengthCm;
+    return this;
+  }
+
+  /**
+   * Optional package length in centimeters
+   * @return lengthCm
+   */
+  @javax.annotation.Nullable
+  public Double getLengthCm() {
+    return lengthCm;
+  }
+
+  public void setLengthCm(@javax.annotation.Nullable Double lengthCm) {
+    this.lengthCm = lengthCm;
+  }
+
+
+  public HubItemDTO widthCm(@javax.annotation.Nullable Double widthCm) {
+    this.widthCm = widthCm;
+    return this;
+  }
+
+  /**
+   * Optional package width in centimeters
+   * @return widthCm
+   */
+  @javax.annotation.Nullable
+  public Double getWidthCm() {
+    return widthCm;
+  }
+
+  public void setWidthCm(@javax.annotation.Nullable Double widthCm) {
+    this.widthCm = widthCm;
+  }
+
+
+  public HubItemDTO heightCm(@javax.annotation.Nullable Double heightCm) {
+    this.heightCm = heightCm;
+    return this;
+  }
+
+  /**
+   * Optional package height in centimeters
+   * @return heightCm
+   */
+  @javax.annotation.Nullable
+  public Double getHeightCm() {
+    return heightCm;
+  }
+
+  public void setHeightCm(@javax.annotation.Nullable Double heightCm) {
+    this.heightCm = heightCm;
+  }
+
+
 
   @Override
   public boolean equals(Object o) {
@@ -162,12 +258,16 @@ public class HubItemDTO {
     return Objects.equals(this.sku, hubItemDTO.sku) &&
         Objects.equals(this.name, hubItemDTO.name) &&
         Objects.equals(this.quantity, hubItemDTO.quantity) &&
-        Objects.equals(this.description, hubItemDTO.description);
+        Objects.equals(this.description, hubItemDTO.description) &&
+        Objects.equals(this.weightKg, hubItemDTO.weightKg) &&
+        Objects.equals(this.lengthCm, hubItemDTO.lengthCm) &&
+        Objects.equals(this.widthCm, hubItemDTO.widthCm) &&
+        Objects.equals(this.heightCm, hubItemDTO.heightCm);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(sku, name, quantity, description);
+    return Objects.hash(sku, name, quantity, description, weightKg, lengthCm, widthCm, heightCm);
   }
 
   @Override
@@ -178,6 +278,10 @@ public class HubItemDTO {
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    weightKg: ").append(toIndentedString(weightKg)).append("\n");
+    sb.append("    lengthCm: ").append(toIndentedString(lengthCm)).append("\n");
+    sb.append("    widthCm: ").append(toIndentedString(widthCm)).append("\n");
+    sb.append("    heightCm: ").append(toIndentedString(heightCm)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -204,6 +308,10 @@ public class HubItemDTO {
     openapiFields.add("name");
     openapiFields.add("quantity");
     openapiFields.add("description");
+    openapiFields.add("weightKg");
+    openapiFields.add("lengthCm");
+    openapiFields.add("widthCm");
+    openapiFields.add("heightCm");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();
