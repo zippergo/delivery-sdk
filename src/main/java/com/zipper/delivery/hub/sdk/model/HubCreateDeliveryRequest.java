@@ -129,6 +129,11 @@ public class HubCreateDeliveryRequest {
   @javax.annotation.Nullable
   private String externalOrderId;
 
+  public static final String SERIALIZED_NAME_REFERRAL_CODE = "referralCode";
+  @SerializedName(SERIALIZED_NAME_REFERRAL_CODE)
+  @javax.annotation.Nullable
+  private String referralCode;
+
   public static final String SERIALIZED_NAME_PICKUP = "pickup";
   @SerializedName(SERIALIZED_NAME_PICKUP)
   @javax.annotation.Nullable
@@ -236,6 +241,25 @@ public class HubCreateDeliveryRequest {
 
   public void setExternalOrderId(@javax.annotation.Nullable String externalOrderId) {
     this.externalOrderId = externalOrderId;
+  }
+
+
+  public HubCreateDeliveryRequest referralCode(@javax.annotation.Nullable String referralCode) {
+    this.referralCode = referralCode;
+    return this;
+  }
+
+  /**
+   * Optional referral code of the user/referrer who drove this delivery
+   * @return referralCode
+   */
+  @javax.annotation.Nullable
+  public String getReferralCode() {
+    return referralCode;
+  }
+
+  public void setReferralCode(@javax.annotation.Nullable String referralCode) {
+    this.referralCode = referralCode;
   }
 
 
@@ -450,6 +474,7 @@ public class HubCreateDeliveryRequest {
     return Objects.equals(this.quoteId, hubCreateDeliveryRequest.quoteId) &&
         Objects.equals(this.deliveryType, hubCreateDeliveryRequest.deliveryType) &&
         Objects.equals(this.externalOrderId, hubCreateDeliveryRequest.externalOrderId) &&
+        Objects.equals(this.referralCode, hubCreateDeliveryRequest.referralCode) &&
         Objects.equals(this.pickup, hubCreateDeliveryRequest.pickup) &&
         Objects.equals(this.dropoff, hubCreateDeliveryRequest.dropoff) &&
         Objects.equals(this.items, hubCreateDeliveryRequest.items) &&
@@ -464,7 +489,7 @@ public class HubCreateDeliveryRequest {
 
   @Override
   public int hashCode() {
-    return Objects.hash(quoteId, deliveryType, externalOrderId, pickup, dropoff, items, codAmount, scheduledAt, smsNotifications, handshake, recipient, providerData, pickupLocationCode);
+    return Objects.hash(quoteId, deliveryType, externalOrderId, referralCode, pickup, dropoff, items, codAmount, scheduledAt, smsNotifications, handshake, recipient, providerData, pickupLocationCode);
   }
 
   @Override
@@ -474,6 +499,7 @@ public class HubCreateDeliveryRequest {
     sb.append("    quoteId: ").append(toIndentedString(quoteId)).append("\n");
     sb.append("    deliveryType: ").append(toIndentedString(deliveryType)).append("\n");
     sb.append("    externalOrderId: ").append(toIndentedString(externalOrderId)).append("\n");
+    sb.append("    referralCode: ").append(toIndentedString(referralCode)).append("\n");
     sb.append("    pickup: ").append(toIndentedString(pickup)).append("\n");
     sb.append("    dropoff: ").append(toIndentedString(dropoff)).append("\n");
     sb.append("    items: ").append(toIndentedString(items)).append("\n");
@@ -509,6 +535,7 @@ public class HubCreateDeliveryRequest {
     openapiFields.add("quoteId");
     openapiFields.add("deliveryType");
     openapiFields.add("externalOrderId");
+    openapiFields.add("referralCode");
     openapiFields.add("pickup");
     openapiFields.add("dropoff");
     openapiFields.add("items");
@@ -565,6 +592,9 @@ public class HubCreateDeliveryRequest {
       DeliveryTypeEnum.validateJsonElement(jsonObj.get("deliveryType"));
       if ((jsonObj.get("externalOrderId") != null && !jsonObj.get("externalOrderId").isJsonNull()) && !jsonObj.get("externalOrderId").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `externalOrderId` to be a primitive type in the JSON string but got `%s`", jsonObj.get("externalOrderId").toString()));
+      }
+      if ((jsonObj.get("referralCode") != null && !jsonObj.get("referralCode").isJsonNull()) && !jsonObj.get("referralCode").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `referralCode` to be a primitive type in the JSON string but got `%s`", jsonObj.get("referralCode").toString()));
       }
       // validate the optional field `pickup`
       if (jsonObj.get("pickup") != null && !jsonObj.get("pickup").isJsonNull()) {

@@ -3075,6 +3075,7 @@ components:
         pickupLocationCode: MAIN-01
         externalOrderId: ORD-12345
         quoteId: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+        referralCode: ABC123
         codAmount: 49.9
         recipient:
           phoneNumber: "+972501234567"
@@ -3115,6 +3116,13 @@ components:
         externalOrderId:
           description: Your external order reference ID
           example: ORD-12345
+          type: string
+        referralCode:
+          description: Optional referral code of the user/referrer who drove this
+            delivery
+          example: ABC123
+          maxLength: 10
+          minLength: 0
           type: string
         pickup:
           $ref: '#/components/schemas/HubContactDTO'
