@@ -16,6 +16,8 @@ Delivery price quote from a carrier provider
 |**quoteId** | **UUID** | Internal quote identifier for use when creating a delivery |  [optional] |
 |**distanceMeters** | **Long** | Distance between pickup and dropoff in meters |  [optional] |
 |**durationSeconds** | **Long** | Estimated travel duration in seconds |  [optional] |
+|**routeGeometry** | [**GeoJsonLineString**](GeoJsonLineString.md) | Internal road-network route geometry (GeoJSON LineString) between pickup and dropoff, for map rendering |  [optional] |
+|**routeMeta** | [**RouteMeta**](RouteMeta.md) | Additional internal routing metadata (weight, snap distances, road summary) |  [optional] |
 |**expiresAt** | **OffsetDateTime** | Quote expiration time — create delivery before this time |  [optional] |
 
 

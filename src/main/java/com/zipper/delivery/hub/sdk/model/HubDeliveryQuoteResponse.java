@@ -19,6 +19,8 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import com.zipper.delivery.hub.sdk.model.GeoJsonLineString;
+import com.zipper.delivery.hub.sdk.model.RouteMeta;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
@@ -201,6 +203,16 @@ public class HubDeliveryQuoteResponse {
   @javax.annotation.Nullable
   private Long durationSeconds;
 
+  public static final String SERIALIZED_NAME_ROUTE_GEOMETRY = "routeGeometry";
+  @SerializedName(SERIALIZED_NAME_ROUTE_GEOMETRY)
+  @javax.annotation.Nullable
+  private GeoJsonLineString routeGeometry;
+
+  public static final String SERIALIZED_NAME_ROUTE_META = "routeMeta";
+  @SerializedName(SERIALIZED_NAME_ROUTE_META)
+  @javax.annotation.Nullable
+  private RouteMeta routeMeta;
+
   public static final String SERIALIZED_NAME_EXPIRES_AT = "expiresAt";
   @SerializedName(SERIALIZED_NAME_EXPIRES_AT)
   @javax.annotation.Nullable
@@ -361,6 +373,44 @@ public class HubDeliveryQuoteResponse {
   }
 
 
+  public HubDeliveryQuoteResponse routeGeometry(@javax.annotation.Nullable GeoJsonLineString routeGeometry) {
+    this.routeGeometry = routeGeometry;
+    return this;
+  }
+
+  /**
+   * Internal road-network route geometry (GeoJSON LineString) between pickup and dropoff, for map rendering
+   * @return routeGeometry
+   */
+  @javax.annotation.Nullable
+  public GeoJsonLineString getRouteGeometry() {
+    return routeGeometry;
+  }
+
+  public void setRouteGeometry(@javax.annotation.Nullable GeoJsonLineString routeGeometry) {
+    this.routeGeometry = routeGeometry;
+  }
+
+
+  public HubDeliveryQuoteResponse routeMeta(@javax.annotation.Nullable RouteMeta routeMeta) {
+    this.routeMeta = routeMeta;
+    return this;
+  }
+
+  /**
+   * Additional internal routing metadata (weight, snap distances, road summary)
+   * @return routeMeta
+   */
+  @javax.annotation.Nullable
+  public RouteMeta getRouteMeta() {
+    return routeMeta;
+  }
+
+  public void setRouteMeta(@javax.annotation.Nullable RouteMeta routeMeta) {
+    this.routeMeta = routeMeta;
+  }
+
+
   public HubDeliveryQuoteResponse expiresAt(@javax.annotation.Nullable OffsetDateTime expiresAt) {
     this.expiresAt = expiresAt;
     return this;
@@ -398,12 +448,14 @@ public class HubDeliveryQuoteResponse {
         Objects.equals(this.quoteId, hubDeliveryQuoteResponse.quoteId) &&
         Objects.equals(this.distanceMeters, hubDeliveryQuoteResponse.distanceMeters) &&
         Objects.equals(this.durationSeconds, hubDeliveryQuoteResponse.durationSeconds) &&
+        Objects.equals(this.routeGeometry, hubDeliveryQuoteResponse.routeGeometry) &&
+        Objects.equals(this.routeMeta, hubDeliveryQuoteResponse.routeMeta) &&
         Objects.equals(this.expiresAt, hubDeliveryQuoteResponse.expiresAt);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(deliveryType, provider, price, currency, estimatedArrivalSeconds, quoteId, distanceMeters, durationSeconds, expiresAt);
+    return Objects.hash(deliveryType, provider, price, currency, estimatedArrivalSeconds, quoteId, distanceMeters, durationSeconds, routeGeometry, routeMeta, expiresAt);
   }
 
   @Override
@@ -418,6 +470,8 @@ public class HubDeliveryQuoteResponse {
     sb.append("    quoteId: ").append(toIndentedString(quoteId)).append("\n");
     sb.append("    distanceMeters: ").append(toIndentedString(distanceMeters)).append("\n");
     sb.append("    durationSeconds: ").append(toIndentedString(durationSeconds)).append("\n");
+    sb.append("    routeGeometry: ").append(toIndentedString(routeGeometry)).append("\n");
+    sb.append("    routeMeta: ").append(toIndentedString(routeMeta)).append("\n");
     sb.append("    expiresAt: ").append(toIndentedString(expiresAt)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -449,6 +503,8 @@ public class HubDeliveryQuoteResponse {
     openapiFields.add("quoteId");
     openapiFields.add("distanceMeters");
     openapiFields.add("durationSeconds");
+    openapiFields.add("routeGeometry");
+    openapiFields.add("routeMeta");
     openapiFields.add("expiresAt");
 
     // a set of required properties/fields (JSON key names)
@@ -495,6 +551,14 @@ public class HubDeliveryQuoteResponse {
       }
       if ((jsonObj.get("quoteId") != null && !jsonObj.get("quoteId").isJsonNull()) && !jsonObj.get("quoteId").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `quoteId` to be a primitive type in the JSON string but got `%s`", jsonObj.get("quoteId").toString()));
+      }
+      // validate the optional field `routeGeometry`
+      if (jsonObj.get("routeGeometry") != null && !jsonObj.get("routeGeometry").isJsonNull()) {
+        GeoJsonLineString.validateJsonElement(jsonObj.get("routeGeometry"));
+      }
+      // validate the optional field `routeMeta`
+      if (jsonObj.get("routeMeta") != null && !jsonObj.get("routeMeta").isJsonNull()) {
+        RouteMeta.validateJsonElement(jsonObj.get("routeMeta"));
       }
   }
 

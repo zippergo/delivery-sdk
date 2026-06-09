@@ -32,6 +32,10 @@ Full delivery status including tracking and history
 |**dropoffEmail** | **String** | Dropoff contact email |  [optional] |
 |**dropoffNotes** | **String** | Dropoff notes or instructions |  [optional] |
 |**dropoffLocation** | [**HubDeliveryLocationDTO**](HubDeliveryLocationDTO.md) | Dropoff location details |  [optional] |
+|**distanceMeters** | **Long** | Internal road-network distance between pickup and dropoff in meters |  [optional] |
+|**durationSeconds** | **Long** | Internal estimated travel duration in seconds |  [optional] |
+|**routeGeometry** | [**GeoJsonLineString**](GeoJsonLineString.md) | Internal route geometry (GeoJSON LineString) for drawing the route on a map |  [optional] |
+|**routeMeta** | [**RouteMeta**](RouteMeta.md) | Additional internal routing metadata (weight, snap distances, road summary) |  [optional] |
 
 
 

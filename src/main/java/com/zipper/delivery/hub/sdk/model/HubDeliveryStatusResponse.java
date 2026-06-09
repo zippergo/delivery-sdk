@@ -19,9 +19,11 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import com.zipper.delivery.hub.sdk.model.GeoJsonLineString;
 import com.zipper.delivery.hub.sdk.model.HubDeliveryLocationDTO;
 import com.zipper.delivery.hub.sdk.model.HubItemDTO;
 import com.zipper.delivery.hub.sdk.model.HubStatusEventDTO;
+import com.zipper.delivery.hub.sdk.model.RouteMeta;
 import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -356,6 +358,26 @@ public class HubDeliveryStatusResponse {
   @SerializedName(SERIALIZED_NAME_DROPOFF_LOCATION)
   @javax.annotation.Nullable
   private HubDeliveryLocationDTO dropoffLocation;
+
+  public static final String SERIALIZED_NAME_DISTANCE_METERS = "distanceMeters";
+  @SerializedName(SERIALIZED_NAME_DISTANCE_METERS)
+  @javax.annotation.Nullable
+  private Long distanceMeters;
+
+  public static final String SERIALIZED_NAME_DURATION_SECONDS = "durationSeconds";
+  @SerializedName(SERIALIZED_NAME_DURATION_SECONDS)
+  @javax.annotation.Nullable
+  private Long durationSeconds;
+
+  public static final String SERIALIZED_NAME_ROUTE_GEOMETRY = "routeGeometry";
+  @SerializedName(SERIALIZED_NAME_ROUTE_GEOMETRY)
+  @javax.annotation.Nullable
+  private GeoJsonLineString routeGeometry;
+
+  public static final String SERIALIZED_NAME_ROUTE_META = "routeMeta";
+  @SerializedName(SERIALIZED_NAME_ROUTE_META)
+  @javax.annotation.Nullable
+  private RouteMeta routeMeta;
 
   public HubDeliveryStatusResponse() {
   }
@@ -832,6 +854,82 @@ public class HubDeliveryStatusResponse {
   }
 
 
+  public HubDeliveryStatusResponse distanceMeters(@javax.annotation.Nullable Long distanceMeters) {
+    this.distanceMeters = distanceMeters;
+    return this;
+  }
+
+  /**
+   * Internal road-network distance between pickup and dropoff in meters
+   * @return distanceMeters
+   */
+  @javax.annotation.Nullable
+  public Long getDistanceMeters() {
+    return distanceMeters;
+  }
+
+  public void setDistanceMeters(@javax.annotation.Nullable Long distanceMeters) {
+    this.distanceMeters = distanceMeters;
+  }
+
+
+  public HubDeliveryStatusResponse durationSeconds(@javax.annotation.Nullable Long durationSeconds) {
+    this.durationSeconds = durationSeconds;
+    return this;
+  }
+
+  /**
+   * Internal estimated travel duration in seconds
+   * @return durationSeconds
+   */
+  @javax.annotation.Nullable
+  public Long getDurationSeconds() {
+    return durationSeconds;
+  }
+
+  public void setDurationSeconds(@javax.annotation.Nullable Long durationSeconds) {
+    this.durationSeconds = durationSeconds;
+  }
+
+
+  public HubDeliveryStatusResponse routeGeometry(@javax.annotation.Nullable GeoJsonLineString routeGeometry) {
+    this.routeGeometry = routeGeometry;
+    return this;
+  }
+
+  /**
+   * Internal route geometry (GeoJSON LineString) for drawing the route on a map
+   * @return routeGeometry
+   */
+  @javax.annotation.Nullable
+  public GeoJsonLineString getRouteGeometry() {
+    return routeGeometry;
+  }
+
+  public void setRouteGeometry(@javax.annotation.Nullable GeoJsonLineString routeGeometry) {
+    this.routeGeometry = routeGeometry;
+  }
+
+
+  public HubDeliveryStatusResponse routeMeta(@javax.annotation.Nullable RouteMeta routeMeta) {
+    this.routeMeta = routeMeta;
+    return this;
+  }
+
+  /**
+   * Additional internal routing metadata (weight, snap distances, road summary)
+   * @return routeMeta
+   */
+  @javax.annotation.Nullable
+  public RouteMeta getRouteMeta() {
+    return routeMeta;
+  }
+
+  public void setRouteMeta(@javax.annotation.Nullable RouteMeta routeMeta) {
+    this.routeMeta = routeMeta;
+  }
+
+
 
   @Override
   public boolean equals(Object o) {
@@ -865,12 +963,16 @@ public class HubDeliveryStatusResponse {
         Objects.equals(this.dropoffContactPhone, hubDeliveryStatusResponse.dropoffContactPhone) &&
         Objects.equals(this.dropoffEmail, hubDeliveryStatusResponse.dropoffEmail) &&
         Objects.equals(this.dropoffNotes, hubDeliveryStatusResponse.dropoffNotes) &&
-        Objects.equals(this.dropoffLocation, hubDeliveryStatusResponse.dropoffLocation);
+        Objects.equals(this.dropoffLocation, hubDeliveryStatusResponse.dropoffLocation) &&
+        Objects.equals(this.distanceMeters, hubDeliveryStatusResponse.distanceMeters) &&
+        Objects.equals(this.durationSeconds, hubDeliveryStatusResponse.durationSeconds) &&
+        Objects.equals(this.routeGeometry, hubDeliveryStatusResponse.routeGeometry) &&
+        Objects.equals(this.routeMeta, hubDeliveryStatusResponse.routeMeta);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(deliveryId, deliveryType, status, provider, providerTrackingId, hubTrackingNumber, hubOrderId, hubBarcode, estimatedArrival, trackingUrl, statusHistory, proofOfDeliveryUrl, items, pickupContactName, pickupContactPhone, pickupEmail, pickupNotes, pickupReferenceNumber, pickupLocation, dropoffContactName, dropoffContactPhone, dropoffEmail, dropoffNotes, dropoffLocation);
+    return Objects.hash(deliveryId, deliveryType, status, provider, providerTrackingId, hubTrackingNumber, hubOrderId, hubBarcode, estimatedArrival, trackingUrl, statusHistory, proofOfDeliveryUrl, items, pickupContactName, pickupContactPhone, pickupEmail, pickupNotes, pickupReferenceNumber, pickupLocation, dropoffContactName, dropoffContactPhone, dropoffEmail, dropoffNotes, dropoffLocation, distanceMeters, durationSeconds, routeGeometry, routeMeta);
   }
 
   @Override
@@ -901,6 +1003,10 @@ public class HubDeliveryStatusResponse {
     sb.append("    dropoffEmail: ").append(toIndentedString(dropoffEmail)).append("\n");
     sb.append("    dropoffNotes: ").append(toIndentedString(dropoffNotes)).append("\n");
     sb.append("    dropoffLocation: ").append(toIndentedString(dropoffLocation)).append("\n");
+    sb.append("    distanceMeters: ").append(toIndentedString(distanceMeters)).append("\n");
+    sb.append("    durationSeconds: ").append(toIndentedString(durationSeconds)).append("\n");
+    sb.append("    routeGeometry: ").append(toIndentedString(routeGeometry)).append("\n");
+    sb.append("    routeMeta: ").append(toIndentedString(routeMeta)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -947,6 +1053,10 @@ public class HubDeliveryStatusResponse {
     openapiFields.add("dropoffEmail");
     openapiFields.add("dropoffNotes");
     openapiFields.add("dropoffLocation");
+    openapiFields.add("distanceMeters");
+    openapiFields.add("durationSeconds");
+    openapiFields.add("routeGeometry");
+    openapiFields.add("routeMeta");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();
@@ -1077,6 +1187,14 @@ public class HubDeliveryStatusResponse {
       // validate the optional field `dropoffLocation`
       if (jsonObj.get("dropoffLocation") != null && !jsonObj.get("dropoffLocation").isJsonNull()) {
         HubDeliveryLocationDTO.validateJsonElement(jsonObj.get("dropoffLocation"));
+      }
+      // validate the optional field `routeGeometry`
+      if (jsonObj.get("routeGeometry") != null && !jsonObj.get("routeGeometry").isJsonNull()) {
+        GeoJsonLineString.validateJsonElement(jsonObj.get("routeGeometry"));
+      }
+      // validate the optional field `routeMeta`
+      if (jsonObj.get("routeMeta") != null && !jsonObj.get("routeMeta").isJsonNull()) {
+        RouteMeta.validateJsonElement(jsonObj.get("routeMeta"));
       }
   }
 

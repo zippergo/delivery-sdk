@@ -163,6 +163,8 @@ Class | Method | HTTP request | Description
 *DeliveriesApi* | [**searchDeliveries**](docs/DeliveriesApi.md#searchDeliveries) | **POST** /delivery/v1/deliveries/search | Search deliveries
 *DeliveriesApi* | [**trackDelivery**](docs/DeliveriesApi.md#trackDelivery) | **GET** /delivery/v1/deliveries/track/{hubTrackingNumber} | Track delivery by tracking number
 *EchoApi* | [**echoV1**](docs/EchoApi.md#echoV1) | **GET** /delivery/v1/echo | Echo a message back
+*InternalAnalyticsApi* | [**countDeliveryAnalytics**](docs/InternalAnalyticsApi.md#countDeliveryAnalytics) | **GET** /delivery/v1/internal/analytics/deliveries/counts | Aggregate delivery counts per owner per time bucket
+*InternalAnalyticsApi* | [**exportDeliveryAnalytics**](docs/InternalAnalyticsApi.md#exportDeliveryAnalytics) | **GET** /delivery/v1/internal/analytics/deliveries/export | Export delivery analytics records (cursor-paginated)
 *InternalDeliveriesApi* | [**internalCancelDelivery**](docs/InternalDeliveriesApi.md#internalCancelDelivery) | **POST** /delivery/v1/internal/deliveries/{deliveryId}/cancel | Cancel a delivery
 *InternalDeliveriesApi* | [**internalCreateDelivery**](docs/InternalDeliveriesApi.md#internalCreateDelivery) | **POST** /delivery/v1/internal/users/{userId}/deliveries | Create a delivery for a user
 *InternalDeliveriesApi* | [**internalGetDelivery**](docs/InternalDeliveriesApi.md#internalGetDelivery) | **GET** /delivery/v1/internal/deliveries/{deliveryId} | Get delivery status
@@ -193,6 +195,8 @@ Class | Method | HTTP request | Description
 
  - [AddressDTO](docs/AddressDTO.md)
  - [AddressPlaceDTO](docs/AddressPlaceDTO.md)
+ - [AnalyticsCountsResponse](docs/AnalyticsCountsResponse.md)
+ - [AnalyticsExportResponse](docs/AnalyticsExportResponse.md)
  - [BulkUpsertPickupLocationRequest](docs/BulkUpsertPickupLocationRequest.md)
  - [CallbackConfigDTO](docs/CallbackConfigDTO.md)
  - [CreatePickupLocationRequest](docs/CreatePickupLocationRequest.md)
@@ -203,6 +207,7 @@ Class | Method | HTTP request | Description
  - [EchoResponse](docs/EchoResponse.md)
  - [ExponentialRetryBackoffDTO](docs/ExponentialRetryBackoffDTO.md)
  - [Filter](docs/Filter.md)
+ - [GeoJsonLineString](docs/GeoJsonLineString.md)
  - [HandshakeDeliveryDTO](docs/HandshakeDeliveryDTO.md)
  - [HubCancelDeliveryResponse](docs/HubCancelDeliveryResponse.md)
  - [HubContactDTO](docs/HubContactDTO.md)
@@ -219,6 +224,7 @@ Class | Method | HTTP request | Description
  - [HubRetryDeliveryResponse](docs/HubRetryDeliveryResponse.md)
  - [HubStatusEventDTO](docs/HubStatusEventDTO.md)
  - [InternalPickupLocationDTO](docs/InternalPickupLocationDTO.md)
+ - [Item](docs/Item.md)
  - [LocationDTO](docs/LocationDTO.md)
  - [OpeningHoursDTO](docs/OpeningHoursDTO.md)
  - [PageResponseListHubDeliverySearchDTO](docs/PageResponseListHubDeliverySearchDTO.md)
@@ -236,6 +242,7 @@ Class | Method | HTTP request | Description
  - [PublicTrackingResponse](docs/PublicTrackingResponse.md)
  - [PublicVehicleInfo](docs/PublicVehicleInfo.md)
  - [RecipientDeliveryDTO](docs/RecipientDeliveryDTO.md)
+ - [RouteMeta](docs/RouteMeta.md)
  - [SearchDeliveriesRequest](docs/SearchDeliveriesRequest.md)
  - [SearchPickupLocationsRequest](docs/SearchPickupLocationsRequest.md)
  - [SortField](docs/SortField.md)

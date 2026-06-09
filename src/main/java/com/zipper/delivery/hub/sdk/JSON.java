@@ -98,6 +98,8 @@ public class JSON {
         gsonBuilder.registerTypeAdapter(byte[].class, byteArrayAdapter);
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.delivery.hub.sdk.model.AddressDTO.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.delivery.hub.sdk.model.AddressPlaceDTO.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.zipper.delivery.hub.sdk.model.AnalyticsCountsResponse.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.zipper.delivery.hub.sdk.model.AnalyticsExportResponse.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.delivery.hub.sdk.model.BulkUpsertPickupLocationRequest.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.delivery.hub.sdk.model.CallbackConfigDTO.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.delivery.hub.sdk.model.CreatePickupLocationRequest.CustomTypeAdapterFactory());
@@ -108,6 +110,7 @@ public class JSON {
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.delivery.hub.sdk.model.EchoResponse.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.delivery.hub.sdk.model.ExponentialRetryBackoffDTO.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.delivery.hub.sdk.model.Filter.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.zipper.delivery.hub.sdk.model.GeoJsonLineString.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.delivery.hub.sdk.model.HandshakeDeliveryDTO.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.delivery.hub.sdk.model.HubCancelDeliveryResponse.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.delivery.hub.sdk.model.HubContactDTO.CustomTypeAdapterFactory());
@@ -124,6 +127,7 @@ public class JSON {
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.delivery.hub.sdk.model.HubRetryDeliveryResponse.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.delivery.hub.sdk.model.HubStatusEventDTO.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.delivery.hub.sdk.model.InternalPickupLocationDTO.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.zipper.delivery.hub.sdk.model.Item.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.delivery.hub.sdk.model.LocationDTO.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.delivery.hub.sdk.model.OpeningHoursDTO.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.delivery.hub.sdk.model.PageResponseListHubDeliverySearchDTO.CustomTypeAdapterFactory());
@@ -141,6 +145,7 @@ public class JSON {
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.delivery.hub.sdk.model.PublicTrackingResponse.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.delivery.hub.sdk.model.PublicVehicleInfo.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.delivery.hub.sdk.model.RecipientDeliveryDTO.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.zipper.delivery.hub.sdk.model.RouteMeta.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.delivery.hub.sdk.model.SearchDeliveriesRequest.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.delivery.hub.sdk.model.SearchPickupLocationsRequest.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.zipper.delivery.hub.sdk.model.SortField.CustomTypeAdapterFactory());
