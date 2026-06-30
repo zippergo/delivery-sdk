@@ -53,12 +53,12 @@ import com.zipper.delivery.hub.sdk.JSON;
 public class HubContactDTO {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   private String name;
 
   public static final String SERIALIZED_NAME_PHONE = "phone";
   @SerializedName(SERIALIZED_NAME_PHONE)
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   private String phone;
 
   public static final String SERIALIZED_NAME_EMAIL = "email";
@@ -84,7 +84,7 @@ public class HubContactDTO {
   public HubContactDTO() {
   }
 
-  public HubContactDTO name(@javax.annotation.Nonnull String name) {
+  public HubContactDTO name(@javax.annotation.Nullable String name) {
     this.name = name;
     return this;
   }
@@ -93,17 +93,17 @@ public class HubContactDTO {
    * Contact person name
    * @return name
    */
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   public String getName() {
     return name;
   }
 
-  public void setName(@javax.annotation.Nonnull String name) {
+  public void setName(@javax.annotation.Nullable String name) {
     this.name = name;
   }
 
 
-  public HubContactDTO phone(@javax.annotation.Nonnull String phone) {
+  public HubContactDTO phone(@javax.annotation.Nullable String phone) {
     this.phone = phone;
     return this;
   }
@@ -112,12 +112,12 @@ public class HubContactDTO {
    * Contact phone number
    * @return phone
    */
-  @javax.annotation.Nonnull
+  @javax.annotation.Nullable
   public String getPhone() {
     return phone;
   }
 
-  public void setPhone(@javax.annotation.Nonnull String phone) {
+  public void setPhone(@javax.annotation.Nullable String phone) {
     this.phone = phone;
   }
 
@@ -262,8 +262,6 @@ public class HubContactDTO {
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();
-    openapiRequiredFields.add("name");
-    openapiRequiredFields.add("phone");
     openapiRequiredFields.add("location");
   }
 
@@ -295,10 +293,10 @@ public class HubContactDTO {
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
-      if (!jsonObj.get("name").isJsonPrimitive()) {
+      if ((jsonObj.get("name") != null && !jsonObj.get("name").isJsonNull()) && !jsonObj.get("name").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `name` to be a primitive type in the JSON string but got `%s`", jsonObj.get("name").toString()));
       }
-      if (!jsonObj.get("phone").isJsonPrimitive()) {
+      if ((jsonObj.get("phone") != null && !jsonObj.get("phone").isJsonNull()) && !jsonObj.get("phone").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `phone` to be a primitive type in the JSON string but got `%s`", jsonObj.get("phone").toString()));
       }
       if ((jsonObj.get("email") != null && !jsonObj.get("email").isJsonNull()) && !jsonObj.get("email").isJsonPrimitive()) {

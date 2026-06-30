@@ -22,6 +22,7 @@ import com.google.gson.stream.JsonWriter;
 import com.zipper.delivery.hub.sdk.model.HandshakeDeliveryDTO;
 import com.zipper.delivery.hub.sdk.model.HubContactDTO;
 import com.zipper.delivery.hub.sdk.model.HubItemDTO;
+import com.zipper.delivery.hub.sdk.model.PassengerDetailsDTO;
 import com.zipper.delivery.hub.sdk.model.ProviderDataDTO;
 import com.zipper.delivery.hub.sdk.model.RecipientDeliveryDTO;
 import java.io.IOException;
@@ -74,7 +75,9 @@ public class HubCreateDeliveryRequest {
     
     FOOD_IMMEDIATE("FOOD_IMMEDIATE"),
     
-    STORE_NEXT_DAY("STORE_NEXT_DAY");
+    STORE_NEXT_DAY("STORE_NEXT_DAY"),
+    
+    PASSENGER_TRANSPORT("PASSENGER_TRANSPORT");
 
     private String value;
 
@@ -178,6 +181,11 @@ public class HubCreateDeliveryRequest {
   @SerializedName(SERIALIZED_NAME_PROVIDER_DATA)
   @javax.annotation.Nullable
   private ProviderDataDTO providerData;
+
+  public static final String SERIALIZED_NAME_PASSENGER_DETAILS = "passengerDetails";
+  @SerializedName(SERIALIZED_NAME_PASSENGER_DETAILS)
+  @javax.annotation.Nullable
+  private PassengerDetailsDTO passengerDetails;
 
   public static final String SERIALIZED_NAME_PICKUP_LOCATION_CODE = "pickupLocationCode";
   @SerializedName(SERIALIZED_NAME_PICKUP_LOCATION_CODE)
@@ -442,6 +450,25 @@ public class HubCreateDeliveryRequest {
   }
 
 
+  public HubCreateDeliveryRequest passengerDetails(@javax.annotation.Nullable PassengerDetailsDTO passengerDetails) {
+    this.passengerDetails = passengerDetails;
+    return this;
+  }
+
+  /**
+   * Passenger-transport details. Required for PASSENGER_TRANSPORT delivery type.
+   * @return passengerDetails
+   */
+  @javax.annotation.Nullable
+  public PassengerDetailsDTO getPassengerDetails() {
+    return passengerDetails;
+  }
+
+  public void setPassengerDetails(@javax.annotation.Nullable PassengerDetailsDTO passengerDetails) {
+    this.passengerDetails = passengerDetails;
+  }
+
+
   public HubCreateDeliveryRequest pickupLocationCode(@javax.annotation.Nullable String pickupLocationCode) {
     this.pickupLocationCode = pickupLocationCode;
     return this;
@@ -484,12 +511,13 @@ public class HubCreateDeliveryRequest {
         Objects.equals(this.handshake, hubCreateDeliveryRequest.handshake) &&
         Objects.equals(this.recipient, hubCreateDeliveryRequest.recipient) &&
         Objects.equals(this.providerData, hubCreateDeliveryRequest.providerData) &&
+        Objects.equals(this.passengerDetails, hubCreateDeliveryRequest.passengerDetails) &&
         Objects.equals(this.pickupLocationCode, hubCreateDeliveryRequest.pickupLocationCode);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(quoteId, deliveryType, externalOrderId, referralCode, pickup, dropoff, items, codAmount, scheduledAt, smsNotifications, handshake, recipient, providerData, pickupLocationCode);
+    return Objects.hash(quoteId, deliveryType, externalOrderId, referralCode, pickup, dropoff, items, codAmount, scheduledAt, smsNotifications, handshake, recipient, providerData, passengerDetails, pickupLocationCode);
   }
 
   @Override
@@ -509,6 +537,7 @@ public class HubCreateDeliveryRequest {
     sb.append("    handshake: ").append(toIndentedString(handshake)).append("\n");
     sb.append("    recipient: ").append(toIndentedString(recipient)).append("\n");
     sb.append("    providerData: ").append(toIndentedString(providerData)).append("\n");
+    sb.append("    passengerDetails: ").append(toIndentedString(passengerDetails)).append("\n");
     sb.append("    pickupLocationCode: ").append(toIndentedString(pickupLocationCode)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -545,6 +574,7 @@ public class HubCreateDeliveryRequest {
     openapiFields.add("handshake");
     openapiFields.add("recipient");
     openapiFields.add("providerData");
+    openapiFields.add("passengerDetails");
     openapiFields.add("pickupLocationCode");
 
     // a set of required properties/fields (JSON key names)
@@ -627,6 +657,10 @@ public class HubCreateDeliveryRequest {
       // validate the optional field `providerData`
       if (jsonObj.get("providerData") != null && !jsonObj.get("providerData").isJsonNull()) {
         ProviderDataDTO.validateJsonElement(jsonObj.get("providerData"));
+      }
+      // validate the optional field `passengerDetails`
+      if (jsonObj.get("passengerDetails") != null && !jsonObj.get("passengerDetails").isJsonNull()) {
+        PassengerDetailsDTO.validateJsonElement(jsonObj.get("passengerDetails"));
       }
       if ((jsonObj.get("pickupLocationCode") != null && !jsonObj.get("pickupLocationCode").isJsonNull()) && !jsonObj.get("pickupLocationCode").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `pickupLocationCode` to be a primitive type in the JSON string but got `%s`", jsonObj.get("pickupLocationCode").toString()));

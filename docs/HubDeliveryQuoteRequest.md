@@ -24,6 +24,7 @@ Request to get a delivery price quote
 | STORE_IMMEDIATE | &quot;STORE_IMMEDIATE&quot; |
 | FOOD_IMMEDIATE | &quot;FOOD_IMMEDIATE&quot; |
 | STORE_NEXT_DAY | &quot;STORE_NEXT_DAY&quot; |
+| PASSENGER_TRANSPORT | &quot;PASSENGER_TRANSPORT&quot; |
 
 
 

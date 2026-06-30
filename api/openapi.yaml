@@ -38,24 +38,14 @@ servers:
 security:
 - bearerAuth: []
 tags:
-- description: Service-to-service delivery operations
-  name: Internal - Deliveries
 - description: "Create, quote, and track deliveries across carrier providers"
   name: Deliveries
-- description: Service-to-service delivery lookup operations
-  name: Internal - Deliveries
-- description: Admin endpoints for viewing and searching deliveries across all users
-  name: Admin Deliveries
-- description: Service-to-service pickup location operations
-  name: Internal - Pickup Locations
 - description: Manage pre-configured pickup locations for deliveries
   name: Pickup Locations
 - description: Manage webhook subscriptions for real-time event notifications
   name: Webhooks
 - description: Echo / connectivity check for API v1
   name: Echo
-- description: Read-only delivery analytics export and counts (service-to-service)
-  name: Internal - Analytics
 - description: Public delivery tracking — no authentication required
   name: Public Tracking
 paths:
@@ -504,283 +494,6 @@ paths:
       x-content-type: application/json
       x-accepts:
       - application/json
-  /delivery/v1/internal/users/{userId}/deliveries:
-    post:
-      description: Dispatches a new delivery order to the best available carrier provider
-        on behalf of the path user. An optional idempotency key prevents duplicate
-        orders.
-      operationId: internalCreateDelivery
-      parameters:
-      - explode: false
-        in: path
-        name: userId
-        required: true
-        schema:
-          type: string
-        style: simple
-      - description: Unique key to ensure idempotent delivery creation
-        explode: false
-        in: header
-        name: Idempotency-Key
-        required: false
-        schema:
-          type: string
-        style: simple
-      - description: "Language preference for response content. Supported: en, he"
-        explode: false
-        in: header
-        name: Accept-Language
-        required: false
-        schema:
-          default: en
-          enum:
-          - en
-          - he
-          type: string
-        style: simple
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/HubCreateDeliveryRequest'
-        required: true
-      responses:
-        "201":
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/HubCreateDeliveryResponse'
-          description: Delivery created successfully
-        "400":
-          description: Invalid request parameters
-        "403":
-          description: Forbidden — insufficient role/scope
-        "409":
-          description: Duplicate idempotency key
-      summary: Create a delivery for a user
-      tags:
-      - Internal - Deliveries
-      x-content-type: application/json
-      x-accepts:
-      - '*/*'
-  /delivery/v1/internal/users/{userId}/deliveries/quote:
-    post:
-      description: "Returns a price quote and estimated arrival time for the given\
-        \ pickup/dropoff route and delivery type, on behalf of the path user."
-      operationId: internalGetQuote
-      parameters:
-      - explode: false
-        in: path
-        name: userId
-        required: true
-        schema:
-          type: string
-        style: simple
-      - description: "Language preference for response content. Supported: en, he"
-        explode: false
-        in: header
-        name: Accept-Language
-        required: false
-        schema:
-          default: en
-          enum:
-          - en
-          - he
-          type: string
-        style: simple
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/HubDeliveryQuoteRequest'
-        required: true
-      responses:
-        "200":
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/HubDeliveryQuoteResponse'
-          description: Quote returned successfully
-        "400":
-          description: Invalid request parameters
-        "403":
-          description: Forbidden — insufficient role/scope
-      summary: Get a delivery quote for a user
-      tags:
-      - Internal - Deliveries
-      x-content-type: application/json
-      x-accepts:
-      - '*/*'
-  /delivery/v1/internal/deliveries/{deliveryId}/retry:
-    post:
-      description: "Re-dispatches a delivery that ended in a non-delivered terminal\
-        \ state (FAILED, CANCELLED, or REJECTED) by creating a new provider order\
-        \ under the same delivery."
-      operationId: internalRetryDelivery
-      parameters:
-      - description: UUID of the delivery to retry
-        example: 550e8400-e29b-41d4-a716-446655440000
-        explode: false
-        in: path
-        name: deliveryId
-        required: true
-        schema:
-          format: uuid
-          type: string
-        style: simple
-      - description: "Language preference for response content. Supported: en, he"
-        explode: false
-        in: header
-        name: Accept-Language
-        required: false
-        schema:
-          default: en
-          enum:
-          - en
-          - he
-          type: string
-        style: simple
-      responses:
-        "200":
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/HubRetryDeliveryResponse'
-          description: Retry accepted; delivery re-dispatched
-        "403":
-          description: Forbidden — insufficient role/scope
-        "404":
-          description: Delivery not found
-        "409":
-          description: Delivery cannot be retried in its current status
-      summary: Retry a delivery
-      tags:
-      - Internal - Deliveries
-      x-accepts:
-      - '*/*'
-  /delivery/v1/internal/deliveries/{deliveryId}/cancel:
-    post:
-      description: "Cancels a delivery that is in a cancellable status. If the delivery\
-        \ has been dispatched to a provider, the cancellation is also forwarded to\
-        \ the provider."
-      operationId: internalCancelDelivery
-      parameters:
-      - description: UUID of the delivery to cancel
-        example: 550e8400-e29b-41d4-a716-446655440000
-        explode: false
-        in: path
-        name: deliveryId
-        required: true
-        schema:
-          format: uuid
-          type: string
-        style: simple
-      - description: "Language preference for response content. Supported: en, he"
-        explode: false
-        in: header
-        name: Accept-Language
-        required: false
-        schema:
-          default: en
-          enum:
-          - en
-          - he
-          type: string
-        style: simple
-      responses:
-        "200":
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/HubCancelDeliveryResponse'
-          description: Delivery cancelled successfully
-        "403":
-          description: Forbidden — insufficient role/scope
-        "404":
-          description: Delivery not found
-        "409":
-          description: Delivery cannot be cancelled in its current status
-      summary: Cancel a delivery
-      tags:
-      - Internal - Deliveries
-      x-accepts:
-      - '*/*'
-  /delivery/v1/internal/deliveries/search:
-    post:
-      description: Search and filter deliveries with pagination.
-      operationId: internalSearchDeliveries
-      parameters:
-      - description: "Language preference for response content. Supported: en, he"
-        explode: false
-        in: header
-        name: Accept-Language
-        required: false
-        schema:
-          default: en
-          enum:
-          - en
-          - he
-          type: string
-        style: simple
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SearchDeliveriesRequest'
-        required: true
-      responses:
-        "200":
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/PageResponseListHubDeliverySearchDTO'
-          description: Search results returned
-        "403":
-          description: Forbidden — insufficient role/scope
-      summary: Search deliveries
-      tags:
-      - Internal - Deliveries
-      x-content-type: application/json
-      x-accepts:
-      - '*/*'
-  /delivery/v1/internal/deliveries/by-ids:
-    post:
-      description: Returns a map of deliveryId -> current status. Missing IDs are
-        omitted. Used by zipper-partner-program reconciliation to detect post-completion
-        cancellations.
-      operationId: statusesByIds
-      parameters:
-      - description: "Language preference for response content. Supported: en, he"
-        explode: false
-        in: header
-        name: Accept-Language
-        required: false
-        schema:
-          default: en
-          enum:
-          - en
-          - he
-          type: string
-        style: simple
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/DeliveryStatusesRequest'
-        required: true
-      responses:
-        "200":
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/DeliveryStatusesResponse'
-          description: OK
-      summary: Get current status for a list of deliveries
-      tags:
-      - Internal - Deliveries
-      x-content-type: application/json
-      x-accepts:
-      - '*/*'
   /delivery/v1/deliveries:
     post:
       description: Dispatches a new delivery order to the best available carrier provider.
@@ -1013,93 +726,6 @@ paths:
       x-content-type: application/json
       x-accepts:
       - '*/*'
-  /delivery/v1/admin/deliveries/{deliveryId}/cancel:
-    post:
-      description: "Cancels a delivery that is in CREATED or ASSIGNED status. Admin\
-        \ only, no ownership check."
-      operationId: adminCancelDelivery
-      parameters:
-      - description: UUID of the delivery to cancel
-        example: 550e8400-e29b-41d4-a716-446655440000
-        explode: false
-        in: path
-        name: deliveryId
-        required: true
-        schema:
-          format: uuid
-          type: string
-        style: simple
-      - description: "Language preference for response content. Supported: en, he"
-        explode: false
-        in: header
-        name: Accept-Language
-        required: false
-        schema:
-          default: en
-          enum:
-          - en
-          - he
-          type: string
-        style: simple
-      responses:
-        "200":
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/HubCancelDeliveryResponse'
-          description: Delivery cancelled successfully
-        "404":
-          description: Delivery not found
-        "403":
-          description: Forbidden
-        "409":
-          description: Delivery cannot be cancelled in its current status
-        "422":
-          description: Provider cancellation failed
-      summary: Cancel a delivery (admin)
-      tags:
-      - Admin Deliveries
-      x-accepts:
-      - '*/*'
-  /delivery/v1/admin/deliveries/search:
-    post:
-      description: Search and filter deliveries across all users with pagination.
-        Admin only.
-      operationId: adminSearchAllDeliveries
-      parameters:
-      - description: "Language preference for response content. Supported: en, he"
-        explode: false
-        in: header
-        name: Accept-Language
-        required: false
-        schema:
-          default: en
-          enum:
-          - en
-          - he
-          type: string
-        style: simple
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SearchDeliveriesRequest'
-        required: true
-      responses:
-        "200":
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/PageResponseListHubDeliverySearchDTO'
-          description: Search results returned
-        "403":
-          description: Forbidden
-      summary: Search all deliveries
-      tags:
-      - Admin Deliveries
-      x-content-type: application/json
-      x-accepts:
-      - '*/*'
   /delivery/v1/public/track/{trackingNumber}:
     get:
       description: Returns public tracking information for a delivery. No authentication
@@ -1140,430 +766,6 @@ paths:
       summary: Track a delivery by tracking number
       tags:
       - Public Tracking
-      x-accepts:
-      - '*/*'
-  /delivery/v1/internal/pickup-locations/{id}:
-    get:
-      description: Returns pickup location metadata. Used for service-to-service validation.
-      operationId: getById
-      parameters:
-      - explode: false
-        in: path
-        name: id
-        required: true
-        schema:
-          format: uuid
-          type: string
-        style: simple
-      - description: "Language preference for response content. Supported: en, he"
-        explode: false
-        in: header
-        name: Accept-Language
-        required: false
-        schema:
-          default: en
-          enum:
-          - en
-          - he
-          type: string
-        style: simple
-      responses:
-        "200":
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/InternalPickupLocationDTO'
-          description: Location found
-        "404":
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/InternalPickupLocationDTO'
-          description: Location not found
-      summary: Get pickup location by external ID
-      tags:
-      - Internal - Pickup Locations
-      x-accepts:
-      - '*/*'
-  /delivery/v1/internal/deliveries/{hubTrackingNumber}/label:
-    get:
-      description: "Returns barcode value and URLs for barcode image, QR code, and\
-        \ label PDF for a delivery identified by its hub tracking number."
-      operationId: internalGetDeliveryLabel
-      parameters:
-      - description: Hub tracking number
-        example: HUB-0000001000
-        explode: false
-        in: path
-        name: hubTrackingNumber
-        required: true
-        schema:
-          type: string
-        style: simple
-      - description: "Language preference for response content. Supported: en, he"
-        explode: false
-        in: header
-        name: Accept-Language
-        required: false
-        schema:
-          default: en
-          enum:
-          - en
-          - he
-          type: string
-        style: simple
-      responses:
-        "200":
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/HubDeliveryLabelResponse'
-          description: Label metadata returned
-        "403":
-          description: Forbidden — insufficient role/scope
-        "404":
-          description: Delivery not found
-      summary: Get delivery label metadata
-      tags:
-      - Internal - Deliveries
-      x-accepts:
-      - '*/*'
-  /delivery/v1/internal/deliveries/{hubTrackingNumber}/label/{filename}:
-    get:
-      description: "Serves a label asset (barcode.png, qrcode.png, or label.pdf) for\
-        \ a delivery. Streams from storage or generates on-the-fly if not yet uploaded."
-      operationId: internalGetDeliveryLabelAsset
-      parameters:
-      - description: Hub tracking number
-        example: HUB-0000001000
-        explode: false
-        in: path
-        name: hubTrackingNumber
-        required: true
-        schema:
-          type: string
-        style: simple
-      - description: Asset filename
-        example: barcode.png
-        explode: false
-        in: path
-        name: filename
-        required: true
-        schema:
-          type: string
-        style: simple
-      - description: "Language preference for response content. Supported: en, he"
-        explode: false
-        in: header
-        name: Accept-Language
-        required: false
-        schema:
-          default: en
-          enum:
-          - en
-          - he
-          type: string
-        style: simple
-      responses:
-        "200":
-          content:
-            '*/*':
-              schema:
-                format: binary
-                type: string
-          description: Asset returned
-        "400":
-          description: Invalid filename
-        "403":
-          description: Forbidden — insufficient role/scope
-        "404":
-          description: Delivery not found
-      summary: Download a label asset
-      tags:
-      - Internal - Deliveries
-      x-accepts:
-      - '*/*'
-  /delivery/v1/internal/deliveries/{deliveryId}:
-    get:
-      description: "Retrieves the current status, tracking information, and full status\
-        \ history of a delivery."
-      operationId: internalGetDelivery
-      parameters:
-      - description: UUID of the delivery to retrieve
-        example: 550e8400-e29b-41d4-a716-446655440000
-        explode: false
-        in: path
-        name: deliveryId
-        required: true
-        schema:
-          format: uuid
-          type: string
-        style: simple
-      - description: "Language preference for response content. Supported: en, he"
-        explode: false
-        in: header
-        name: Accept-Language
-        required: false
-        schema:
-          default: en
-          enum:
-          - en
-          - he
-          type: string
-        style: simple
-      responses:
-        "200":
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/HubDeliveryStatusResponse'
-          description: Delivery details returned
-        "403":
-          description: Forbidden — insufficient role/scope
-        "404":
-          description: Delivery not found
-      summary: Get delivery status
-      tags:
-      - Internal - Deliveries
-      x-accepts:
-      - '*/*'
-  /delivery/v1/internal/deliveries/{deliveryId}/handshake:
-    get:
-      description: "Returns PIN handshake information for a delivery, including whether\
-        \ a PIN is required and the PIN code if applicable."
-      operationId: internalGetHandshakeDelivery
-      parameters:
-      - description: UUID of the delivery
-        example: 550e8400-e29b-41d4-a716-446655440000
-        explode: false
-        in: path
-        name: deliveryId
-        required: true
-        schema:
-          format: uuid
-          type: string
-        style: simple
-      - description: "Language preference for response content. Supported: en, he"
-        explode: false
-        in: header
-        name: Accept-Language
-        required: false
-        schema:
-          default: en
-          enum:
-          - en
-          - he
-          type: string
-        style: simple
-      responses:
-        "200":
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/HubHandshakeDeliveryResponse'
-          description: Handshake info returned
-        "403":
-          description: Forbidden — insufficient role/scope
-        "404":
-          description: Delivery not found
-      summary: Get handshake PIN info
-      tags:
-      - Internal - Deliveries
-      x-accepts:
-      - '*/*'
-  /delivery/v1/internal/deliveries/track/{hubTrackingNumber}:
-    get:
-      description: Retrieves delivery status and tracking information using the hub
-        tracking number.
-      operationId: internalTrackDelivery
-      parameters:
-      - description: Hub tracking number
-        example: HUB-0000001000
-        explode: false
-        in: path
-        name: hubTrackingNumber
-        required: true
-        schema:
-          type: string
-        style: simple
-      - description: "Language preference for response content. Supported: en, he"
-        explode: false
-        in: header
-        name: Accept-Language
-        required: false
-        schema:
-          default: en
-          enum:
-          - en
-          - he
-          type: string
-        style: simple
-      responses:
-        "200":
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/HubDeliveryStatusResponse'
-          description: Delivery details returned
-        "403":
-          description: Forbidden — insufficient role/scope
-        "404":
-          description: Delivery not found
-      summary: Track delivery by tracking number
-      tags:
-      - Internal - Deliveries
-      x-accepts:
-      - '*/*'
-  /delivery/v1/internal/analytics/deliveries/export:
-    get:
-      description: "Returns a stable-ordered page of delivery analytics records for\
-        \ deliveries with createdDate in [from, to). Uses keyset pagination — pass\
-        \ nextCursor from the previous response as the cursor param. nextCursor=null\
-        \ means last page."
-      operationId: exportDeliveryAnalytics
-      parameters:
-      - description: Inclusive start of the time window (ISO-8601 instant)
-        example: 2025-01-01T00:00:00Z
-        explode: true
-        in: query
-        name: from
-        required: true
-        schema:
-          format: date-time
-          type: string
-        style: form
-      - description: Exclusive end of the time window (ISO-8601 instant)
-        example: 2025-02-01T00:00:00Z
-        explode: true
-        in: query
-        name: to
-        required: true
-        schema:
-          format: date-time
-          type: string
-        style: form
-      - description: Opaque continuation cursor from a previous response (omit for
-          first page)
-        explode: true
-        in: query
-        name: cursor
-        required: false
-        schema:
-          type: string
-        style: form
-      - description: "Page size; default 500, max 2000"
-        explode: true
-        in: query
-        name: limit
-        required: false
-        schema:
-          default: 500
-          format: int32
-          type: integer
-        style: form
-      - description: "Language preference for response content. Supported: en, he"
-        explode: false
-        in: header
-        name: Accept-Language
-        required: false
-        schema:
-          default: en
-          enum:
-          - en
-          - he
-          type: string
-        style: simple
-      responses:
-        "200":
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/AnalyticsExportResponse'
-          description: Page of analytics records
-        "400":
-          description: Invalid parameters
-        "401":
-          description: Unauthenticated
-        "403":
-          description: Insufficient role/scope
-      summary: Export delivery analytics records (cursor-paginated)
-      tags:
-      - Internal - Analytics
-      x-accepts:
-      - '*/*'
-  /delivery/v1/internal/analytics/deliveries/counts:
-    get:
-      description: "Returns authoritative per-ownerUserId, per-bucket delivery counts\
-        \ and COD sums for reconciliation. Buckets are timezone-aware (date_trunc\
-        \ in the requested timezone) to match the analytics service's ClickHouse buckets."
-      operationId: countDeliveryAnalytics
-      parameters:
-      - description: Inclusive start of the time window (ISO-8601 instant)
-        example: 2025-01-01T00:00:00Z
-        explode: true
-        in: query
-        name: from
-        required: true
-        schema:
-          format: date-time
-          type: string
-        style: form
-      - description: Exclusive end of the time window (ISO-8601 instant)
-        example: 2025-02-01T00:00:00Z
-        explode: true
-        in: query
-        name: to
-        required: true
-        schema:
-          format: date-time
-          type: string
-        style: form
-      - description: "Bucket granularity: hour, day, week, or month"
-        explode: true
-        in: query
-        name: granularity
-        required: false
-        schema:
-          default: day
-          type: string
-        style: form
-      - description: IANA timezone for bucket boundaries (e.g. Asia/Jerusalem)
-        explode: true
-        in: query
-        name: timezone
-        required: false
-        schema:
-          default: Asia/Jerusalem
-          type: string
-        style: form
-      - description: "Language preference for response content. Supported: en, he"
-        explode: false
-        in: header
-        name: Accept-Language
-        required: false
-        schema:
-          default: en
-          enum:
-          - en
-          - he
-          type: string
-        style: simple
-      responses:
-        "200":
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/AnalyticsCountsResponse'
-          description: Aggregate counts
-        "400":
-          description: Invalid parameters
-        "401":
-          description: Unauthenticated
-        "403":
-          description: Insufficient role/scope
-      summary: Aggregate delivery counts per owner per time bucket
-      tags:
-      - Internal - Analytics
       x-accepts:
       - '*/*'
   /delivery/v1/echo:
@@ -1834,147 +1036,6 @@ paths:
       summary: Track delivery by tracking number
       tags:
       - Deliveries
-      x-accepts:
-      - '*/*'
-  /delivery/v1/admin/deliveries/{deliveryId}:
-    get:
-      description: "Get a single delivery by its ID. Admin only, no ownership check."
-      operationId: adminGetDelivery
-      parameters:
-      - explode: false
-        in: path
-        name: deliveryId
-        required: true
-        schema:
-          format: uuid
-          type: string
-        style: simple
-      - description: "Language preference for response content. Supported: en, he"
-        explode: false
-        in: header
-        name: Accept-Language
-        required: false
-        schema:
-          default: en
-          enum:
-          - en
-          - he
-          type: string
-        style: simple
-      responses:
-        "200":
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/HubDeliveryStatusResponse'
-          description: Delivery found
-        "404":
-          description: Delivery not found
-        "403":
-          description: Forbidden
-      summary: Get delivery by ID
-      tags:
-      - Admin Deliveries
-      x-accepts:
-      - '*/*'
-  /delivery/v1/admin/deliveries/{deliveryId}/label:
-    get:
-      description: "Returns barcode value and URLs for barcode image, QR code, and\
-        \ label PDF. Admin only, no ownership check."
-      operationId: adminGetDeliveryLabel
-      parameters:
-      - description: UUID of the delivery to get label for
-        example: 550e8400-e29b-41d4-a716-446655440000
-        explode: false
-        in: path
-        name: deliveryId
-        required: true
-        schema:
-          format: uuid
-          type: string
-        style: simple
-      - description: "Language preference for response content. Supported: en, he"
-        explode: false
-        in: header
-        name: Accept-Language
-        required: false
-        schema:
-          default: en
-          enum:
-          - en
-          - he
-          type: string
-        style: simple
-      responses:
-        "200":
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/HubDeliveryLabelResponse'
-          description: Label metadata returned
-        "404":
-          description: Delivery not found
-        "403":
-          description: Forbidden
-      summary: Get delivery label metadata (admin)
-      tags:
-      - Admin Deliveries
-      x-accepts:
-      - '*/*'
-  /delivery/v1/admin/deliveries/{deliveryId}/label/{filename}:
-    get:
-      description: "Serves a label asset (barcode.png, qrcode.png, or label.pdf) for\
-        \ a delivery. Admin only, no ownership check."
-      operationId: adminGetDeliveryLabelAsset
-      parameters:
-      - description: UUID of the delivery to get label asset for
-        example: 550e8400-e29b-41d4-a716-446655440000
-        explode: false
-        in: path
-        name: deliveryId
-        required: true
-        schema:
-          format: uuid
-          type: string
-        style: simple
-      - description: Asset filename
-        example: barcode.png
-        explode: false
-        in: path
-        name: filename
-        required: true
-        schema:
-          type: string
-        style: simple
-      - description: "Language preference for response content. Supported: en, he"
-        explode: false
-        in: header
-        name: Accept-Language
-        required: false
-        schema:
-          default: en
-          enum:
-          - en
-          - he
-          type: string
-        style: simple
-      responses:
-        "200":
-          content:
-            '*/*':
-              schema:
-                format: binary
-                type: string
-          description: Asset returned
-        "400":
-          description: Invalid filename
-        "404":
-          description: Delivery not found
-        "403":
-          description: Forbidden
-      summary: Download a label asset (admin)
-      tags:
-      - Admin Deliveries
       x-accepts:
       - '*/*'
 components:
@@ -3142,7 +2203,6 @@ components:
         phone:
           description: Contact phone number
           example: "+972501234567"
-          minLength: 1
           type: string
         email:
           description: Contact email address
@@ -3166,8 +2226,6 @@ components:
           $ref: '#/components/schemas/LocationDTO'
       required:
       - location
-      - name
-      - phone
     HubCreateDeliveryRequest:
       description: Request to create a new delivery order. A quoteId from a prior
         quote request is required; pickup and dropoff must match the quoted addresses.
@@ -3235,6 +2293,15 @@ components:
           phoneNumber: "+972501234567"
           name: John Doe
           email: john@example.com
+        passengerDetails:
+          passengers:
+          - phone: "+972501234567"
+            name: John Doe
+          - phone: "+972501234567"
+            name: John Doe
+          notes: notes
+          luggageCount: 1
+          vehicleClass: standard
         items:
         - quantity: 2
           name: Burger Meal
@@ -3265,6 +2332,7 @@ components:
           - STORE_IMMEDIATE
           - FOOD_IMMEDIATE
           - STORE_NEXT_DAY
+          - PASSENGER_TRANSPORT
           example: FOOD_IMMEDIATE
           type: string
         externalOrderId:
@@ -3308,6 +2376,8 @@ components:
           $ref: '#/components/schemas/RecipientDeliveryDTO'
         providerData:
           $ref: '#/components/schemas/ProviderDataDTO'
+        passengerDetails:
+          $ref: '#/components/schemas/PassengerDetailsDTO'
         pickupLocationCode:
           description: "Optional pickup location code. When set, pickup contact and\
             \ address are auto-filled from the location."
@@ -3405,6 +2475,64 @@ components:
       - address
       - lat
       - lng
+    PassengerContactDTO:
+      description: A single passenger (name + phone) for a passenger-transport ride
+      example:
+        phone: "+972501234567"
+        name: John Doe
+      properties:
+        name:
+          description: Passenger name
+          example: John Doe
+          maxLength: 200
+          minLength: 0
+          type: string
+        phone:
+          description: Passenger phone number
+          example: "+972501234567"
+          minLength: 1
+          type: string
+      required:
+      - name
+      - phone
+    PassengerDetailsDTO:
+      description: Passenger-transport details. Required for PASSENGER_TRANSPORT delivery
+        type.
+      example:
+        passengers:
+        - phone: "+972501234567"
+          name: John Doe
+        - phone: "+972501234567"
+          name: John Doe
+        notes: notes
+        luggageCount: 1
+        vehicleClass: standard
+      properties:
+        passengers:
+          description: "Passengers to transport (at least one). One passenger ⇒ Single\
+            \ ride, many ⇒ Multi ride."
+          items:
+            $ref: '#/components/schemas/PassengerContactDTO'
+          minItems: 1
+          type: array
+        luggageCount:
+          description: Number of luggage items
+          example: 1
+          format: int32
+          type: integer
+        vehicleClass:
+          description: Requested vehicle/product class (provider-specific)
+          example: standard
+          maxLength: 50
+          minLength: 0
+          type: string
+        notes:
+          description: Free-text notes for the ride (e.g. accessibility needs)
+          maxLength: 500
+          minLength: 0
+          type: string
+      required:
+      - passengers
     ProviderDataDTO:
       description: Provider-specific account data. Required for STORE_NEXT_DAY delivery
         type.
@@ -3474,6 +2602,7 @@ components:
           - STORE_IMMEDIATE
           - FOOD_IMMEDIATE
           - STORE_NEXT_DAY
+          - PASSENGER_TRANSPORT
           example: FOOD_IMMEDIATE
           type: string
         status:
@@ -3487,220 +2616,6 @@ components:
         trackingUrl:
           description: Public tracking URL for the delivery
           example: https://track.zipper-go.com/en/HUB-0000001000
-          type: string
-    HubDeliveryQuoteRequest:
-      description: Request to get a delivery price quote
-      example:
-        deliveryType: FOOD_IMMEDIATE
-        dropoff:
-          notes: "Floor 3, door code 1234"
-          phone: "+972501234567"
-          name: John Doe
-          pickupReferenceNumber: INV-2026-78432
-          location:
-            address:
-              country: IL
-              city: Tel Aviv
-              street: Dizengoff St
-              fullAddress: 123
-              postcode: 6100000
-              intercom: 4521
-              addressPlace:
-                provider: google
-                id: ChIJN1t_tDeuEmsRUsoyG83frY4
-              state: Tel Aviv District
-              house: 123
-              apartmentNumber: 12A
-            lng: 34.7818
-            lat: 32.0853
-          email: john@example.com
-        pickup:
-          notes: "Floor 3, door code 1234"
-          phone: "+972501234567"
-          name: John Doe
-          pickupReferenceNumber: INV-2026-78432
-          location:
-            address:
-              country: IL
-              city: Tel Aviv
-              street: Dizengoff St
-              fullAddress: 123
-              postcode: 6100000
-              intercom: 4521
-              addressPlace:
-                provider: google
-                id: ChIJN1t_tDeuEmsRUsoyG83frY4
-              state: Tel Aviv District
-              house: 123
-              apartmentNumber: 12A
-            lng: 34.7818
-            lat: 32.0853
-          email: john@example.com
-        pickupLocationCode: MAIN-01
-        items:
-        - quantity: 2
-          name: Burger Meal
-          description: "No onions, extra sauce"
-          widthCm: 20
-          heightCm: 15
-          lengthCm: 30
-          sku: BURGER_MEAL_001
-          weightKg: 1.5
-        - quantity: 2
-          name: Burger Meal
-          description: "No onions, extra sauce"
-          widthCm: 20
-          heightCm: 15
-          lengthCm: 30
-          sku: BURGER_MEAL_001
-          weightKg: 1.5
-        scheduledAt: 2026-03-01T14:00:00Z
-      properties:
-        deliveryType:
-          description: Type of delivery
-          enum:
-          - STORE_IMMEDIATE
-          - FOOD_IMMEDIATE
-          - STORE_NEXT_DAY
-          example: FOOD_IMMEDIATE
-          type: string
-        pickup:
-          $ref: '#/components/schemas/HubContactDTO'
-        dropoff:
-          $ref: '#/components/schemas/HubContactDTO'
-        items:
-          description: List of items for weight/size estimation
-          items:
-            $ref: '#/components/schemas/HubItemDTO'
-          type: array
-        scheduledAt:
-          description: Scheduled pickup time (null for immediate)
-          example: 2026-03-01T14:00:00Z
-          format: date-time
-          type: string
-        pickupLocationCode:
-          description: "Optional pickup location code. When set, pickup contact and\
-            \ address are auto-filled from the location."
-          example: MAIN-01
-          type: string
-      required:
-      - deliveryType
-      - dropoff
-    GeoJsonLineString:
-      example:
-        coordinates:
-        - - 0.8008281904610115
-          - 0.8008281904610115
-        - - 0.8008281904610115
-          - 0.8008281904610115
-        type: type
-      properties:
-        type:
-          type: string
-        coordinates:
-          items:
-            items:
-              format: double
-              type: number
-            type: array
-          type: array
-    HubDeliveryQuoteResponse:
-      description: Delivery price quote from a carrier provider
-      example:
-        distanceMeters: 5200
-        estimatedArrivalSeconds: 1800
-        routeMeta:
-          summary: summary
-          weightName: weightName
-          pickupSnapMeters: 1.4658129805029452
-          weight: 6.027456183070403
-          dropoffSnapMeters: 5.962133916683182
-        provider: ZIPPERW
-        durationSeconds: 900
-        routeGeometry:
-          coordinates:
-          - - 0.8008281904610115
-            - 0.8008281904610115
-          - - 0.8008281904610115
-            - 0.8008281904610115
-          type: type
-        price: 25.5
-        deliveryType: FOOD_IMMEDIATE
-        currency: ILS
-        quoteId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-        expiresAt: 2000-01-23T04:56:07.000+00:00
-      properties:
-        deliveryType:
-          description: Type of delivery
-          enum:
-          - STORE_IMMEDIATE
-          - FOOD_IMMEDIATE
-          - STORE_NEXT_DAY
-          example: FOOD_IMMEDIATE
-          type: string
-        provider:
-          description: Carrier provider name
-          enum:
-          - ZIPPERG
-          - ZIPPERW
-          - ZIPPERK
-          example: ZIPPERW
-          type: string
-        price:
-          description: Quoted delivery price
-          example: 25.5
-          type: number
-        currency:
-          description: Price currency code
-          example: ILS
-          type: string
-        estimatedArrivalSeconds:
-          description: Estimated time of arrival in seconds
-          example: 1800
-          format: int32
-          type: integer
-        quoteId:
-          description: Internal quote identifier for use when creating a delivery
-          format: uuid
-          type: string
-        distanceMeters:
-          description: Distance between pickup and dropoff in meters
-          example: 5200
-          format: int64
-          type: integer
-        durationSeconds:
-          description: Estimated travel duration in seconds
-          example: 900
-          format: int64
-          type: integer
-        routeGeometry:
-          $ref: '#/components/schemas/GeoJsonLineString'
-        routeMeta:
-          $ref: '#/components/schemas/RouteMeta'
-        expiresAt:
-          description: Quote expiration time — create delivery before this time
-          format: date-time
-          type: string
-    RouteMeta:
-      example:
-        summary: summary
-        weightName: weightName
-        pickupSnapMeters: 1.4658129805029452
-        weight: 6.027456183070403
-        dropoffSnapMeters: 5.962133916683182
-      properties:
-        weight:
-          format: double
-          type: number
-        weightName:
-          type: string
-        pickupSnapMeters:
-          format: double
-          type: number
-        dropoffSnapMeters:
-          format: double
-          type: number
-        summary:
           type: string
     HubRetryDeliveryResponse:
       description: Response after requesting a delivery retry
@@ -3740,6 +2655,8 @@ components:
         - `providerType` (DeliveryProviderType, sortable)
         - `createdDate` (Instant, sortable)
         - `userId` (Long, sortable) - Auto-filtered for non-admin users
+        - `deliveryId` (UUID) - exact-match lookup of a single delivery
+        - `hubTrackingNumber` (String) - exact-match lookup by hub tracking number
       example:
         pagination:
           pageNumber: 1
@@ -3834,12 +2751,14 @@ components:
           - STORE_IMMEDIATE
           - FOOD_IMMEDIATE
           - STORE_NEXT_DAY
+          - PASSENGER_TRANSPORT
           type: string
         providerType:
           enum:
           - ZIPPERG
           - ZIPPERW
           - ZIPPERK
+          - ZIPPERGP
           type: string
         status:
           enum:
@@ -3965,28 +2884,223 @@ components:
           items:
             $ref: '#/components/schemas/HubDeliverySearchDTO'
           type: array
-    DeliveryStatusesRequest:
+    HubDeliveryQuoteRequest:
+      description: Request to get a delivery price quote
       example:
-        deliveryIds:
-        - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-        - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        deliveryType: FOOD_IMMEDIATE
+        dropoff:
+          notes: "Floor 3, door code 1234"
+          phone: "+972501234567"
+          name: John Doe
+          pickupReferenceNumber: INV-2026-78432
+          location:
+            address:
+              country: IL
+              city: Tel Aviv
+              street: Dizengoff St
+              fullAddress: 123
+              postcode: 6100000
+              intercom: 4521
+              addressPlace:
+                provider: google
+                id: ChIJN1t_tDeuEmsRUsoyG83frY4
+              state: Tel Aviv District
+              house: 123
+              apartmentNumber: 12A
+            lng: 34.7818
+            lat: 32.0853
+          email: john@example.com
+        pickup:
+          notes: "Floor 3, door code 1234"
+          phone: "+972501234567"
+          name: John Doe
+          pickupReferenceNumber: INV-2026-78432
+          location:
+            address:
+              country: IL
+              city: Tel Aviv
+              street: Dizengoff St
+              fullAddress: 123
+              postcode: 6100000
+              intercom: 4521
+              addressPlace:
+                provider: google
+                id: ChIJN1t_tDeuEmsRUsoyG83frY4
+              state: Tel Aviv District
+              house: 123
+              apartmentNumber: 12A
+            lng: 34.7818
+            lat: 32.0853
+          email: john@example.com
+        pickupLocationCode: MAIN-01
+        items:
+        - quantity: 2
+          name: Burger Meal
+          description: "No onions, extra sauce"
+          widthCm: 20
+          heightCm: 15
+          lengthCm: 30
+          sku: BURGER_MEAL_001
+          weightKg: 1.5
+        - quantity: 2
+          name: Burger Meal
+          description: "No onions, extra sauce"
+          widthCm: 20
+          heightCm: 15
+          lengthCm: 30
+          sku: BURGER_MEAL_001
+          weightKg: 1.5
+        scheduledAt: 2026-03-01T14:00:00Z
       properties:
-        deliveryIds:
+        deliveryType:
+          description: Type of delivery
+          enum:
+          - STORE_IMMEDIATE
+          - FOOD_IMMEDIATE
+          - STORE_NEXT_DAY
+          - PASSENGER_TRANSPORT
+          example: FOOD_IMMEDIATE
+          type: string
+        pickup:
+          $ref: '#/components/schemas/HubContactDTO'
+        dropoff:
+          $ref: '#/components/schemas/HubContactDTO'
+        items:
+          description: List of items for weight/size estimation
           items:
-            format: uuid
-            type: string
-          minItems: 1
+            $ref: '#/components/schemas/HubItemDTO'
           type: array
+        scheduledAt:
+          description: Scheduled pickup time (null for immediate)
+          example: 2026-03-01T14:00:00Z
+          format: date-time
+          type: string
+        pickupLocationCode:
+          description: "Optional pickup location code. When set, pickup contact and\
+            \ address are auto-filled from the location."
+          example: MAIN-01
+          type: string
       required:
-      - deliveryIds
-    DeliveryStatusesResponse:
+      - deliveryType
+      - dropoff
+    GeoJsonLineString:
       example:
-        statuses:
-          key: statuses
+        coordinates:
+        - - 0.8008281904610115
+          - 0.8008281904610115
+        - - 0.8008281904610115
+          - 0.8008281904610115
+        type: type
       properties:
-        statuses:
-          additionalProperties:
-            type: string
+        type:
+          type: string
+        coordinates:
+          items:
+            items:
+              format: double
+              type: number
+            type: array
+          type: array
+    HubDeliveryQuoteResponse:
+      description: Delivery price quote from a carrier provider
+      example:
+        distanceMeters: 5200
+        estimatedArrivalSeconds: 1800
+        routeMeta:
+          summary: summary
+          weightName: weightName
+          pickupSnapMeters: 1.4658129805029452
+          weight: 6.027456183070403
+          dropoffSnapMeters: 5.962133916683182
+        provider: ZIPPERW
+        durationSeconds: 900
+        routeGeometry:
+          coordinates:
+          - - 0.8008281904610115
+            - 0.8008281904610115
+          - - 0.8008281904610115
+            - 0.8008281904610115
+          type: type
+        price: 25.5
+        deliveryType: FOOD_IMMEDIATE
+        currency: ILS
+        quoteId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        expiresAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        deliveryType:
+          description: Type of delivery
+          enum:
+          - STORE_IMMEDIATE
+          - FOOD_IMMEDIATE
+          - STORE_NEXT_DAY
+          - PASSENGER_TRANSPORT
+          example: FOOD_IMMEDIATE
+          type: string
+        provider:
+          description: Carrier provider name
+          enum:
+          - ZIPPERG
+          - ZIPPERW
+          - ZIPPERK
+          - ZIPPERGP
+          example: ZIPPERW
+          type: string
+        price:
+          description: Quoted delivery price
+          example: 25.5
+          type: number
+        currency:
+          description: Price currency code
+          example: ILS
+          type: string
+        estimatedArrivalSeconds:
+          description: Estimated time of arrival in seconds
+          example: 1800
+          format: int32
+          type: integer
+        quoteId:
+          description: Internal quote identifier for use when creating a delivery
+          format: uuid
+          type: string
+        distanceMeters:
+          description: Distance between pickup and dropoff in meters
+          example: 5200
+          format: int64
+          type: integer
+        durationSeconds:
+          description: Estimated travel duration in seconds
+          example: 900
+          format: int64
+          type: integer
+        routeGeometry:
+          $ref: '#/components/schemas/GeoJsonLineString'
+        routeMeta:
+          $ref: '#/components/schemas/RouteMeta'
+        expiresAt:
+          description: Quote expiration time — create delivery before this time
+          format: date-time
+          type: string
+    RouteMeta:
+      example:
+        summary: summary
+        weightName: weightName
+        pickupSnapMeters: 1.4658129805029452
+        weight: 6.027456183070403
+        dropoffSnapMeters: 5.962133916683182
+      properties:
+        weight:
+          format: double
+          type: number
+        weightName:
+          type: string
+        pickupSnapMeters:
+          format: double
+          type: number
+        dropoffSnapMeters:
+          format: double
+          type: number
+        summary:
+          type: string
     PublicCourierInfo:
       example:
         photoUrl: photoUrl
@@ -4263,31 +3377,19 @@ components:
           type: string
         licensePlate:
           type: string
-    InternalPickupLocationDTO:
+    EchoResponse:
+      description: Echo response containing the echoed message and API version
       example:
-        name: name
-        externalId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-        type: STORE
-        userId: userId
-        status: ACTIVE
+        message: hello
+        version: v1
       properties:
-        externalId:
-          format: uuid
+        message:
+          description: The echoed message
+          example: hello
           type: string
-        userId:
-          type: string
-        status:
-          enum:
-          - ACTIVE
-          - INACTIVE
-          type: string
-        type:
-          enum:
-          - STORE
-          - WAREHOUSE
-          - HUB
-          type: string
-        name:
+        version:
+          description: API version
+          example: v1
           type: string
     HubDeliveryLabelResponse:
       description: Label metadata and asset URLs for a delivery
@@ -4399,6 +3501,7 @@ components:
           - STORE_IMMEDIATE
           - FOOD_IMMEDIATE
           - STORE_NEXT_DAY
+          - PASSENGER_TRANSPORT
           example: FOOD_IMMEDIATE
           type: string
         status:
@@ -4424,6 +3527,7 @@ components:
           - ZIPPERG
           - ZIPPERW
           - ZIPPERK
+          - ZIPPERGP
           example: ZIPPERW
           type: string
         providerTrackingId:
@@ -4572,73 +3676,6 @@ components:
           example: 1234
           format: int32
           type: integer
-    AnalyticsExportResponse:
-      example:
-        nextCursor: nextCursor
-        items:
-        - bucket: 2000-01-23T04:56:07.000+00:00
-          ownerUserId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-          codSum: 6.027456183070403
-          deliveryCount: 0
-        - bucket: 2000-01-23T04:56:07.000+00:00
-          ownerUserId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-          codSum: 6.027456183070403
-          deliveryCount: 0
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/Item'
-          type: array
-        nextCursor:
-          type: string
-    Item:
-      example:
-        bucket: 2000-01-23T04:56:07.000+00:00
-        ownerUserId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-        codSum: 6.027456183070403
-        deliveryCount: 0
-      properties:
-        ownerUserId:
-          format: uuid
-          type: string
-        bucket:
-          format: date-time
-          type: string
-        deliveryCount:
-          format: int64
-          type: integer
-        codSum:
-          type: number
-    AnalyticsCountsResponse:
-      example:
-        items:
-        - bucket: 2000-01-23T04:56:07.000+00:00
-          ownerUserId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-          codSum: 6.027456183070403
-          deliveryCount: 0
-        - bucket: 2000-01-23T04:56:07.000+00:00
-          ownerUserId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-          codSum: 6.027456183070403
-          deliveryCount: 0
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/Item'
-          type: array
-    EchoResponse:
-      description: Echo response containing the echoed message and API version
-      example:
-        message: hello
-        version: v1
-      properties:
-        message:
-          description: The echoed message
-          example: hello
-          type: string
-        version:
-          description: API version
-          example: v1
-          type: string
   securitySchemes:
     bearerAuth:
       bearerFormat: JWT

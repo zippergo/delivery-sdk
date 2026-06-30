@@ -2,7 +2,7 @@
 
 # SearchDeliveriesRequest
 
-Advanced search request for deliveries with filtering, sorting, and pagination capabilities. **Query Fields** (full-text search): `providerTrackingId`, `externalOrderId` **Available Filter/Sort Fields:** - `status` (HubDeliveryStatus, sortable) - CREATED, ASSIGNED, PICKED_UP, IN_TRANSIT, DELIVERED, CANCELLED, FAILED - `deliveryType` (DeliveryType, sortable) - `providerType` (DeliveryProviderType, sortable) - `createdDate` (Instant, sortable) - `userId` (Long, sortable) - Auto-filtered for non-admin users 
+Advanced search request for deliveries with filtering, sorting, and pagination capabilities. **Query Fields** (full-text search): `providerTrackingId`, `externalOrderId` **Available Filter/Sort Fields:** - `status` (HubDeliveryStatus, sortable) - CREATED, ASSIGNED, PICKED_UP, IN_TRANSIT, DELIVERED, CANCELLED, FAILED - `deliveryType` (DeliveryType, sortable) - `providerType` (DeliveryProviderType, sortable) - `createdDate` (Instant, sortable) - `userId` (Long, sortable) - Auto-filtered for non-admin users - `deliveryId` (UUID) - exact-match lookup of a single delivery - `hubTrackingNumber` (String) - exact-match lookup by hub tracking number 
 
 ## Properties
 

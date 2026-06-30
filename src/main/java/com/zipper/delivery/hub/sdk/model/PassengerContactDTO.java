@@ -19,11 +19,8 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import com.zipper.delivery.hub.sdk.model.Item;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -49,42 +46,58 @@ import java.util.Set;
 import com.zipper.delivery.hub.sdk.JSON;
 
 /**
- * AnalyticsCountsResponse
+ * A single passenger (name + phone) for a passenger-transport ride
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0")
-public class AnalyticsCountsResponse {
-  public static final String SERIALIZED_NAME_ITEMS = "items";
-  @SerializedName(SERIALIZED_NAME_ITEMS)
-  @javax.annotation.Nullable
-  private List<Item> items = new ArrayList<>();
+public class PassengerContactDTO {
+  public static final String SERIALIZED_NAME_NAME = "name";
+  @SerializedName(SERIALIZED_NAME_NAME)
+  @javax.annotation.Nonnull
+  private String name;
 
-  public AnalyticsCountsResponse() {
+  public static final String SERIALIZED_NAME_PHONE = "phone";
+  @SerializedName(SERIALIZED_NAME_PHONE)
+  @javax.annotation.Nonnull
+  private String phone;
+
+  public PassengerContactDTO() {
   }
 
-  public AnalyticsCountsResponse items(@javax.annotation.Nullable List<Item> items) {
-    this.items = items;
-    return this;
-  }
-
-  public AnalyticsCountsResponse addItemsItem(Item itemsItem) {
-    if (this.items == null) {
-      this.items = new ArrayList<>();
-    }
-    this.items.add(itemsItem);
+  public PassengerContactDTO name(@javax.annotation.Nonnull String name) {
+    this.name = name;
     return this;
   }
 
   /**
-   * Get items
-   * @return items
+   * Passenger name
+   * @return name
    */
-  @javax.annotation.Nullable
-  public List<Item> getItems() {
-    return items;
+  @javax.annotation.Nonnull
+  public String getName() {
+    return name;
   }
 
-  public void setItems(@javax.annotation.Nullable List<Item> items) {
-    this.items = items;
+  public void setName(@javax.annotation.Nonnull String name) {
+    this.name = name;
+  }
+
+
+  public PassengerContactDTO phone(@javax.annotation.Nonnull String phone) {
+    this.phone = phone;
+    return this;
+  }
+
+  /**
+   * Passenger phone number
+   * @return phone
+   */
+  @javax.annotation.Nonnull
+  public String getPhone() {
+    return phone;
+  }
+
+  public void setPhone(@javax.annotation.Nonnull String phone) {
+    this.phone = phone;
   }
 
 
@@ -97,20 +110,22 @@ public class AnalyticsCountsResponse {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    AnalyticsCountsResponse analyticsCountsResponse = (AnalyticsCountsResponse) o;
-    return Objects.equals(this.items, analyticsCountsResponse.items);
+    PassengerContactDTO passengerContactDTO = (PassengerContactDTO) o;
+    return Objects.equals(this.name, passengerContactDTO.name) &&
+        Objects.equals(this.phone, passengerContactDTO.phone);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(items);
+    return Objects.hash(name, phone);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class AnalyticsCountsResponse {\n");
-    sb.append("    items: ").append(toIndentedString(items)).append("\n");
+    sb.append("class PassengerContactDTO {\n");
+    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    phone: ").append(toIndentedString(phone)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -133,46 +148,48 @@ public class AnalyticsCountsResponse {
   static {
     // a set of all properties/fields (JSON key names)
     openapiFields = new HashSet<String>();
-    openapiFields.add("items");
+    openapiFields.add("name");
+    openapiFields.add("phone");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields.add("name");
+    openapiRequiredFields.add("phone");
   }
 
   /**
    * Validates the JSON Element and throws an exception if issues found
    *
    * @param jsonElement JSON Element
-   * @throws IOException if the JSON Element is invalid with respect to AnalyticsCountsResponse
+   * @throws IOException if the JSON Element is invalid with respect to PassengerContactDTO
    */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
-        if (!AnalyticsCountsResponse.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in AnalyticsCountsResponse is not found in the empty JSON string", AnalyticsCountsResponse.openapiRequiredFields.toString()));
+        if (!PassengerContactDTO.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
+          throw new IllegalArgumentException(String.format("The required field(s) %s in PassengerContactDTO is not found in the empty JSON string", PassengerContactDTO.openapiRequiredFields.toString()));
         }
       }
 
       Set<Map.Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
       // check to see if the JSON string contains additional fields
       for (Map.Entry<String, JsonElement> entry : entries) {
-        if (!AnalyticsCountsResponse.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `AnalyticsCountsResponse` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
+        if (!PassengerContactDTO.openapiFields.contains(entry.getKey())) {
+          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `PassengerContactDTO` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
+        }
+      }
+
+      // check to make sure all required properties/fields are present in the JSON string
+      for (String requiredField : PassengerContactDTO.openapiRequiredFields) {
+        if (jsonElement.getAsJsonObject().get(requiredField) == null) {
+          throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
-      if (jsonObj.get("items") != null && !jsonObj.get("items").isJsonNull()) {
-        JsonArray jsonArrayitems = jsonObj.getAsJsonArray("items");
-        if (jsonArrayitems != null) {
-          // ensure the json data is an array
-          if (!jsonObj.get("items").isJsonArray()) {
-            throw new IllegalArgumentException(String.format("Expected the field `items` to be an array in the JSON string but got `%s`", jsonObj.get("items").toString()));
-          }
-
-          // validate the optional field `items` (array)
-          for (int i = 0; i < jsonArrayitems.size(); i++) {
-            Item.validateJsonElement(jsonArrayitems.get(i));
-          };
-        }
+      if (!jsonObj.get("name").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `name` to be a primitive type in the JSON string but got `%s`", jsonObj.get("name").toString()));
+      }
+      if (!jsonObj.get("phone").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `phone` to be a primitive type in the JSON string but got `%s`", jsonObj.get("phone").toString()));
       }
   }
 
@@ -180,22 +197,22 @@ public class AnalyticsCountsResponse {
     @SuppressWarnings("unchecked")
     @Override
     public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
-       if (!AnalyticsCountsResponse.class.isAssignableFrom(type.getRawType())) {
-         return null; // this class only serializes 'AnalyticsCountsResponse' and its subtypes
+       if (!PassengerContactDTO.class.isAssignableFrom(type.getRawType())) {
+         return null; // this class only serializes 'PassengerContactDTO' and its subtypes
        }
        final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
-       final TypeAdapter<AnalyticsCountsResponse> thisAdapter
-                        = gson.getDelegateAdapter(this, TypeToken.get(AnalyticsCountsResponse.class));
+       final TypeAdapter<PassengerContactDTO> thisAdapter
+                        = gson.getDelegateAdapter(this, TypeToken.get(PassengerContactDTO.class));
 
-       return (TypeAdapter<T>) new TypeAdapter<AnalyticsCountsResponse>() {
+       return (TypeAdapter<T>) new TypeAdapter<PassengerContactDTO>() {
            @Override
-           public void write(JsonWriter out, AnalyticsCountsResponse value) throws IOException {
+           public void write(JsonWriter out, PassengerContactDTO value) throws IOException {
              JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
              elementAdapter.write(out, obj);
            }
 
            @Override
-           public AnalyticsCountsResponse read(JsonReader in) throws IOException {
+           public PassengerContactDTO read(JsonReader in) throws IOException {
              JsonElement jsonElement = elementAdapter.read(in);
              validateJsonElement(jsonElement);
              return thisAdapter.fromJsonTree(jsonElement);
@@ -206,18 +223,18 @@ public class AnalyticsCountsResponse {
   }
 
   /**
-   * Create an instance of AnalyticsCountsResponse given an JSON string
+   * Create an instance of PassengerContactDTO given an JSON string
    *
    * @param jsonString JSON string
-   * @return An instance of AnalyticsCountsResponse
-   * @throws IOException if the JSON string is invalid with respect to AnalyticsCountsResponse
+   * @return An instance of PassengerContactDTO
+   * @throws IOException if the JSON string is invalid with respect to PassengerContactDTO
    */
-  public static AnalyticsCountsResponse fromJson(String jsonString) throws IOException {
-    return JSON.getGson().fromJson(jsonString, AnalyticsCountsResponse.class);
+  public static PassengerContactDTO fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, PassengerContactDTO.class);
   }
 
   /**
-   * Convert an instance of AnalyticsCountsResponse to an JSON string
+   * Convert an instance of PassengerContactDTO to an JSON string
    *
    * @return JSON string
    */

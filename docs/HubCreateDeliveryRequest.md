@@ -21,6 +21,7 @@ Request to create a new delivery order. A quoteId from a prior quote request is 
 |**handshake** | [**HandshakeDeliveryDTO**](HandshakeDeliveryDTO.md) | Handshake details for secure delivery. Enables PIN verification on delivery. |  [optional] |
 |**recipient** | [**RecipientDeliveryDTO**](RecipientDeliveryDTO.md) | Details of the recipient who is going to receive the delivery |  [optional] |
 |**providerData** | [**ProviderDataDTO**](ProviderDataDTO.md) | Provider-specific account data. Required for STORE_NEXT_DAY delivery type. |  [optional] |
+|**passengerDetails** | [**PassengerDetailsDTO**](PassengerDetailsDTO.md) | Passenger-transport details. Required for PASSENGER_TRANSPORT delivery type. |  [optional] |
 |**pickupLocationCode** | **String** | Optional pickup location code. When set, pickup contact and address are auto-filled from the location. |  [optional] |
 
 
@@ -32,6 +33,7 @@ Request to create a new delivery order. A quoteId from a prior quote request is 
 | STORE_IMMEDIATE | &quot;STORE_IMMEDIATE&quot; |
 | FOOD_IMMEDIATE | &quot;FOOD_IMMEDIATE&quot; |
 | STORE_NEXT_DAY | &quot;STORE_NEXT_DAY&quot; |
+| PASSENGER_TRANSPORT | &quot;PASSENGER_TRANSPORT&quot; |
 
 
 

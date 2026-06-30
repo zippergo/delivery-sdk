@@ -8,8 +8,8 @@ Contact and location details for a pickup or dropoff point
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**name** | **String** | Contact person name |  |
-|**phone** | **String** | Contact phone number |  |
+|**name** | **String** | Contact person name |  [optional] |
+|**phone** | **String** | Contact phone number |  [optional] |
 |**email** | **String** | Contact email address |  [optional] |
 |**notes** | **String** | Notes or instructions for the driver |  [optional] |
 |**pickupReferenceNumber** | **String** | Pickup reference number used by the driver to collect the package (e.g., invoice number, order reference, or warehouse release code) |  [optional] |

@@ -112,7 +112,7 @@ import com.zipper.delivery.hub.sdk.ApiException;
 import com.zipper.delivery.hub.sdk.Configuration;
 import com.zipper.delivery.hub.sdk.auth.*;
 import com.zipper.delivery.hub.sdk.model.*;
-import com.zipper.delivery.hub.sdk.api.AdminDeliveriesApi;
+import com.zipper.delivery.hub.sdk.api.DeliveriesApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -123,14 +123,14 @@ public class Example {
     HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");
     bearerAuth.setBearerToken("BEARER TOKEN");
 
-    AdminDeliveriesApi apiInstance = new AdminDeliveriesApi(defaultClient);
+    DeliveriesApi apiInstance = new DeliveriesApi(defaultClient);
     UUID deliveryId = UUID.fromString("550e8400-e29b-41d4-a716-446655440000"); // UUID | UUID of the delivery to cancel
     String acceptLanguage = "en"; // String | Language preference for response content. Supported: en, he
     try {
-      HubCancelDeliveryResponse result = apiInstance.adminCancelDelivery(deliveryId, acceptLanguage);
+      HubCancelDeliveryResponse result = apiInstance.cancelDelivery(deliveryId, acceptLanguage);
       System.out.println(result);
     } catch (ApiException e) {
-      System.err.println("Exception when calling AdminDeliveriesApi#adminCancelDelivery");
+      System.err.println("Exception when calling DeliveriesApi#cancelDelivery");
       System.err.println("Status code: " + e.getCode());
       System.err.println("Reason: " + e.getResponseBody());
       System.err.println("Response headers: " + e.getResponseHeaders());
@@ -147,11 +147,6 @@ All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AdminDeliveriesApi* | [**adminCancelDelivery**](docs/AdminDeliveriesApi.md#adminCancelDelivery) | **POST** /delivery/v1/admin/deliveries/{deliveryId}/cancel | Cancel a delivery (admin)
-*AdminDeliveriesApi* | [**adminGetDelivery**](docs/AdminDeliveriesApi.md#adminGetDelivery) | **GET** /delivery/v1/admin/deliveries/{deliveryId} | Get delivery by ID
-*AdminDeliveriesApi* | [**adminGetDeliveryLabel**](docs/AdminDeliveriesApi.md#adminGetDeliveryLabel) | **GET** /delivery/v1/admin/deliveries/{deliveryId}/label | Get delivery label metadata (admin)
-*AdminDeliveriesApi* | [**adminGetDeliveryLabelAsset**](docs/AdminDeliveriesApi.md#adminGetDeliveryLabelAsset) | **GET** /delivery/v1/admin/deliveries/{deliveryId}/label/{filename} | Download a label asset (admin)
-*AdminDeliveriesApi* | [**adminSearchAllDeliveries**](docs/AdminDeliveriesApi.md#adminSearchAllDeliveries) | **POST** /delivery/v1/admin/deliveries/search | Search all deliveries
 *DeliveriesApi* | [**cancelDelivery**](docs/DeliveriesApi.md#cancelDelivery) | **POST** /delivery/v1/deliveries/{deliveryId}/cancel | Cancel a delivery
 *DeliveriesApi* | [**createDelivery**](docs/DeliveriesApi.md#createDelivery) | **POST** /delivery/v1/deliveries | Create a delivery
 *DeliveriesApi* | [**getDelivery**](docs/DeliveriesApi.md#getDelivery) | **GET** /delivery/v1/deliveries/{deliveryId} | Get delivery status
@@ -163,20 +158,6 @@ Class | Method | HTTP request | Description
 *DeliveriesApi* | [**searchDeliveries**](docs/DeliveriesApi.md#searchDeliveries) | **POST** /delivery/v1/deliveries/search | Search deliveries
 *DeliveriesApi* | [**trackDelivery**](docs/DeliveriesApi.md#trackDelivery) | **GET** /delivery/v1/deliveries/track/{hubTrackingNumber} | Track delivery by tracking number
 *EchoApi* | [**echoV1**](docs/EchoApi.md#echoV1) | **GET** /delivery/v1/echo | Echo a message back
-*InternalAnalyticsApi* | [**countDeliveryAnalytics**](docs/InternalAnalyticsApi.md#countDeliveryAnalytics) | **GET** /delivery/v1/internal/analytics/deliveries/counts | Aggregate delivery counts per owner per time bucket
-*InternalAnalyticsApi* | [**exportDeliveryAnalytics**](docs/InternalAnalyticsApi.md#exportDeliveryAnalytics) | **GET** /delivery/v1/internal/analytics/deliveries/export | Export delivery analytics records (cursor-paginated)
-*InternalDeliveriesApi* | [**internalCancelDelivery**](docs/InternalDeliveriesApi.md#internalCancelDelivery) | **POST** /delivery/v1/internal/deliveries/{deliveryId}/cancel | Cancel a delivery
-*InternalDeliveriesApi* | [**internalCreateDelivery**](docs/InternalDeliveriesApi.md#internalCreateDelivery) | **POST** /delivery/v1/internal/users/{userId}/deliveries | Create a delivery for a user
-*InternalDeliveriesApi* | [**internalGetDelivery**](docs/InternalDeliveriesApi.md#internalGetDelivery) | **GET** /delivery/v1/internal/deliveries/{deliveryId} | Get delivery status
-*InternalDeliveriesApi* | [**internalGetDeliveryLabel**](docs/InternalDeliveriesApi.md#internalGetDeliveryLabel) | **GET** /delivery/v1/internal/deliveries/{hubTrackingNumber}/label | Get delivery label metadata
-*InternalDeliveriesApi* | [**internalGetDeliveryLabelAsset**](docs/InternalDeliveriesApi.md#internalGetDeliveryLabelAsset) | **GET** /delivery/v1/internal/deliveries/{hubTrackingNumber}/label/{filename} | Download a label asset
-*InternalDeliveriesApi* | [**internalGetHandshakeDelivery**](docs/InternalDeliveriesApi.md#internalGetHandshakeDelivery) | **GET** /delivery/v1/internal/deliveries/{deliveryId}/handshake | Get handshake PIN info
-*InternalDeliveriesApi* | [**internalGetQuote**](docs/InternalDeliveriesApi.md#internalGetQuote) | **POST** /delivery/v1/internal/users/{userId}/deliveries/quote | Get a delivery quote for a user
-*InternalDeliveriesApi* | [**internalRetryDelivery**](docs/InternalDeliveriesApi.md#internalRetryDelivery) | **POST** /delivery/v1/internal/deliveries/{deliveryId}/retry | Retry a delivery
-*InternalDeliveriesApi* | [**internalSearchDeliveries**](docs/InternalDeliveriesApi.md#internalSearchDeliveries) | **POST** /delivery/v1/internal/deliveries/search | Search deliveries
-*InternalDeliveriesApi* | [**internalTrackDelivery**](docs/InternalDeliveriesApi.md#internalTrackDelivery) | **GET** /delivery/v1/internal/deliveries/track/{hubTrackingNumber} | Track delivery by tracking number
-*InternalDeliveriesApi* | [**statusesByIds**](docs/InternalDeliveriesApi.md#statusesByIds) | **POST** /delivery/v1/internal/deliveries/by-ids | Get current status for a list of deliveries
-*InternalPickupLocationsApi* | [**getById**](docs/InternalPickupLocationsApi.md#getById) | **GET** /delivery/v1/internal/pickup-locations/{id} | Get pickup location by external ID
 *PickupLocationsApi* | [**bulkUpsertPickupLocations**](docs/PickupLocationsApi.md#bulkUpsertPickupLocations) | **POST** /delivery/v1/pickup-locations/bulk-upsert | Bulk upsert pickup locations (async)
 *PickupLocationsApi* | [**createPickupLocation**](docs/PickupLocationsApi.md#createPickupLocation) | **POST** /delivery/v1/pickup-locations | Create a pickup location
 *PickupLocationsApi* | [**deletePickupLocation**](docs/PickupLocationsApi.md#deletePickupLocation) | **DELETE** /delivery/v1/pickup-locations/{id} | Delete a pickup location
@@ -195,15 +176,11 @@ Class | Method | HTTP request | Description
 
  - [AddressDTO](docs/AddressDTO.md)
  - [AddressPlaceDTO](docs/AddressPlaceDTO.md)
- - [AnalyticsCountsResponse](docs/AnalyticsCountsResponse.md)
- - [AnalyticsExportResponse](docs/AnalyticsExportResponse.md)
  - [BulkUpsertPickupLocationRequest](docs/BulkUpsertPickupLocationRequest.md)
  - [CallbackConfigDTO](docs/CallbackConfigDTO.md)
  - [CreatePickupLocationRequest](docs/CreatePickupLocationRequest.md)
  - [CreateWebhookRequest](docs/CreateWebhookRequest.md)
  - [DayScheduleDTO](docs/DayScheduleDTO.md)
- - [DeliveryStatusesRequest](docs/DeliveryStatusesRequest.md)
- - [DeliveryStatusesResponse](docs/DeliveryStatusesResponse.md)
  - [EchoResponse](docs/EchoResponse.md)
  - [ExponentialRetryBackoffDTO](docs/ExponentialRetryBackoffDTO.md)
  - [Filter](docs/Filter.md)
@@ -223,13 +200,13 @@ Class | Method | HTTP request | Description
  - [HubItemDTO](docs/HubItemDTO.md)
  - [HubRetryDeliveryResponse](docs/HubRetryDeliveryResponse.md)
  - [HubStatusEventDTO](docs/HubStatusEventDTO.md)
- - [InternalPickupLocationDTO](docs/InternalPickupLocationDTO.md)
- - [Item](docs/Item.md)
  - [LocationDTO](docs/LocationDTO.md)
  - [OpeningHoursDTO](docs/OpeningHoursDTO.md)
  - [PageResponseListHubDeliverySearchDTO](docs/PageResponseListHubDeliverySearchDTO.md)
  - [PageResponseListPickupLocationDTO](docs/PageResponseListPickupLocationDTO.md)
  - [Pagination](docs/Pagination.md)
+ - [PassengerContactDTO](docs/PassengerContactDTO.md)
+ - [PassengerDetailsDTO](docs/PassengerDetailsDTO.md)
  - [PickupLocationDTO](docs/PickupLocationDTO.md)
  - [ProviderDataDTO](docs/ProviderDataDTO.md)
  - [PublicCourierInfo](docs/PublicCourierInfo.md)

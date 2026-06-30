@@ -53,7 +53,7 @@ import java.util.Set;
 import com.zipper.delivery.hub.sdk.JSON;
 
 /**
- * Advanced search request for deliveries with filtering, sorting, and pagination capabilities. **Query Fields** (full-text search): &#x60;providerTrackingId&#x60;, &#x60;externalOrderId&#x60; **Available Filter/Sort Fields:** - &#x60;status&#x60; (HubDeliveryStatus, sortable) - CREATED, ASSIGNED, PICKED_UP, IN_TRANSIT, DELIVERED, CANCELLED, FAILED - &#x60;deliveryType&#x60; (DeliveryType, sortable) - &#x60;providerType&#x60; (DeliveryProviderType, sortable) - &#x60;createdDate&#x60; (Instant, sortable) - &#x60;userId&#x60; (Long, sortable) - Auto-filtered for non-admin users 
+ * Advanced search request for deliveries with filtering, sorting, and pagination capabilities. **Query Fields** (full-text search): &#x60;providerTrackingId&#x60;, &#x60;externalOrderId&#x60; **Available Filter/Sort Fields:** - &#x60;status&#x60; (HubDeliveryStatus, sortable) - CREATED, ASSIGNED, PICKED_UP, IN_TRANSIT, DELIVERED, CANCELLED, FAILED - &#x60;deliveryType&#x60; (DeliveryType, sortable) - &#x60;providerType&#x60; (DeliveryProviderType, sortable) - &#x60;createdDate&#x60; (Instant, sortable) - &#x60;userId&#x60; (Long, sortable) - Auto-filtered for non-admin users - &#x60;deliveryId&#x60; (UUID) - exact-match lookup of a single delivery - &#x60;hubTrackingNumber&#x60; (String) - exact-match lookup by hub tracking number 
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0")
 public class SearchDeliveriesRequest {

@@ -64,7 +64,9 @@ public class HubDeliveryQuoteRequest {
     
     FOOD_IMMEDIATE("FOOD_IMMEDIATE"),
     
-    STORE_NEXT_DAY("STORE_NEXT_DAY");
+    STORE_NEXT_DAY("STORE_NEXT_DAY"),
+    
+    PASSENGER_TRANSPORT("PASSENGER_TRANSPORT");
 
     private String value;
 
