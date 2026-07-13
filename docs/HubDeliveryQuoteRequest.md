@@ -12,6 +12,7 @@ Request to get a delivery price quote
 |**pickup** | [**HubContactDTO**](HubContactDTO.md) | Pickup contact and location. Optional when pickupLocationCode is provided. |  [optional] |
 |**dropoff** | [**HubContactDTO**](HubContactDTO.md) | Dropoff contact and location |  |
 |**items** | [**List&lt;HubItemDTO&gt;**](HubItemDTO.md) | List of items for weight/size estimation |  [optional] |
+|**customs** | [**CustomsDeclarationDTO**](CustomsDeclarationDTO.md) | Customs declaration. Relevant for INTERNATIONAL_EXPORT quotes. |  [optional] |
 |**scheduledAt** | **OffsetDateTime** | Scheduled pickup time (null for immediate) |  [optional] |
 |**pickupLocationCode** | **String** | Optional pickup location code. When set, pickup contact and address are auto-filled from the location. |  [optional] |
 
@@ -25,6 +26,7 @@ Request to get a delivery price quote
 | FOOD_IMMEDIATE | &quot;FOOD_IMMEDIATE&quot; |
 | STORE_NEXT_DAY | &quot;STORE_NEXT_DAY&quot; |
 | PASSENGER_TRANSPORT | &quot;PASSENGER_TRANSPORT&quot; |
+| INTERNATIONAL_EXPORT | &quot;INTERNATIONAL_EXPORT&quot; |
 
 
 

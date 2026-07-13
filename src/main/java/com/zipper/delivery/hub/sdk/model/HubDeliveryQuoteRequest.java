@@ -19,6 +19,7 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import com.zipper.delivery.hub.sdk.model.CustomsDeclarationDTO;
 import com.zipper.delivery.hub.sdk.model.HubContactDTO;
 import com.zipper.delivery.hub.sdk.model.HubItemDTO;
 import java.io.IOException;
@@ -66,7 +67,9 @@ public class HubDeliveryQuoteRequest {
     
     STORE_NEXT_DAY("STORE_NEXT_DAY"),
     
-    PASSENGER_TRANSPORT("PASSENGER_TRANSPORT");
+    PASSENGER_TRANSPORT("PASSENGER_TRANSPORT"),
+    
+    INTERNATIONAL_EXPORT("INTERNATIONAL_EXPORT");
 
     private String value;
 
@@ -130,6 +133,11 @@ public class HubDeliveryQuoteRequest {
   @SerializedName(SERIALIZED_NAME_ITEMS)
   @javax.annotation.Nullable
   private List<HubItemDTO> items = new ArrayList<>();
+
+  public static final String SERIALIZED_NAME_CUSTOMS = "customs";
+  @SerializedName(SERIALIZED_NAME_CUSTOMS)
+  @javax.annotation.Nullable
+  private CustomsDeclarationDTO customs;
 
   public static final String SERIALIZED_NAME_SCHEDULED_AT = "scheduledAt";
   @SerializedName(SERIALIZED_NAME_SCHEDULED_AT)
@@ -228,6 +236,25 @@ public class HubDeliveryQuoteRequest {
   }
 
 
+  public HubDeliveryQuoteRequest customs(@javax.annotation.Nullable CustomsDeclarationDTO customs) {
+    this.customs = customs;
+    return this;
+  }
+
+  /**
+   * Customs declaration. Relevant for INTERNATIONAL_EXPORT quotes.
+   * @return customs
+   */
+  @javax.annotation.Nullable
+  public CustomsDeclarationDTO getCustoms() {
+    return customs;
+  }
+
+  public void setCustoms(@javax.annotation.Nullable CustomsDeclarationDTO customs) {
+    this.customs = customs;
+  }
+
+
   public HubDeliveryQuoteRequest scheduledAt(@javax.annotation.Nullable OffsetDateTime scheduledAt) {
     this.scheduledAt = scheduledAt;
     return this;
@@ -280,13 +307,14 @@ public class HubDeliveryQuoteRequest {
         Objects.equals(this.pickup, hubDeliveryQuoteRequest.pickup) &&
         Objects.equals(this.dropoff, hubDeliveryQuoteRequest.dropoff) &&
         Objects.equals(this.items, hubDeliveryQuoteRequest.items) &&
+        Objects.equals(this.customs, hubDeliveryQuoteRequest.customs) &&
         Objects.equals(this.scheduledAt, hubDeliveryQuoteRequest.scheduledAt) &&
         Objects.equals(this.pickupLocationCode, hubDeliveryQuoteRequest.pickupLocationCode);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(deliveryType, pickup, dropoff, items, scheduledAt, pickupLocationCode);
+    return Objects.hash(deliveryType, pickup, dropoff, items, customs, scheduledAt, pickupLocationCode);
   }
 
   @Override
@@ -297,6 +325,7 @@ public class HubDeliveryQuoteRequest {
     sb.append("    pickup: ").append(toIndentedString(pickup)).append("\n");
     sb.append("    dropoff: ").append(toIndentedString(dropoff)).append("\n");
     sb.append("    items: ").append(toIndentedString(items)).append("\n");
+    sb.append("    customs: ").append(toIndentedString(customs)).append("\n");
     sb.append("    scheduledAt: ").append(toIndentedString(scheduledAt)).append("\n");
     sb.append("    pickupLocationCode: ").append(toIndentedString(pickupLocationCode)).append("\n");
     sb.append("}");
@@ -325,6 +354,7 @@ public class HubDeliveryQuoteRequest {
     openapiFields.add("pickup");
     openapiFields.add("dropoff");
     openapiFields.add("items");
+    openapiFields.add("customs");
     openapiFields.add("scheduledAt");
     openapiFields.add("pickupLocationCode");
 
@@ -386,6 +416,10 @@ public class HubDeliveryQuoteRequest {
             HubItemDTO.validateJsonElement(jsonArrayitems.get(i));
           };
         }
+      }
+      // validate the optional field `customs`
+      if (jsonObj.get("customs") != null && !jsonObj.get("customs").isJsonNull()) {
+        CustomsDeclarationDTO.validateJsonElement(jsonObj.get("customs"));
       }
       if ((jsonObj.get("pickupLocationCode") != null && !jsonObj.get("pickupLocationCode").isJsonNull()) && !jsonObj.get("pickupLocationCode").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `pickupLocationCode` to be a primitive type in the JSON string but got `%s`", jsonObj.get("pickupLocationCode").toString()));

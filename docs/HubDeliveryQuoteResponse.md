@@ -30,6 +30,7 @@ Delivery price quote from a carrier provider
 | FOOD_IMMEDIATE | &quot;FOOD_IMMEDIATE&quot; |
 | STORE_NEXT_DAY | &quot;STORE_NEXT_DAY&quot; |
 | PASSENGER_TRANSPORT | &quot;PASSENGER_TRANSPORT&quot; |
+| INTERNATIONAL_EXPORT | &quot;INTERNATIONAL_EXPORT&quot; |
 
 
 
@@ -41,6 +42,7 @@ Delivery price quote from a carrier provider
 | ZIPPERW | &quot;ZIPPERW&quot; |
 | ZIPPERK | &quot;ZIPPERK&quot; |
 | ZIPPERGP | &quot;ZIPPERGP&quot; |
+| ZIPPERU | &quot;ZIPPERU&quot; |
 
 
 

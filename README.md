@@ -158,6 +158,13 @@ Class | Method | HTTP request | Description
 *DeliveriesApi* | [**searchDeliveries**](docs/DeliveriesApi.md#searchDeliveries) | **POST** /delivery/v1/deliveries/search | Search deliveries
 *DeliveriesApi* | [**trackDelivery**](docs/DeliveriesApi.md#trackDelivery) | **GET** /delivery/v1/deliveries/track/{hubTrackingNumber} | Track delivery by tracking number
 *EchoApi* | [**echoV1**](docs/EchoApi.md#echoV1) | **GET** /delivery/v1/echo | Echo a message back
+*PartnerDeliveriesApi* | [**partnerDeliveries**](docs/PartnerDeliveriesApi.md#partnerDeliveries) | **GET** /delivery/v1/partner/deliveries | List the partner&#39;s deliveries
+*PartnerDeliveriesApi* | [**partnerDelivery**](docs/PartnerDeliveriesApi.md#partnerDelivery) | **GET** /delivery/v1/partner/deliveries/{deliveryId} | Get one of the partner&#39;s deliveries
+*PartnerDeliveriesApi* | [**partnerDeliveryLabelAsset**](docs/PartnerDeliveriesApi.md#partnerDeliveryLabelAsset) | **GET** /delivery/v1/partner/deliveries/{deliveryId}/label/{filename} | Download a delivery label asset
+*PartnerDeliveriesApi* | [**partnerDeliveryStatusCounts**](docs/PartnerDeliveriesApi.md#partnerDeliveryStatusCounts) | **GET** /delivery/v1/partner/deliveries/status-counts | Delivery count per status for the partner
+*PartnerDeliveriesApi* | [**partnerMerchantDeliveries**](docs/PartnerDeliveriesApi.md#partnerMerchantDeliveries) | **GET** /delivery/v1/partner/merchants/{merchantId}/deliveries | List a merchant&#39;s deliveries
+*PartnerDeliveriesApi* | [**partnerRecentDeliveries**](docs/PartnerDeliveriesApi.md#partnerRecentDeliveries) | **GET** /delivery/v1/partner/recent-deliveries | Get the partner&#39;s recent deliveries
+*PartnerDeliveriesApi* | [**partnerSearchDeliveries**](docs/PartnerDeliveriesApi.md#partnerSearchDeliveries) | **POST** /delivery/v1/partner/deliveries/search | Search the partner&#39;s deliveries
 *PickupLocationsApi* | [**bulkUpsertPickupLocations**](docs/PickupLocationsApi.md#bulkUpsertPickupLocations) | **POST** /delivery/v1/pickup-locations/bulk-upsert | Bulk upsert pickup locations (async)
 *PickupLocationsApi* | [**createPickupLocation**](docs/PickupLocationsApi.md#createPickupLocation) | **POST** /delivery/v1/pickup-locations | Create a pickup location
 *PickupLocationsApi* | [**deletePickupLocation**](docs/PickupLocationsApi.md#deletePickupLocation) | **DELETE** /delivery/v1/pickup-locations/{id} | Delete a pickup location
@@ -180,6 +187,8 @@ Class | Method | HTTP request | Description
  - [CallbackConfigDTO](docs/CallbackConfigDTO.md)
  - [CreatePickupLocationRequest](docs/CreatePickupLocationRequest.md)
  - [CreateWebhookRequest](docs/CreateWebhookRequest.md)
+ - [CustomsDeclarationDTO](docs/CustomsDeclarationDTO.md)
+ - [DaySchedule](docs/DaySchedule.md)
  - [DayScheduleDTO](docs/DayScheduleDTO.md)
  - [EchoResponse](docs/EchoResponse.md)
  - [ExponentialRetryBackoffDTO](docs/ExponentialRetryBackoffDTO.md)
@@ -190,21 +199,32 @@ Class | Method | HTTP request | Description
  - [HubContactDTO](docs/HubContactDTO.md)
  - [HubCreateDeliveryRequest](docs/HubCreateDeliveryRequest.md)
  - [HubCreateDeliveryResponse](docs/HubCreateDeliveryResponse.md)
+ - [HubDeliveryCourierDTO](docs/HubDeliveryCourierDTO.md)
  - [HubDeliveryLabelResponse](docs/HubDeliveryLabelResponse.md)
  - [HubDeliveryLocationDTO](docs/HubDeliveryLocationDTO.md)
  - [HubDeliveryQuoteRequest](docs/HubDeliveryQuoteRequest.md)
  - [HubDeliveryQuoteResponse](docs/HubDeliveryQuoteResponse.md)
  - [HubDeliverySearchDTO](docs/HubDeliverySearchDTO.md)
  - [HubDeliveryStatusResponse](docs/HubDeliveryStatusResponse.md)
+ - [HubDispatchAttemptDTO](docs/HubDispatchAttemptDTO.md)
  - [HubHandshakeDeliveryResponse](docs/HubHandshakeDeliveryResponse.md)
  - [HubItemDTO](docs/HubItemDTO.md)
+ - [HubPickupLocationDTO](docs/HubPickupLocationDTO.md)
  - [HubRetryDeliveryResponse](docs/HubRetryDeliveryResponse.md)
  - [HubStatusEventDTO](docs/HubStatusEventDTO.md)
  - [LocationDTO](docs/LocationDTO.md)
+ - [MerchantDeliveryRow](docs/MerchantDeliveryRow.md)
+ - [OpeningHours](docs/OpeningHours.md)
  - [OpeningHoursDTO](docs/OpeningHoursDTO.md)
  - [PageResponseListHubDeliverySearchDTO](docs/PageResponseListHubDeliverySearchDTO.md)
+ - [PageResponseListMerchantDeliveryRow](docs/PageResponseListMerchantDeliveryRow.md)
+ - [PageResponseListPartnerDeliveryRow](docs/PageResponseListPartnerDeliveryRow.md)
  - [PageResponseListPickupLocationDTO](docs/PageResponseListPickupLocationDTO.md)
  - [Pagination](docs/Pagination.md)
+ - [PartnerCourier](docs/PartnerCourier.md)
+ - [PartnerDeliveryDetail](docs/PartnerDeliveryDetail.md)
+ - [PartnerDeliveryLocation](docs/PartnerDeliveryLocation.md)
+ - [PartnerDeliveryRow](docs/PartnerDeliveryRow.md)
  - [PassengerContactDTO](docs/PassengerContactDTO.md)
  - [PassengerDetailsDTO](docs/PassengerDetailsDTO.md)
  - [PickupLocationDTO](docs/PickupLocationDTO.md)
@@ -218,12 +238,14 @@ Class | Method | HTTP request | Description
  - [PublicStatusEvent](docs/PublicStatusEvent.md)
  - [PublicTrackingResponse](docs/PublicTrackingResponse.md)
  - [PublicVehicleInfo](docs/PublicVehicleInfo.md)
+ - [RecentDeliveryResponse](docs/RecentDeliveryResponse.md)
  - [RecipientDeliveryDTO](docs/RecipientDeliveryDTO.md)
  - [RouteMeta](docs/RouteMeta.md)
  - [SearchDeliveriesRequest](docs/SearchDeliveriesRequest.md)
  - [SearchPickupLocationsRequest](docs/SearchPickupLocationsRequest.md)
  - [SortField](docs/SortField.md)
  - [TestWebhookRequest](docs/TestWebhookRequest.md)
+ - [TimeInterval](docs/TimeInterval.md)
  - [TimeIntervalDTO](docs/TimeIntervalDTO.md)
  - [UpdatePickupLocationRequest](docs/UpdatePickupLocationRequest.md)
  - [UpdateWebhookRequest](docs/UpdateWebhookRequest.md)

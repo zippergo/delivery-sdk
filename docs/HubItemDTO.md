@@ -16,6 +16,10 @@ An item included in the delivery
 |**lengthCm** | **Double** | Optional package length in centimeters |  [optional] |
 |**widthCm** | **Double** | Optional package width in centimeters |  [optional] |
 |**heightCm** | **Double** | Optional package height in centimeters |  [optional] |
+|**unitValue** | **BigDecimal** | Declared value of a single unit, for customs |  [optional] |
+|**valueCurrency** | **String** | Currency of unitValue (ISO-4217). Defaults to the shipment customs currency. |  [optional] |
+|**hsCode** | **String** | Optional HS / tariff classification code |  [optional] |
+|**originCountry** | **String** | Country of origin/manufacture (ISO-2) |  [optional] |
 
 
 

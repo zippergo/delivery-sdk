@@ -9,6 +9,33 @@ Full delivery status including tracking and history
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
 |**deliveryId** | **UUID** | Unique delivery identifier |  [optional] |
+|**userId** | **String** | Owner (merchant/user) id — admin views only |  [optional] |
+|**createdDate** | **OffsetDateTime** | When the delivery was created — admin views only |  [optional] |
+|**courier** | [**HubDeliveryCourierDTO**](HubDeliveryCourierDTO.md) | Currently-assigned courier — admin views only |  [optional] |
+|**dispatchAttempts** | [**List&lt;HubDispatchAttemptDTO&gt;**](HubDispatchAttemptDTO.md) | Provider dispatch attempts (chronological) — admin views only |  [optional] |
+|**pickupSite** | [**HubPickupLocationDTO**](HubPickupLocationDTO.md) | Pickup site (warehouse/store/hub) the delivery was created from — admin views only |  [optional] |
+|**externalOrderId** | **String** | Merchant&#39;s external order id — admin views only |  [optional] |
+|**merchantName** | **String** | Owner merchant business name (from partner_merchant mirror) — admin views only |  [optional] |
+|**businessType** | **String** | Owner merchant business type (food/retail) — admin views only |  [optional] |
+|**recipientName** | **String** | Recipient name — admin views only |  [optional] |
+|**recipientPhone** | **String** | Recipient phone — admin views only |  [optional] |
+|**recipientEmail** | **String** | Recipient email — admin views only |  [optional] |
+|**pinCode** | **String** | PIN handshake code — admin views only |  [optional] |
+|**pinRequired** | **Boolean** | Whether a PIN handshake is required — admin views only |  [optional] |
+|**smsNotifications** | **Boolean** | Whether SMS notifications are enabled — admin views only |  [optional] |
+|**scheduledPickupTime** | **OffsetDateTime** | Scheduled pickup time (null &#x3D; immediate) — admin views only |  [optional] |
+|**originalQuotedEta** | **OffsetDateTime** | Originally quoted ETA — admin views only |  [optional] |
+|**dispatchRetryCount** | **Integer** | Dispatch retry count — admin views only |  [optional] |
+|**maxDispatchRetries** | **Integer** | Max dispatch retries — admin views only |  [optional] |
+|**stuckPollCount** | **Integer** | Stuck poll count — admin views only |  [optional] |
+|**nextRetryAt** | **OffsetDateTime** | Next scheduled retry — admin views only |  [optional] |
+|**lastPolledAt** | **OffsetDateTime** | Last poll time — admin views only |  [optional] |
+|**providerData** | **Map&lt;String, String&gt;** | Raw provider data — admin views only |  [optional] |
+|**idempotencyKey** | **String** | Idempotency key — admin views only |  [optional] |
+|**quoteId** | **UUID** | Quote id — admin views only |  [optional] |
+|**createdBy** | **String** | Created by (audit) — admin views only |  [optional] |
+|**lastModifiedDate** | **OffsetDateTime** | Last modified time (audit) — admin views only |  [optional] |
+|**lastModifiedBy** | **String** | Last modified by (audit) — admin views only |  [optional] |
 |**deliveryType** | [**DeliveryTypeEnum**](#DeliveryTypeEnum) | Type of delivery |  [optional] |
 |**status** | [**StatusEnum**](#StatusEnum) | Current delivery status |  [optional] |
 |**provider** | [**ProviderEnum**](#ProviderEnum) | Carrier provider handling the delivery |  [optional] |
@@ -47,6 +74,7 @@ Full delivery status including tracking and history
 | FOOD_IMMEDIATE | &quot;FOOD_IMMEDIATE&quot; |
 | STORE_NEXT_DAY | &quot;STORE_NEXT_DAY&quot; |
 | PASSENGER_TRANSPORT | &quot;PASSENGER_TRANSPORT&quot; |
+| INTERNATIONAL_EXPORT | &quot;INTERNATIONAL_EXPORT&quot; |
 
 
 
@@ -77,6 +105,7 @@ Full delivery status including tracking and history
 | ZIPPERW | &quot;ZIPPERW&quot; |
 | ZIPPERK | &quot;ZIPPERK&quot; |
 | ZIPPERGP | &quot;ZIPPERGP&quot; |
+| ZIPPERU | &quot;ZIPPERU&quot; |
 
 
 

@@ -66,7 +66,9 @@ public class HubDeliveryQuoteResponse {
     
     STORE_NEXT_DAY("STORE_NEXT_DAY"),
     
-    PASSENGER_TRANSPORT("PASSENGER_TRANSPORT");
+    PASSENGER_TRANSPORT("PASSENGER_TRANSPORT"),
+    
+    INTERNATIONAL_EXPORT("INTERNATIONAL_EXPORT");
 
     private String value;
 
@@ -127,7 +129,9 @@ public class HubDeliveryQuoteResponse {
     
     ZIPPERK("ZIPPERK"),
     
-    ZIPPERGP("ZIPPERGP");
+    ZIPPERGP("ZIPPERGP"),
+    
+    ZIPPERU("ZIPPERU");
 
     private String value;
 

@@ -24,6 +24,7 @@ Response after successfully creating a delivery
 | FOOD_IMMEDIATE | &quot;FOOD_IMMEDIATE&quot; |
 | STORE_NEXT_DAY | &quot;STORE_NEXT_DAY&quot; |
 | PASSENGER_TRANSPORT | &quot;PASSENGER_TRANSPORT&quot; |
+| INTERNATIONAL_EXPORT | &quot;INTERNATIONAL_EXPORT&quot; |
 
 
 

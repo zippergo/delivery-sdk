@@ -20,6 +20,7 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Arrays;
 
 import com.google.gson.Gson;
@@ -89,6 +90,26 @@ public class HubItemDTO {
   @SerializedName(SERIALIZED_NAME_HEIGHT_CM)
   @javax.annotation.Nullable
   private Double heightCm;
+
+  public static final String SERIALIZED_NAME_UNIT_VALUE = "unitValue";
+  @SerializedName(SERIALIZED_NAME_UNIT_VALUE)
+  @javax.annotation.Nullable
+  private BigDecimal unitValue;
+
+  public static final String SERIALIZED_NAME_VALUE_CURRENCY = "valueCurrency";
+  @SerializedName(SERIALIZED_NAME_VALUE_CURRENCY)
+  @javax.annotation.Nullable
+  private String valueCurrency;
+
+  public static final String SERIALIZED_NAME_HS_CODE = "hsCode";
+  @SerializedName(SERIALIZED_NAME_HS_CODE)
+  @javax.annotation.Nullable
+  private String hsCode;
+
+  public static final String SERIALIZED_NAME_ORIGIN_COUNTRY = "originCountry";
+  @SerializedName(SERIALIZED_NAME_ORIGIN_COUNTRY)
+  @javax.annotation.Nullable
+  private String originCountry;
 
   public HubItemDTO() {
   }
@@ -245,6 +266,82 @@ public class HubItemDTO {
   }
 
 
+  public HubItemDTO unitValue(@javax.annotation.Nullable BigDecimal unitValue) {
+    this.unitValue = unitValue;
+    return this;
+  }
+
+  /**
+   * Declared value of a single unit, for customs
+   * @return unitValue
+   */
+  @javax.annotation.Nullable
+  public BigDecimal getUnitValue() {
+    return unitValue;
+  }
+
+  public void setUnitValue(@javax.annotation.Nullable BigDecimal unitValue) {
+    this.unitValue = unitValue;
+  }
+
+
+  public HubItemDTO valueCurrency(@javax.annotation.Nullable String valueCurrency) {
+    this.valueCurrency = valueCurrency;
+    return this;
+  }
+
+  /**
+   * Currency of unitValue (ISO-4217). Defaults to the shipment customs currency.
+   * @return valueCurrency
+   */
+  @javax.annotation.Nullable
+  public String getValueCurrency() {
+    return valueCurrency;
+  }
+
+  public void setValueCurrency(@javax.annotation.Nullable String valueCurrency) {
+    this.valueCurrency = valueCurrency;
+  }
+
+
+  public HubItemDTO hsCode(@javax.annotation.Nullable String hsCode) {
+    this.hsCode = hsCode;
+    return this;
+  }
+
+  /**
+   * Optional HS / tariff classification code
+   * @return hsCode
+   */
+  @javax.annotation.Nullable
+  public String getHsCode() {
+    return hsCode;
+  }
+
+  public void setHsCode(@javax.annotation.Nullable String hsCode) {
+    this.hsCode = hsCode;
+  }
+
+
+  public HubItemDTO originCountry(@javax.annotation.Nullable String originCountry) {
+    this.originCountry = originCountry;
+    return this;
+  }
+
+  /**
+   * Country of origin/manufacture (ISO-2)
+   * @return originCountry
+   */
+  @javax.annotation.Nullable
+  public String getOriginCountry() {
+    return originCountry;
+  }
+
+  public void setOriginCountry(@javax.annotation.Nullable String originCountry) {
+    this.originCountry = originCountry;
+  }
+
+
 
   @Override
   public boolean equals(Object o) {
@@ -262,12 +359,16 @@ public class HubItemDTO {
         Objects.equals(this.weightKg, hubItemDTO.weightKg) &&
         Objects.equals(this.lengthCm, hubItemDTO.lengthCm) &&
         Objects.equals(this.widthCm, hubItemDTO.widthCm) &&
-        Objects.equals(this.heightCm, hubItemDTO.heightCm);
+        Objects.equals(this.heightCm, hubItemDTO.heightCm) &&
+        Objects.equals(this.unitValue, hubItemDTO.unitValue) &&
+        Objects.equals(this.valueCurrency, hubItemDTO.valueCurrency) &&
+        Objects.equals(this.hsCode, hubItemDTO.hsCode) &&
+        Objects.equals(this.originCountry, hubItemDTO.originCountry);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(sku, name, quantity, description, weightKg, lengthCm, widthCm, heightCm);
+    return Objects.hash(sku, name, quantity, description, weightKg, lengthCm, widthCm, heightCm, unitValue, valueCurrency, hsCode, originCountry);
   }
 
   @Override
@@ -282,6 +383,10 @@ public class HubItemDTO {
     sb.append("    lengthCm: ").append(toIndentedString(lengthCm)).append("\n");
     sb.append("    widthCm: ").append(toIndentedString(widthCm)).append("\n");
     sb.append("    heightCm: ").append(toIndentedString(heightCm)).append("\n");
+    sb.append("    unitValue: ").append(toIndentedString(unitValue)).append("\n");
+    sb.append("    valueCurrency: ").append(toIndentedString(valueCurrency)).append("\n");
+    sb.append("    hsCode: ").append(toIndentedString(hsCode)).append("\n");
+    sb.append("    originCountry: ").append(toIndentedString(originCountry)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -312,6 +417,10 @@ public class HubItemDTO {
     openapiFields.add("lengthCm");
     openapiFields.add("widthCm");
     openapiFields.add("heightCm");
+    openapiFields.add("unitValue");
+    openapiFields.add("valueCurrency");
+    openapiFields.add("hsCode");
+    openapiFields.add("originCountry");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();
@@ -355,6 +464,15 @@ public class HubItemDTO {
       }
       if ((jsonObj.get("description") != null && !jsonObj.get("description").isJsonNull()) && !jsonObj.get("description").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `description` to be a primitive type in the JSON string but got `%s`", jsonObj.get("description").toString()));
+      }
+      if ((jsonObj.get("valueCurrency") != null && !jsonObj.get("valueCurrency").isJsonNull()) && !jsonObj.get("valueCurrency").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `valueCurrency` to be a primitive type in the JSON string but got `%s`", jsonObj.get("valueCurrency").toString()));
+      }
+      if ((jsonObj.get("hsCode") != null && !jsonObj.get("hsCode").isJsonNull()) && !jsonObj.get("hsCode").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `hsCode` to be a primitive type in the JSON string but got `%s`", jsonObj.get("hsCode").toString()));
+      }
+      if ((jsonObj.get("originCountry") != null && !jsonObj.get("originCountry").isJsonNull()) && !jsonObj.get("originCountry").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `originCountry` to be a primitive type in the JSON string but got `%s`", jsonObj.get("originCountry").toString()));
       }
   }
 

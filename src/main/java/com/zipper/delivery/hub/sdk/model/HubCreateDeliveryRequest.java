@@ -19,6 +19,7 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import com.zipper.delivery.hub.sdk.model.CustomsDeclarationDTO;
 import com.zipper.delivery.hub.sdk.model.HandshakeDeliveryDTO;
 import com.zipper.delivery.hub.sdk.model.HubContactDTO;
 import com.zipper.delivery.hub.sdk.model.HubItemDTO;
@@ -77,7 +78,9 @@ public class HubCreateDeliveryRequest {
     
     STORE_NEXT_DAY("STORE_NEXT_DAY"),
     
-    PASSENGER_TRANSPORT("PASSENGER_TRANSPORT");
+    PASSENGER_TRANSPORT("PASSENGER_TRANSPORT"),
+    
+    INTERNATIONAL_EXPORT("INTERNATIONAL_EXPORT");
 
     private String value;
 
@@ -151,6 +154,11 @@ public class HubCreateDeliveryRequest {
   @SerializedName(SERIALIZED_NAME_ITEMS)
   @javax.annotation.Nullable
   private List<HubItemDTO> items = new ArrayList<>();
+
+  public static final String SERIALIZED_NAME_CUSTOMS = "customs";
+  @SerializedName(SERIALIZED_NAME_CUSTOMS)
+  @javax.annotation.Nullable
+  private CustomsDeclarationDTO customs;
 
   public static final String SERIALIZED_NAME_COD_AMOUNT = "codAmount";
   @SerializedName(SERIALIZED_NAME_COD_AMOUNT)
@@ -336,6 +344,25 @@ public class HubCreateDeliveryRequest {
   }
 
 
+  public HubCreateDeliveryRequest customs(@javax.annotation.Nullable CustomsDeclarationDTO customs) {
+    this.customs = customs;
+    return this;
+  }
+
+  /**
+   * Customs declaration. Required for INTERNATIONAL_EXPORT delivery type.
+   * @return customs
+   */
+  @javax.annotation.Nullable
+  public CustomsDeclarationDTO getCustoms() {
+    return customs;
+  }
+
+  public void setCustoms(@javax.annotation.Nullable CustomsDeclarationDTO customs) {
+    this.customs = customs;
+  }
+
+
   public HubCreateDeliveryRequest codAmount(@javax.annotation.Nullable BigDecimal codAmount) {
     this.codAmount = codAmount;
     return this;
@@ -505,6 +532,7 @@ public class HubCreateDeliveryRequest {
         Objects.equals(this.pickup, hubCreateDeliveryRequest.pickup) &&
         Objects.equals(this.dropoff, hubCreateDeliveryRequest.dropoff) &&
         Objects.equals(this.items, hubCreateDeliveryRequest.items) &&
+        Objects.equals(this.customs, hubCreateDeliveryRequest.customs) &&
         Objects.equals(this.codAmount, hubCreateDeliveryRequest.codAmount) &&
         Objects.equals(this.scheduledAt, hubCreateDeliveryRequest.scheduledAt) &&
         Objects.equals(this.smsNotifications, hubCreateDeliveryRequest.smsNotifications) &&
@@ -517,7 +545,7 @@ public class HubCreateDeliveryRequest {
 
   @Override
   public int hashCode() {
-    return Objects.hash(quoteId, deliveryType, externalOrderId, referralCode, pickup, dropoff, items, codAmount, scheduledAt, smsNotifications, handshake, recipient, providerData, passengerDetails, pickupLocationCode);
+    return Objects.hash(quoteId, deliveryType, externalOrderId, referralCode, pickup, dropoff, items, customs, codAmount, scheduledAt, smsNotifications, handshake, recipient, providerData, passengerDetails, pickupLocationCode);
   }
 
   @Override
@@ -531,6 +559,7 @@ public class HubCreateDeliveryRequest {
     sb.append("    pickup: ").append(toIndentedString(pickup)).append("\n");
     sb.append("    dropoff: ").append(toIndentedString(dropoff)).append("\n");
     sb.append("    items: ").append(toIndentedString(items)).append("\n");
+    sb.append("    customs: ").append(toIndentedString(customs)).append("\n");
     sb.append("    codAmount: ").append(toIndentedString(codAmount)).append("\n");
     sb.append("    scheduledAt: ").append(toIndentedString(scheduledAt)).append("\n");
     sb.append("    smsNotifications: ").append(toIndentedString(smsNotifications)).append("\n");
@@ -568,6 +597,7 @@ public class HubCreateDeliveryRequest {
     openapiFields.add("pickup");
     openapiFields.add("dropoff");
     openapiFields.add("items");
+    openapiFields.add("customs");
     openapiFields.add("codAmount");
     openapiFields.add("scheduledAt");
     openapiFields.add("smsNotifications");
@@ -645,6 +675,10 @@ public class HubCreateDeliveryRequest {
             HubItemDTO.validateJsonElement(jsonArrayitems.get(i));
           };
         }
+      }
+      // validate the optional field `customs`
+      if (jsonObj.get("customs") != null && !jsonObj.get("customs").isJsonNull()) {
+        CustomsDeclarationDTO.validateJsonElement(jsonObj.get("customs"));
       }
       // validate the optional field `handshake`
       if (jsonObj.get("handshake") != null && !jsonObj.get("handshake").isJsonNull()) {

@@ -15,6 +15,7 @@ Request to create a new delivery order. A quoteId from a prior quote request is 
 |**pickup** | [**HubContactDTO**](HubContactDTO.md) | Pickup contact and location. Optional when pickupLocationCode is provided. |  [optional] |
 |**dropoff** | [**HubContactDTO**](HubContactDTO.md) | Dropoff contact and location |  |
 |**items** | [**List&lt;HubItemDTO&gt;**](HubItemDTO.md) | List of items to deliver |  [optional] |
+|**customs** | [**CustomsDeclarationDTO**](CustomsDeclarationDTO.md) | Customs declaration. Required for INTERNATIONAL_EXPORT delivery type. |  [optional] |
 |**codAmount** | **BigDecimal** | Cash-on-delivery amount (null if not COD) |  [optional] |
 |**scheduledAt** | **OffsetDateTime** | Scheduled pickup time (null for immediate dispatch) |  [optional] |
 |**smsNotifications** | **Boolean** | Content for the SMS message(s) which will be sent to the recipient at certain stages of the delivery.  This is an optional feature for communicating the tracking link to the recipient. |  [optional] |
@@ -34,6 +35,7 @@ Request to create a new delivery order. A quoteId from a prior quote request is 
 | FOOD_IMMEDIATE | &quot;FOOD_IMMEDIATE&quot; |
 | STORE_NEXT_DAY | &quot;STORE_NEXT_DAY&quot; |
 | PASSENGER_TRANSPORT | &quot;PASSENGER_TRANSPORT&quot; |
+| INTERNATIONAL_EXPORT | &quot;INTERNATIONAL_EXPORT&quot; |
 
 
 

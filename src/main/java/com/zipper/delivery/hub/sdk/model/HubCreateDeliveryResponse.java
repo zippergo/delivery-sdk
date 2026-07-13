@@ -67,7 +67,9 @@ public class HubCreateDeliveryResponse {
     
     STORE_NEXT_DAY("STORE_NEXT_DAY"),
     
-    PASSENGER_TRANSPORT("PASSENGER_TRANSPORT");
+    PASSENGER_TRANSPORT("PASSENGER_TRANSPORT"),
+    
+    INTERNATIONAL_EXPORT("INTERNATIONAL_EXPORT");
 
     private String value;
 

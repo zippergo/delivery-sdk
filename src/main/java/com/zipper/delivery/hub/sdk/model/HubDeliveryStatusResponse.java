@@ -20,15 +20,20 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.zipper.delivery.hub.sdk.model.GeoJsonLineString;
+import com.zipper.delivery.hub.sdk.model.HubDeliveryCourierDTO;
 import com.zipper.delivery.hub.sdk.model.HubDeliveryLocationDTO;
+import com.zipper.delivery.hub.sdk.model.HubDispatchAttemptDTO;
 import com.zipper.delivery.hub.sdk.model.HubItemDTO;
+import com.zipper.delivery.hub.sdk.model.HubPickupLocationDTO;
 import com.zipper.delivery.hub.sdk.model.HubStatusEventDTO;
 import com.zipper.delivery.hub.sdk.model.RouteMeta;
 import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import com.google.gson.Gson;
@@ -64,6 +69,141 @@ public class HubDeliveryStatusResponse {
   @javax.annotation.Nullable
   private UUID deliveryId;
 
+  public static final String SERIALIZED_NAME_USER_ID = "userId";
+  @SerializedName(SERIALIZED_NAME_USER_ID)
+  @javax.annotation.Nullable
+  private String userId;
+
+  public static final String SERIALIZED_NAME_CREATED_DATE = "createdDate";
+  @SerializedName(SERIALIZED_NAME_CREATED_DATE)
+  @javax.annotation.Nullable
+  private OffsetDateTime createdDate;
+
+  public static final String SERIALIZED_NAME_COURIER = "courier";
+  @SerializedName(SERIALIZED_NAME_COURIER)
+  @javax.annotation.Nullable
+  private HubDeliveryCourierDTO courier;
+
+  public static final String SERIALIZED_NAME_DISPATCH_ATTEMPTS = "dispatchAttempts";
+  @SerializedName(SERIALIZED_NAME_DISPATCH_ATTEMPTS)
+  @javax.annotation.Nullable
+  private List<HubDispatchAttemptDTO> dispatchAttempts = new ArrayList<>();
+
+  public static final String SERIALIZED_NAME_PICKUP_SITE = "pickupSite";
+  @SerializedName(SERIALIZED_NAME_PICKUP_SITE)
+  @javax.annotation.Nullable
+  private HubPickupLocationDTO pickupSite;
+
+  public static final String SERIALIZED_NAME_EXTERNAL_ORDER_ID = "externalOrderId";
+  @SerializedName(SERIALIZED_NAME_EXTERNAL_ORDER_ID)
+  @javax.annotation.Nullable
+  private String externalOrderId;
+
+  public static final String SERIALIZED_NAME_MERCHANT_NAME = "merchantName";
+  @SerializedName(SERIALIZED_NAME_MERCHANT_NAME)
+  @javax.annotation.Nullable
+  private String merchantName;
+
+  public static final String SERIALIZED_NAME_BUSINESS_TYPE = "businessType";
+  @SerializedName(SERIALIZED_NAME_BUSINESS_TYPE)
+  @javax.annotation.Nullable
+  private String businessType;
+
+  public static final String SERIALIZED_NAME_RECIPIENT_NAME = "recipientName";
+  @SerializedName(SERIALIZED_NAME_RECIPIENT_NAME)
+  @javax.annotation.Nullable
+  private String recipientName;
+
+  public static final String SERIALIZED_NAME_RECIPIENT_PHONE = "recipientPhone";
+  @SerializedName(SERIALIZED_NAME_RECIPIENT_PHONE)
+  @javax.annotation.Nullable
+  private String recipientPhone;
+
+  public static final String SERIALIZED_NAME_RECIPIENT_EMAIL = "recipientEmail";
+  @SerializedName(SERIALIZED_NAME_RECIPIENT_EMAIL)
+  @javax.annotation.Nullable
+  private String recipientEmail;
+
+  public static final String SERIALIZED_NAME_PIN_CODE = "pinCode";
+  @SerializedName(SERIALIZED_NAME_PIN_CODE)
+  @javax.annotation.Nullable
+  private String pinCode;
+
+  public static final String SERIALIZED_NAME_PIN_REQUIRED = "pinRequired";
+  @SerializedName(SERIALIZED_NAME_PIN_REQUIRED)
+  @javax.annotation.Nullable
+  private Boolean pinRequired;
+
+  public static final String SERIALIZED_NAME_SMS_NOTIFICATIONS = "smsNotifications";
+  @SerializedName(SERIALIZED_NAME_SMS_NOTIFICATIONS)
+  @javax.annotation.Nullable
+  private Boolean smsNotifications;
+
+  public static final String SERIALIZED_NAME_SCHEDULED_PICKUP_TIME = "scheduledPickupTime";
+  @SerializedName(SERIALIZED_NAME_SCHEDULED_PICKUP_TIME)
+  @javax.annotation.Nullable
+  private OffsetDateTime scheduledPickupTime;
+
+  public static final String SERIALIZED_NAME_ORIGINAL_QUOTED_ETA = "originalQuotedEta";
+  @SerializedName(SERIALIZED_NAME_ORIGINAL_QUOTED_ETA)
+  @javax.annotation.Nullable
+  private OffsetDateTime originalQuotedEta;
+
+  public static final String SERIALIZED_NAME_DISPATCH_RETRY_COUNT = "dispatchRetryCount";
+  @SerializedName(SERIALIZED_NAME_DISPATCH_RETRY_COUNT)
+  @javax.annotation.Nullable
+  private Integer dispatchRetryCount;
+
+  public static final String SERIALIZED_NAME_MAX_DISPATCH_RETRIES = "maxDispatchRetries";
+  @SerializedName(SERIALIZED_NAME_MAX_DISPATCH_RETRIES)
+  @javax.annotation.Nullable
+  private Integer maxDispatchRetries;
+
+  public static final String SERIALIZED_NAME_STUCK_POLL_COUNT = "stuckPollCount";
+  @SerializedName(SERIALIZED_NAME_STUCK_POLL_COUNT)
+  @javax.annotation.Nullable
+  private Integer stuckPollCount;
+
+  public static final String SERIALIZED_NAME_NEXT_RETRY_AT = "nextRetryAt";
+  @SerializedName(SERIALIZED_NAME_NEXT_RETRY_AT)
+  @javax.annotation.Nullable
+  private OffsetDateTime nextRetryAt;
+
+  public static final String SERIALIZED_NAME_LAST_POLLED_AT = "lastPolledAt";
+  @SerializedName(SERIALIZED_NAME_LAST_POLLED_AT)
+  @javax.annotation.Nullable
+  private OffsetDateTime lastPolledAt;
+
+  public static final String SERIALIZED_NAME_PROVIDER_DATA = "providerData";
+  @SerializedName(SERIALIZED_NAME_PROVIDER_DATA)
+  @javax.annotation.Nullable
+  private Map<String, String> providerData = new HashMap<>();
+
+  public static final String SERIALIZED_NAME_IDEMPOTENCY_KEY = "idempotencyKey";
+  @SerializedName(SERIALIZED_NAME_IDEMPOTENCY_KEY)
+  @javax.annotation.Nullable
+  private String idempotencyKey;
+
+  public static final String SERIALIZED_NAME_QUOTE_ID = "quoteId";
+  @SerializedName(SERIALIZED_NAME_QUOTE_ID)
+  @javax.annotation.Nullable
+  private UUID quoteId;
+
+  public static final String SERIALIZED_NAME_CREATED_BY = "createdBy";
+  @SerializedName(SERIALIZED_NAME_CREATED_BY)
+  @javax.annotation.Nullable
+  private String createdBy;
+
+  public static final String SERIALIZED_NAME_LAST_MODIFIED_DATE = "lastModifiedDate";
+  @SerializedName(SERIALIZED_NAME_LAST_MODIFIED_DATE)
+  @javax.annotation.Nullable
+  private OffsetDateTime lastModifiedDate;
+
+  public static final String SERIALIZED_NAME_LAST_MODIFIED_BY = "lastModifiedBy";
+  @SerializedName(SERIALIZED_NAME_LAST_MODIFIED_BY)
+  @javax.annotation.Nullable
+  private String lastModifiedBy;
+
   /**
    * Type of delivery
    */
@@ -75,7 +215,9 @@ public class HubDeliveryStatusResponse {
     
     STORE_NEXT_DAY("STORE_NEXT_DAY"),
     
-    PASSENGER_TRANSPORT("PASSENGER_TRANSPORT");
+    PASSENGER_TRANSPORT("PASSENGER_TRANSPORT"),
+    
+    INTERNATIONAL_EXPORT("INTERNATIONAL_EXPORT");
 
     private String value;
 
@@ -213,7 +355,9 @@ public class HubDeliveryStatusResponse {
     
     ZIPPERK("ZIPPERK"),
     
-    ZIPPERGP("ZIPPERGP");
+    ZIPPERGP("ZIPPERGP"),
+    
+    ZIPPERU("ZIPPERU");
 
     private String value;
 
@@ -402,6 +546,535 @@ public class HubDeliveryStatusResponse {
 
   public void setDeliveryId(@javax.annotation.Nullable UUID deliveryId) {
     this.deliveryId = deliveryId;
+  }
+
+
+  public HubDeliveryStatusResponse userId(@javax.annotation.Nullable String userId) {
+    this.userId = userId;
+    return this;
+  }
+
+  /**
+   * Owner (merchant/user) id — admin views only
+   * @return userId
+   */
+  @javax.annotation.Nullable
+  public String getUserId() {
+    return userId;
+  }
+
+  public void setUserId(@javax.annotation.Nullable String userId) {
+    this.userId = userId;
+  }
+
+
+  public HubDeliveryStatusResponse createdDate(@javax.annotation.Nullable OffsetDateTime createdDate) {
+    this.createdDate = createdDate;
+    return this;
+  }
+
+  /**
+   * When the delivery was created — admin views only
+   * @return createdDate
+   */
+  @javax.annotation.Nullable
+  public OffsetDateTime getCreatedDate() {
+    return createdDate;
+  }
+
+  public void setCreatedDate(@javax.annotation.Nullable OffsetDateTime createdDate) {
+    this.createdDate = createdDate;
+  }
+
+
+  public HubDeliveryStatusResponse courier(@javax.annotation.Nullable HubDeliveryCourierDTO courier) {
+    this.courier = courier;
+    return this;
+  }
+
+  /**
+   * Currently-assigned courier — admin views only
+   * @return courier
+   */
+  @javax.annotation.Nullable
+  public HubDeliveryCourierDTO getCourier() {
+    return courier;
+  }
+
+  public void setCourier(@javax.annotation.Nullable HubDeliveryCourierDTO courier) {
+    this.courier = courier;
+  }
+
+
+  public HubDeliveryStatusResponse dispatchAttempts(@javax.annotation.Nullable List<HubDispatchAttemptDTO> dispatchAttempts) {
+    this.dispatchAttempts = dispatchAttempts;
+    return this;
+  }
+
+  public HubDeliveryStatusResponse addDispatchAttemptsItem(HubDispatchAttemptDTO dispatchAttemptsItem) {
+    if (this.dispatchAttempts == null) {
+      this.dispatchAttempts = new ArrayList<>();
+    }
+    this.dispatchAttempts.add(dispatchAttemptsItem);
+    return this;
+  }
+
+  /**
+   * Provider dispatch attempts (chronological) — admin views only
+   * @return dispatchAttempts
+   */
+  @javax.annotation.Nullable
+  public List<HubDispatchAttemptDTO> getDispatchAttempts() {
+    return dispatchAttempts;
+  }
+
+  public void setDispatchAttempts(@javax.annotation.Nullable List<HubDispatchAttemptDTO> dispatchAttempts) {
+    this.dispatchAttempts = dispatchAttempts;
+  }
+
+
+  public HubDeliveryStatusResponse pickupSite(@javax.annotation.Nullable HubPickupLocationDTO pickupSite) {
+    this.pickupSite = pickupSite;
+    return this;
+  }
+
+  /**
+   * Pickup site (warehouse/store/hub) the delivery was created from — admin views only
+   * @return pickupSite
+   */
+  @javax.annotation.Nullable
+  public HubPickupLocationDTO getPickupSite() {
+    return pickupSite;
+  }
+
+  public void setPickupSite(@javax.annotation.Nullable HubPickupLocationDTO pickupSite) {
+    this.pickupSite = pickupSite;
+  }
+
+
+  public HubDeliveryStatusResponse externalOrderId(@javax.annotation.Nullable String externalOrderId) {
+    this.externalOrderId = externalOrderId;
+    return this;
+  }
+
+  /**
+   * Merchant&#39;s external order id — admin views only
+   * @return externalOrderId
+   */
+  @javax.annotation.Nullable
+  public String getExternalOrderId() {
+    return externalOrderId;
+  }
+
+  public void setExternalOrderId(@javax.annotation.Nullable String externalOrderId) {
+    this.externalOrderId = externalOrderId;
+  }
+
+
+  public HubDeliveryStatusResponse merchantName(@javax.annotation.Nullable String merchantName) {
+    this.merchantName = merchantName;
+    return this;
+  }
+
+  /**
+   * Owner merchant business name (from partner_merchant mirror) — admin views only
+   * @return merchantName
+   */
+  @javax.annotation.Nullable
+  public String getMerchantName() {
+    return merchantName;
+  }
+
+  public void setMerchantName(@javax.annotation.Nullable String merchantName) {
+    this.merchantName = merchantName;
+  }
+
+
+  public HubDeliveryStatusResponse businessType(@javax.annotation.Nullable String businessType) {
+    this.businessType = businessType;
+    return this;
+  }
+
+  /**
+   * Owner merchant business type (food/retail) — admin views only
+   * @return businessType
+   */
+  @javax.annotation.Nullable
+  public String getBusinessType() {
+    return businessType;
+  }
+
+  public void setBusinessType(@javax.annotation.Nullable String businessType) {
+    this.businessType = businessType;
+  }
+
+
+  public HubDeliveryStatusResponse recipientName(@javax.annotation.Nullable String recipientName) {
+    this.recipientName = recipientName;
+    return this;
+  }
+
+  /**
+   * Recipient name — admin views only
+   * @return recipientName
+   */
+  @javax.annotation.Nullable
+  public String getRecipientName() {
+    return recipientName;
+  }
+
+  public void setRecipientName(@javax.annotation.Nullable String recipientName) {
+    this.recipientName = recipientName;
+  }
+
+
+  public HubDeliveryStatusResponse recipientPhone(@javax.annotation.Nullable String recipientPhone) {
+    this.recipientPhone = recipientPhone;
+    return this;
+  }
+
+  /**
+   * Recipient phone — admin views only
+   * @return recipientPhone
+   */
+  @javax.annotation.Nullable
+  public String getRecipientPhone() {
+    return recipientPhone;
+  }
+
+  public void setRecipientPhone(@javax.annotation.Nullable String recipientPhone) {
+    this.recipientPhone = recipientPhone;
+  }
+
+
+  public HubDeliveryStatusResponse recipientEmail(@javax.annotation.Nullable String recipientEmail) {
+    this.recipientEmail = recipientEmail;
+    return this;
+  }
+
+  /**
+   * Recipient email — admin views only
+   * @return recipientEmail
+   */
+  @javax.annotation.Nullable
+  public String getRecipientEmail() {
+    return recipientEmail;
+  }
+
+  public void setRecipientEmail(@javax.annotation.Nullable String recipientEmail) {
+    this.recipientEmail = recipientEmail;
+  }
+
+
+  public HubDeliveryStatusResponse pinCode(@javax.annotation.Nullable String pinCode) {
+    this.pinCode = pinCode;
+    return this;
+  }
+
+  /**
+   * PIN handshake code — admin views only
+   * @return pinCode
+   */
+  @javax.annotation.Nullable
+  public String getPinCode() {
+    return pinCode;
+  }
+
+  public void setPinCode(@javax.annotation.Nullable String pinCode) {
+    this.pinCode = pinCode;
+  }
+
+
+  public HubDeliveryStatusResponse pinRequired(@javax.annotation.Nullable Boolean pinRequired) {
+    this.pinRequired = pinRequired;
+    return this;
+  }
+
+  /**
+   * Whether a PIN handshake is required — admin views only
+   * @return pinRequired
+   */
+  @javax.annotation.Nullable
+  public Boolean getPinRequired() {
+    return pinRequired;
+  }
+
+  public void setPinRequired(@javax.annotation.Nullable Boolean pinRequired) {
+    this.pinRequired = pinRequired;
+  }
+
+
+  public HubDeliveryStatusResponse smsNotifications(@javax.annotation.Nullable Boolean smsNotifications) {
+    this.smsNotifications = smsNotifications;
+    return this;
+  }
+
+  /**
+   * Whether SMS notifications are enabled — admin views only
+   * @return smsNotifications
+   */
+  @javax.annotation.Nullable
+  public Boolean getSmsNotifications() {
+    return smsNotifications;
+  }
+
+  public void setSmsNotifications(@javax.annotation.Nullable Boolean smsNotifications) {
+    this.smsNotifications = smsNotifications;
+  }
+
+
+  public HubDeliveryStatusResponse scheduledPickupTime(@javax.annotation.Nullable OffsetDateTime scheduledPickupTime) {
+    this.scheduledPickupTime = scheduledPickupTime;
+    return this;
+  }
+
+  /**
+   * Scheduled pickup time (null &#x3D; immediate) — admin views only
+   * @return scheduledPickupTime
+   */
+  @javax.annotation.Nullable
+  public OffsetDateTime getScheduledPickupTime() {
+    return scheduledPickupTime;
+  }
+
+  public void setScheduledPickupTime(@javax.annotation.Nullable OffsetDateTime scheduledPickupTime) {
+    this.scheduledPickupTime = scheduledPickupTime;
+  }
+
+
+  public HubDeliveryStatusResponse originalQuotedEta(@javax.annotation.Nullable OffsetDateTime originalQuotedEta) {
+    this.originalQuotedEta = originalQuotedEta;
+    return this;
+  }
+
+  /**
+   * Originally quoted ETA — admin views only
+   * @return originalQuotedEta
+   */
+  @javax.annotation.Nullable
+  public OffsetDateTime getOriginalQuotedEta() {
+    return originalQuotedEta;
+  }
+
+  public void setOriginalQuotedEta(@javax.annotation.Nullable OffsetDateTime originalQuotedEta) {
+    this.originalQuotedEta = originalQuotedEta;
+  }
+
+
+  public HubDeliveryStatusResponse dispatchRetryCount(@javax.annotation.Nullable Integer dispatchRetryCount) {
+    this.dispatchRetryCount = dispatchRetryCount;
+    return this;
+  }
+
+  /**
+   * Dispatch retry count — admin views only
+   * @return dispatchRetryCount
+   */
+  @javax.annotation.Nullable
+  public Integer getDispatchRetryCount() {
+    return dispatchRetryCount;
+  }
+
+  public void setDispatchRetryCount(@javax.annotation.Nullable Integer dispatchRetryCount) {
+    this.dispatchRetryCount = dispatchRetryCount;
+  }
+
+
+  public HubDeliveryStatusResponse maxDispatchRetries(@javax.annotation.Nullable Integer maxDispatchRetries) {
+    this.maxDispatchRetries = maxDispatchRetries;
+    return this;
+  }
+
+  /**
+   * Max dispatch retries — admin views only
+   * @return maxDispatchRetries
+   */
+  @javax.annotation.Nullable
+  public Integer getMaxDispatchRetries() {
+    return maxDispatchRetries;
+  }
+
+  public void setMaxDispatchRetries(@javax.annotation.Nullable Integer maxDispatchRetries) {
+    this.maxDispatchRetries = maxDispatchRetries;
+  }
+
+
+  public HubDeliveryStatusResponse stuckPollCount(@javax.annotation.Nullable Integer stuckPollCount) {
+    this.stuckPollCount = stuckPollCount;
+    return this;
+  }
+
+  /**
+   * Stuck poll count — admin views only
+   * @return stuckPollCount
+   */
+  @javax.annotation.Nullable
+  public Integer getStuckPollCount() {
+    return stuckPollCount;
+  }
+
+  public void setStuckPollCount(@javax.annotation.Nullable Integer stuckPollCount) {
+    this.stuckPollCount = stuckPollCount;
+  }
+
+
+  public HubDeliveryStatusResponse nextRetryAt(@javax.annotation.Nullable OffsetDateTime nextRetryAt) {
+    this.nextRetryAt = nextRetryAt;
+    return this;
+  }
+
+  /**
+   * Next scheduled retry — admin views only
+   * @return nextRetryAt
+   */
+  @javax.annotation.Nullable
+  public OffsetDateTime getNextRetryAt() {
+    return nextRetryAt;
+  }
+
+  public void setNextRetryAt(@javax.annotation.Nullable OffsetDateTime nextRetryAt) {
+    this.nextRetryAt = nextRetryAt;
+  }
+
+
+  public HubDeliveryStatusResponse lastPolledAt(@javax.annotation.Nullable OffsetDateTime lastPolledAt) {
+    this.lastPolledAt = lastPolledAt;
+    return this;
+  }
+
+  /**
+   * Last poll time — admin views only
+   * @return lastPolledAt
+   */
+  @javax.annotation.Nullable
+  public OffsetDateTime getLastPolledAt() {
+    return lastPolledAt;
+  }
+
+  public void setLastPolledAt(@javax.annotation.Nullable OffsetDateTime lastPolledAt) {
+    this.lastPolledAt = lastPolledAt;
+  }
+
+
+  public HubDeliveryStatusResponse providerData(@javax.annotation.Nullable Map<String, String> providerData) {
+    this.providerData = providerData;
+    return this;
+  }
+
+  public HubDeliveryStatusResponse putProviderDataItem(String key, String providerDataItem) {
+    if (this.providerData == null) {
+      this.providerData = new HashMap<>();
+    }
+    this.providerData.put(key, providerDataItem);
+    return this;
+  }
+
+  /**
+   * Raw provider data — admin views only
+   * @return providerData
+   */
+  @javax.annotation.Nullable
+  public Map<String, String> getProviderData() {
+    return providerData;
+  }
+
+  public void setProviderData(@javax.annotation.Nullable Map<String, String> providerData) {
+    this.providerData = providerData;
+  }
+
+
+  public HubDeliveryStatusResponse idempotencyKey(@javax.annotation.Nullable String idempotencyKey) {
+    this.idempotencyKey = idempotencyKey;
+    return this;
+  }
+
+  /**
+   * Idempotency key — admin views only
+   * @return idempotencyKey
+   */
+  @javax.annotation.Nullable
+  public String getIdempotencyKey() {
+    return idempotencyKey;
+  }
+
+  public void setIdempotencyKey(@javax.annotation.Nullable String idempotencyKey) {
+    this.idempotencyKey = idempotencyKey;
+  }
+
+
+  public HubDeliveryStatusResponse quoteId(@javax.annotation.Nullable UUID quoteId) {
+    this.quoteId = quoteId;
+    return this;
+  }
+
+  /**
+   * Quote id — admin views only
+   * @return quoteId
+   */
+  @javax.annotation.Nullable
+  public UUID getQuoteId() {
+    return quoteId;
+  }
+
+  public void setQuoteId(@javax.annotation.Nullable UUID quoteId) {
+    this.quoteId = quoteId;
+  }
+
+
+  public HubDeliveryStatusResponse createdBy(@javax.annotation.Nullable String createdBy) {
+    this.createdBy = createdBy;
+    return this;
+  }
+
+  /**
+   * Created by (audit) — admin views only
+   * @return createdBy
+   */
+  @javax.annotation.Nullable
+  public String getCreatedBy() {
+    return createdBy;
+  }
+
+  public void setCreatedBy(@javax.annotation.Nullable String createdBy) {
+    this.createdBy = createdBy;
+  }
+
+
+  public HubDeliveryStatusResponse lastModifiedDate(@javax.annotation.Nullable OffsetDateTime lastModifiedDate) {
+    this.lastModifiedDate = lastModifiedDate;
+    return this;
+  }
+
+  /**
+   * Last modified time (audit) — admin views only
+   * @return lastModifiedDate
+   */
+  @javax.annotation.Nullable
+  public OffsetDateTime getLastModifiedDate() {
+    return lastModifiedDate;
+  }
+
+  public void setLastModifiedDate(@javax.annotation.Nullable OffsetDateTime lastModifiedDate) {
+    this.lastModifiedDate = lastModifiedDate;
+  }
+
+
+  public HubDeliveryStatusResponse lastModifiedBy(@javax.annotation.Nullable String lastModifiedBy) {
+    this.lastModifiedBy = lastModifiedBy;
+    return this;
+  }
+
+  /**
+   * Last modified by (audit) — admin views only
+   * @return lastModifiedBy
+   */
+  @javax.annotation.Nullable
+  public String getLastModifiedBy() {
+    return lastModifiedBy;
+  }
+
+  public void setLastModifiedBy(@javax.annotation.Nullable String lastModifiedBy) {
+    this.lastModifiedBy = lastModifiedBy;
   }
 
 
@@ -945,6 +1618,33 @@ public class HubDeliveryStatusResponse {
     }
     HubDeliveryStatusResponse hubDeliveryStatusResponse = (HubDeliveryStatusResponse) o;
     return Objects.equals(this.deliveryId, hubDeliveryStatusResponse.deliveryId) &&
+        Objects.equals(this.userId, hubDeliveryStatusResponse.userId) &&
+        Objects.equals(this.createdDate, hubDeliveryStatusResponse.createdDate) &&
+        Objects.equals(this.courier, hubDeliveryStatusResponse.courier) &&
+        Objects.equals(this.dispatchAttempts, hubDeliveryStatusResponse.dispatchAttempts) &&
+        Objects.equals(this.pickupSite, hubDeliveryStatusResponse.pickupSite) &&
+        Objects.equals(this.externalOrderId, hubDeliveryStatusResponse.externalOrderId) &&
+        Objects.equals(this.merchantName, hubDeliveryStatusResponse.merchantName) &&
+        Objects.equals(this.businessType, hubDeliveryStatusResponse.businessType) &&
+        Objects.equals(this.recipientName, hubDeliveryStatusResponse.recipientName) &&
+        Objects.equals(this.recipientPhone, hubDeliveryStatusResponse.recipientPhone) &&
+        Objects.equals(this.recipientEmail, hubDeliveryStatusResponse.recipientEmail) &&
+        Objects.equals(this.pinCode, hubDeliveryStatusResponse.pinCode) &&
+        Objects.equals(this.pinRequired, hubDeliveryStatusResponse.pinRequired) &&
+        Objects.equals(this.smsNotifications, hubDeliveryStatusResponse.smsNotifications) &&
+        Objects.equals(this.scheduledPickupTime, hubDeliveryStatusResponse.scheduledPickupTime) &&
+        Objects.equals(this.originalQuotedEta, hubDeliveryStatusResponse.originalQuotedEta) &&
+        Objects.equals(this.dispatchRetryCount, hubDeliveryStatusResponse.dispatchRetryCount) &&
+        Objects.equals(this.maxDispatchRetries, hubDeliveryStatusResponse.maxDispatchRetries) &&
+        Objects.equals(this.stuckPollCount, hubDeliveryStatusResponse.stuckPollCount) &&
+        Objects.equals(this.nextRetryAt, hubDeliveryStatusResponse.nextRetryAt) &&
+        Objects.equals(this.lastPolledAt, hubDeliveryStatusResponse.lastPolledAt) &&
+        Objects.equals(this.providerData, hubDeliveryStatusResponse.providerData) &&
+        Objects.equals(this.idempotencyKey, hubDeliveryStatusResponse.idempotencyKey) &&
+        Objects.equals(this.quoteId, hubDeliveryStatusResponse.quoteId) &&
+        Objects.equals(this.createdBy, hubDeliveryStatusResponse.createdBy) &&
+        Objects.equals(this.lastModifiedDate, hubDeliveryStatusResponse.lastModifiedDate) &&
+        Objects.equals(this.lastModifiedBy, hubDeliveryStatusResponse.lastModifiedBy) &&
         Objects.equals(this.deliveryType, hubDeliveryStatusResponse.deliveryType) &&
         Objects.equals(this.status, hubDeliveryStatusResponse.status) &&
         Objects.equals(this.provider, hubDeliveryStatusResponse.provider) &&
@@ -976,7 +1676,7 @@ public class HubDeliveryStatusResponse {
 
   @Override
   public int hashCode() {
-    return Objects.hash(deliveryId, deliveryType, status, provider, providerTrackingId, hubTrackingNumber, hubOrderId, hubBarcode, estimatedArrival, trackingUrl, statusHistory, proofOfDeliveryUrl, items, pickupContactName, pickupContactPhone, pickupEmail, pickupNotes, pickupReferenceNumber, pickupLocation, dropoffContactName, dropoffContactPhone, dropoffEmail, dropoffNotes, dropoffLocation, distanceMeters, durationSeconds, routeGeometry, routeMeta);
+    return Objects.hash(deliveryId, userId, createdDate, courier, dispatchAttempts, pickupSite, externalOrderId, merchantName, businessType, recipientName, recipientPhone, recipientEmail, pinCode, pinRequired, smsNotifications, scheduledPickupTime, originalQuotedEta, dispatchRetryCount, maxDispatchRetries, stuckPollCount, nextRetryAt, lastPolledAt, providerData, idempotencyKey, quoteId, createdBy, lastModifiedDate, lastModifiedBy, deliveryType, status, provider, providerTrackingId, hubTrackingNumber, hubOrderId, hubBarcode, estimatedArrival, trackingUrl, statusHistory, proofOfDeliveryUrl, items, pickupContactName, pickupContactPhone, pickupEmail, pickupNotes, pickupReferenceNumber, pickupLocation, dropoffContactName, dropoffContactPhone, dropoffEmail, dropoffNotes, dropoffLocation, distanceMeters, durationSeconds, routeGeometry, routeMeta);
   }
 
   @Override
@@ -984,6 +1684,33 @@ public class HubDeliveryStatusResponse {
     StringBuilder sb = new StringBuilder();
     sb.append("class HubDeliveryStatusResponse {\n");
     sb.append("    deliveryId: ").append(toIndentedString(deliveryId)).append("\n");
+    sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
+    sb.append("    createdDate: ").append(toIndentedString(createdDate)).append("\n");
+    sb.append("    courier: ").append(toIndentedString(courier)).append("\n");
+    sb.append("    dispatchAttempts: ").append(toIndentedString(dispatchAttempts)).append("\n");
+    sb.append("    pickupSite: ").append(toIndentedString(pickupSite)).append("\n");
+    sb.append("    externalOrderId: ").append(toIndentedString(externalOrderId)).append("\n");
+    sb.append("    merchantName: ").append(toIndentedString(merchantName)).append("\n");
+    sb.append("    businessType: ").append(toIndentedString(businessType)).append("\n");
+    sb.append("    recipientName: ").append(toIndentedString(recipientName)).append("\n");
+    sb.append("    recipientPhone: ").append(toIndentedString(recipientPhone)).append("\n");
+    sb.append("    recipientEmail: ").append(toIndentedString(recipientEmail)).append("\n");
+    sb.append("    pinCode: ").append(toIndentedString(pinCode)).append("\n");
+    sb.append("    pinRequired: ").append(toIndentedString(pinRequired)).append("\n");
+    sb.append("    smsNotifications: ").append(toIndentedString(smsNotifications)).append("\n");
+    sb.append("    scheduledPickupTime: ").append(toIndentedString(scheduledPickupTime)).append("\n");
+    sb.append("    originalQuotedEta: ").append(toIndentedString(originalQuotedEta)).append("\n");
+    sb.append("    dispatchRetryCount: ").append(toIndentedString(dispatchRetryCount)).append("\n");
+    sb.append("    maxDispatchRetries: ").append(toIndentedString(maxDispatchRetries)).append("\n");
+    sb.append("    stuckPollCount: ").append(toIndentedString(stuckPollCount)).append("\n");
+    sb.append("    nextRetryAt: ").append(toIndentedString(nextRetryAt)).append("\n");
+    sb.append("    lastPolledAt: ").append(toIndentedString(lastPolledAt)).append("\n");
+    sb.append("    providerData: ").append(toIndentedString(providerData)).append("\n");
+    sb.append("    idempotencyKey: ").append(toIndentedString(idempotencyKey)).append("\n");
+    sb.append("    quoteId: ").append(toIndentedString(quoteId)).append("\n");
+    sb.append("    createdBy: ").append(toIndentedString(createdBy)).append("\n");
+    sb.append("    lastModifiedDate: ").append(toIndentedString(lastModifiedDate)).append("\n");
+    sb.append("    lastModifiedBy: ").append(toIndentedString(lastModifiedBy)).append("\n");
     sb.append("    deliveryType: ").append(toIndentedString(deliveryType)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    provider: ").append(toIndentedString(provider)).append("\n");
@@ -1034,6 +1761,33 @@ public class HubDeliveryStatusResponse {
     // a set of all properties/fields (JSON key names)
     openapiFields = new HashSet<String>();
     openapiFields.add("deliveryId");
+    openapiFields.add("userId");
+    openapiFields.add("createdDate");
+    openapiFields.add("courier");
+    openapiFields.add("dispatchAttempts");
+    openapiFields.add("pickupSite");
+    openapiFields.add("externalOrderId");
+    openapiFields.add("merchantName");
+    openapiFields.add("businessType");
+    openapiFields.add("recipientName");
+    openapiFields.add("recipientPhone");
+    openapiFields.add("recipientEmail");
+    openapiFields.add("pinCode");
+    openapiFields.add("pinRequired");
+    openapiFields.add("smsNotifications");
+    openapiFields.add("scheduledPickupTime");
+    openapiFields.add("originalQuotedEta");
+    openapiFields.add("dispatchRetryCount");
+    openapiFields.add("maxDispatchRetries");
+    openapiFields.add("stuckPollCount");
+    openapiFields.add("nextRetryAt");
+    openapiFields.add("lastPolledAt");
+    openapiFields.add("providerData");
+    openapiFields.add("idempotencyKey");
+    openapiFields.add("quoteId");
+    openapiFields.add("createdBy");
+    openapiFields.add("lastModifiedDate");
+    openapiFields.add("lastModifiedBy");
     openapiFields.add("deliveryType");
     openapiFields.add("status");
     openapiFields.add("provider");
@@ -1089,6 +1843,64 @@ public class HubDeliveryStatusResponse {
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("deliveryId") != null && !jsonObj.get("deliveryId").isJsonNull()) && !jsonObj.get("deliveryId").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `deliveryId` to be a primitive type in the JSON string but got `%s`", jsonObj.get("deliveryId").toString()));
+      }
+      if ((jsonObj.get("userId") != null && !jsonObj.get("userId").isJsonNull()) && !jsonObj.get("userId").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `userId` to be a primitive type in the JSON string but got `%s`", jsonObj.get("userId").toString()));
+      }
+      // validate the optional field `courier`
+      if (jsonObj.get("courier") != null && !jsonObj.get("courier").isJsonNull()) {
+        HubDeliveryCourierDTO.validateJsonElement(jsonObj.get("courier"));
+      }
+      if (jsonObj.get("dispatchAttempts") != null && !jsonObj.get("dispatchAttempts").isJsonNull()) {
+        JsonArray jsonArraydispatchAttempts = jsonObj.getAsJsonArray("dispatchAttempts");
+        if (jsonArraydispatchAttempts != null) {
+          // ensure the json data is an array
+          if (!jsonObj.get("dispatchAttempts").isJsonArray()) {
+            throw new IllegalArgumentException(String.format("Expected the field `dispatchAttempts` to be an array in the JSON string but got `%s`", jsonObj.get("dispatchAttempts").toString()));
+          }
+
+          // validate the optional field `dispatchAttempts` (array)
+          for (int i = 0; i < jsonArraydispatchAttempts.size(); i++) {
+            HubDispatchAttemptDTO.validateJsonElement(jsonArraydispatchAttempts.get(i));
+          };
+        }
+      }
+      // validate the optional field `pickupSite`
+      if (jsonObj.get("pickupSite") != null && !jsonObj.get("pickupSite").isJsonNull()) {
+        HubPickupLocationDTO.validateJsonElement(jsonObj.get("pickupSite"));
+      }
+      if ((jsonObj.get("externalOrderId") != null && !jsonObj.get("externalOrderId").isJsonNull()) && !jsonObj.get("externalOrderId").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `externalOrderId` to be a primitive type in the JSON string but got `%s`", jsonObj.get("externalOrderId").toString()));
+      }
+      if ((jsonObj.get("merchantName") != null && !jsonObj.get("merchantName").isJsonNull()) && !jsonObj.get("merchantName").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `merchantName` to be a primitive type in the JSON string but got `%s`", jsonObj.get("merchantName").toString()));
+      }
+      if ((jsonObj.get("businessType") != null && !jsonObj.get("businessType").isJsonNull()) && !jsonObj.get("businessType").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `businessType` to be a primitive type in the JSON string but got `%s`", jsonObj.get("businessType").toString()));
+      }
+      if ((jsonObj.get("recipientName") != null && !jsonObj.get("recipientName").isJsonNull()) && !jsonObj.get("recipientName").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `recipientName` to be a primitive type in the JSON string but got `%s`", jsonObj.get("recipientName").toString()));
+      }
+      if ((jsonObj.get("recipientPhone") != null && !jsonObj.get("recipientPhone").isJsonNull()) && !jsonObj.get("recipientPhone").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `recipientPhone` to be a primitive type in the JSON string but got `%s`", jsonObj.get("recipientPhone").toString()));
+      }
+      if ((jsonObj.get("recipientEmail") != null && !jsonObj.get("recipientEmail").isJsonNull()) && !jsonObj.get("recipientEmail").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `recipientEmail` to be a primitive type in the JSON string but got `%s`", jsonObj.get("recipientEmail").toString()));
+      }
+      if ((jsonObj.get("pinCode") != null && !jsonObj.get("pinCode").isJsonNull()) && !jsonObj.get("pinCode").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `pinCode` to be a primitive type in the JSON string but got `%s`", jsonObj.get("pinCode").toString()));
+      }
+      if ((jsonObj.get("idempotencyKey") != null && !jsonObj.get("idempotencyKey").isJsonNull()) && !jsonObj.get("idempotencyKey").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `idempotencyKey` to be a primitive type in the JSON string but got `%s`", jsonObj.get("idempotencyKey").toString()));
+      }
+      if ((jsonObj.get("quoteId") != null && !jsonObj.get("quoteId").isJsonNull()) && !jsonObj.get("quoteId").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `quoteId` to be a primitive type in the JSON string but got `%s`", jsonObj.get("quoteId").toString()));
+      }
+      if ((jsonObj.get("createdBy") != null && !jsonObj.get("createdBy").isJsonNull()) && !jsonObj.get("createdBy").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `createdBy` to be a primitive type in the JSON string but got `%s`", jsonObj.get("createdBy").toString()));
+      }
+      if ((jsonObj.get("lastModifiedBy") != null && !jsonObj.get("lastModifiedBy").isJsonNull()) && !jsonObj.get("lastModifiedBy").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `lastModifiedBy` to be a primitive type in the JSON string but got `%s`", jsonObj.get("lastModifiedBy").toString()));
       }
       if ((jsonObj.get("deliveryType") != null && !jsonObj.get("deliveryType").isJsonNull()) && !jsonObj.get("deliveryType").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `deliveryType` to be a primitive type in the JSON string but got `%s`", jsonObj.get("deliveryType").toString()));

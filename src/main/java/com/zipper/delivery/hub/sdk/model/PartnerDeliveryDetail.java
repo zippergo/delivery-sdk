@@ -19,10 +19,13 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import com.zipper.delivery.hub.sdk.model.HubDeliveryLocationDTO;
+import com.zipper.delivery.hub.sdk.model.PartnerCourier;
+import com.zipper.delivery.hub.sdk.model.PartnerDeliveryLocation;
 import java.io.IOException;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import com.google.gson.Gson;
@@ -49,222 +52,14 @@ import java.util.Set;
 import com.zipper.delivery.hub.sdk.JSON;
 
 /**
- * HubDeliverySearchDTO
+ * Full detail of one of the partner&#39;s deliveries
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0")
-public class HubDeliverySearchDTO {
+public class PartnerDeliveryDetail {
   public static final String SERIALIZED_NAME_DELIVERY_ID = "deliveryId";
   @SerializedName(SERIALIZED_NAME_DELIVERY_ID)
   @javax.annotation.Nullable
   private UUID deliveryId;
-
-  public static final String SERIALIZED_NAME_USER_ID = "userId";
-  @SerializedName(SERIALIZED_NAME_USER_ID)
-  @javax.annotation.Nullable
-  private String userId;
-
-  /**
-   * Gets or Sets deliveryType
-   */
-  @JsonAdapter(DeliveryTypeEnum.Adapter.class)
-  public enum DeliveryTypeEnum {
-    STORE_IMMEDIATE("STORE_IMMEDIATE"),
-    
-    FOOD_IMMEDIATE("FOOD_IMMEDIATE"),
-    
-    STORE_NEXT_DAY("STORE_NEXT_DAY"),
-    
-    PASSENGER_TRANSPORT("PASSENGER_TRANSPORT"),
-    
-    INTERNATIONAL_EXPORT("INTERNATIONAL_EXPORT");
-
-    private String value;
-
-    DeliveryTypeEnum(String value) {
-      this.value = value;
-    }
-
-    public String getValue() {
-      return value;
-    }
-
-    @Override
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    public static DeliveryTypeEnum fromValue(String value) {
-      for (DeliveryTypeEnum b : DeliveryTypeEnum.values()) {
-        if (b.value.equals(value)) {
-          return b;
-        }
-      }
-      throw new IllegalArgumentException("Unexpected value '" + value + "'");
-    }
-
-    public static class Adapter extends TypeAdapter<DeliveryTypeEnum> {
-      @Override
-      public void write(final JsonWriter jsonWriter, final DeliveryTypeEnum enumeration) throws IOException {
-        jsonWriter.value(enumeration.getValue());
-      }
-
-      @Override
-      public DeliveryTypeEnum read(final JsonReader jsonReader) throws IOException {
-        String value =  jsonReader.nextString();
-        return DeliveryTypeEnum.fromValue(value);
-      }
-    }
-
-    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
-      String value = jsonElement.getAsString();
-      DeliveryTypeEnum.fromValue(value);
-    }
-  }
-
-  public static final String SERIALIZED_NAME_DELIVERY_TYPE = "deliveryType";
-  @SerializedName(SERIALIZED_NAME_DELIVERY_TYPE)
-  @javax.annotation.Nullable
-  private DeliveryTypeEnum deliveryType;
-
-  /**
-   * Gets or Sets providerType
-   */
-  @JsonAdapter(ProviderTypeEnum.Adapter.class)
-  public enum ProviderTypeEnum {
-    ZIPPERG("ZIPPERG"),
-    
-    ZIPPERW("ZIPPERW"),
-    
-    ZIPPERK("ZIPPERK"),
-    
-    ZIPPERGP("ZIPPERGP"),
-    
-    ZIPPERU("ZIPPERU");
-
-    private String value;
-
-    ProviderTypeEnum(String value) {
-      this.value = value;
-    }
-
-    public String getValue() {
-      return value;
-    }
-
-    @Override
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    public static ProviderTypeEnum fromValue(String value) {
-      for (ProviderTypeEnum b : ProviderTypeEnum.values()) {
-        if (b.value.equals(value)) {
-          return b;
-        }
-      }
-      throw new IllegalArgumentException("Unexpected value '" + value + "'");
-    }
-
-    public static class Adapter extends TypeAdapter<ProviderTypeEnum> {
-      @Override
-      public void write(final JsonWriter jsonWriter, final ProviderTypeEnum enumeration) throws IOException {
-        jsonWriter.value(enumeration.getValue());
-      }
-
-      @Override
-      public ProviderTypeEnum read(final JsonReader jsonReader) throws IOException {
-        String value =  jsonReader.nextString();
-        return ProviderTypeEnum.fromValue(value);
-      }
-    }
-
-    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
-      String value = jsonElement.getAsString();
-      ProviderTypeEnum.fromValue(value);
-    }
-  }
-
-  public static final String SERIALIZED_NAME_PROVIDER_TYPE = "providerType";
-  @SerializedName(SERIALIZED_NAME_PROVIDER_TYPE)
-  @javax.annotation.Nullable
-  private ProviderTypeEnum providerType;
-
-  /**
-   * Gets or Sets status
-   */
-  @JsonAdapter(StatusEnum.Adapter.class)
-  public enum StatusEnum {
-    PENDING("PENDING"),
-    
-    DISPATCHED("DISPATCHED"),
-    
-    PROVIDER_ACCEPTED("PROVIDER_ACCEPTED"),
-    
-    ASSIGNED("ASSIGNED"),
-    
-    READY_FOR_PICKUP("READY_FOR_PICKUP"),
-    
-    PICKED_UP("PICKED_UP"),
-    
-    IN_TRANSIT("IN_TRANSIT"),
-    
-    DELIVERED("DELIVERED"),
-    
-    CANCELLED("CANCELLED"),
-    
-    FAILED("FAILED"),
-    
-    REJECTED("REJECTED"),
-    
-    AWAITING_DRIVER("AWAITING_DRIVER");
-
-    private String value;
-
-    StatusEnum(String value) {
-      this.value = value;
-    }
-
-    public String getValue() {
-      return value;
-    }
-
-    @Override
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    public static StatusEnum fromValue(String value) {
-      for (StatusEnum b : StatusEnum.values()) {
-        if (b.value.equals(value)) {
-          return b;
-        }
-      }
-      throw new IllegalArgumentException("Unexpected value '" + value + "'");
-    }
-
-    public static class Adapter extends TypeAdapter<StatusEnum> {
-      @Override
-      public void write(final JsonWriter jsonWriter, final StatusEnum enumeration) throws IOException {
-        jsonWriter.value(enumeration.getValue());
-      }
-
-      @Override
-      public StatusEnum read(final JsonReader jsonReader) throws IOException {
-        String value =  jsonReader.nextString();
-        return StatusEnum.fromValue(value);
-      }
-    }
-
-    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
-      String value = jsonElement.getAsString();
-      StatusEnum.fromValue(value);
-    }
-  }
-
-  public static final String SERIALIZED_NAME_STATUS = "status";
-  @SerializedName(SERIALIZED_NAME_STATUS)
-  @javax.annotation.Nullable
-  private StatusEnum status;
 
   public static final String SERIALIZED_NAME_HUB_TRACKING_NUMBER = "hubTrackingNumber";
   @SerializedName(SERIALIZED_NAME_HUB_TRACKING_NUMBER)
@@ -275,6 +70,36 @@ public class HubDeliverySearchDTO {
   @SerializedName(SERIALIZED_NAME_HUB_ORDER_ID)
   @javax.annotation.Nullable
   private String hubOrderId;
+
+  public static final String SERIALIZED_NAME_STATUS = "status";
+  @SerializedName(SERIALIZED_NAME_STATUS)
+  @javax.annotation.Nullable
+  private String status;
+
+  public static final String SERIALIZED_NAME_DELIVERY_TYPE = "deliveryType";
+  @SerializedName(SERIALIZED_NAME_DELIVERY_TYPE)
+  @javax.annotation.Nullable
+  private String deliveryType;
+
+  public static final String SERIALIZED_NAME_PROVIDER_TYPE = "providerType";
+  @SerializedName(SERIALIZED_NAME_PROVIDER_TYPE)
+  @javax.annotation.Nullable
+  private String providerType;
+
+  public static final String SERIALIZED_NAME_MERCHANT_ID = "merchantId";
+  @SerializedName(SERIALIZED_NAME_MERCHANT_ID)
+  @javax.annotation.Nullable
+  private UUID merchantId;
+
+  public static final String SERIALIZED_NAME_MERCHANT_NAME = "merchantName";
+  @SerializedName(SERIALIZED_NAME_MERCHANT_NAME)
+  @javax.annotation.Nullable
+  private String merchantName;
+
+  public static final String SERIALIZED_NAME_BUSINESS_TYPE = "businessType";
+  @SerializedName(SERIALIZED_NAME_BUSINESS_TYPE)
+  @javax.annotation.Nullable
+  private String businessType;
 
   public static final String SERIALIZED_NAME_EXTERNAL_ORDER_ID = "externalOrderId";
   @SerializedName(SERIALIZED_NAME_EXTERNAL_ORDER_ID)
@@ -319,7 +144,7 @@ public class HubDeliverySearchDTO {
   public static final String SERIALIZED_NAME_PICKUP_LOCATION = "pickupLocation";
   @SerializedName(SERIALIZED_NAME_PICKUP_LOCATION)
   @javax.annotation.Nullable
-  private HubDeliveryLocationDTO pickupLocation;
+  private PartnerDeliveryLocation pickupLocation;
 
   public static final String SERIALIZED_NAME_DROPOFF_CONTACT_NAME = "dropoffContactName";
   @SerializedName(SERIALIZED_NAME_DROPOFF_CONTACT_NAME)
@@ -334,27 +159,27 @@ public class HubDeliverySearchDTO {
   public static final String SERIALIZED_NAME_DROPOFF_LOCATION = "dropoffLocation";
   @SerializedName(SERIALIZED_NAME_DROPOFF_LOCATION)
   @javax.annotation.Nullable
-  private HubDeliveryLocationDTO dropoffLocation;
+  private PartnerDeliveryLocation dropoffLocation;
 
-  public static final String SERIALIZED_NAME_STUCK_POLL_COUNT = "stuckPollCount";
-  @SerializedName(SERIALIZED_NAME_STUCK_POLL_COUNT)
+  public static final String SERIALIZED_NAME_ROUTE = "route";
+  @SerializedName(SERIALIZED_NAME_ROUTE)
   @javax.annotation.Nullable
-  private Integer stuckPollCount;
+  private List<List<Double>> route = new ArrayList<>();
 
-  public static final String SERIALIZED_NAME_MERCHANT_NAME = "merchantName";
-  @SerializedName(SERIALIZED_NAME_MERCHANT_NAME)
+  public static final String SERIALIZED_NAME_DISTANCE_METERS = "distanceMeters";
+  @SerializedName(SERIALIZED_NAME_DISTANCE_METERS)
   @javax.annotation.Nullable
-  private String merchantName;
+  private Long distanceMeters;
 
-  public static final String SERIALIZED_NAME_BUSINESS_TYPE = "businessType";
-  @SerializedName(SERIALIZED_NAME_BUSINESS_TYPE)
+  public static final String SERIALIZED_NAME_COURIER = "courier";
+  @SerializedName(SERIALIZED_NAME_COURIER)
   @javax.annotation.Nullable
-  private String businessType;
+  private PartnerCourier courier;
 
-  public HubDeliverySearchDTO() {
+  public PartnerDeliveryDetail() {
   }
 
-  public HubDeliverySearchDTO deliveryId(@javax.annotation.Nullable UUID deliveryId) {
+  public PartnerDeliveryDetail deliveryId(@javax.annotation.Nullable UUID deliveryId) {
     this.deliveryId = deliveryId;
     return this;
   }
@@ -373,83 +198,7 @@ public class HubDeliverySearchDTO {
   }
 
 
-  public HubDeliverySearchDTO userId(@javax.annotation.Nullable String userId) {
-    this.userId = userId;
-    return this;
-  }
-
-  /**
-   * Get userId
-   * @return userId
-   */
-  @javax.annotation.Nullable
-  public String getUserId() {
-    return userId;
-  }
-
-  public void setUserId(@javax.annotation.Nullable String userId) {
-    this.userId = userId;
-  }
-
-
-  public HubDeliverySearchDTO deliveryType(@javax.annotation.Nullable DeliveryTypeEnum deliveryType) {
-    this.deliveryType = deliveryType;
-    return this;
-  }
-
-  /**
-   * Get deliveryType
-   * @return deliveryType
-   */
-  @javax.annotation.Nullable
-  public DeliveryTypeEnum getDeliveryType() {
-    return deliveryType;
-  }
-
-  public void setDeliveryType(@javax.annotation.Nullable DeliveryTypeEnum deliveryType) {
-    this.deliveryType = deliveryType;
-  }
-
-
-  public HubDeliverySearchDTO providerType(@javax.annotation.Nullable ProviderTypeEnum providerType) {
-    this.providerType = providerType;
-    return this;
-  }
-
-  /**
-   * Get providerType
-   * @return providerType
-   */
-  @javax.annotation.Nullable
-  public ProviderTypeEnum getProviderType() {
-    return providerType;
-  }
-
-  public void setProviderType(@javax.annotation.Nullable ProviderTypeEnum providerType) {
-    this.providerType = providerType;
-  }
-
-
-  public HubDeliverySearchDTO status(@javax.annotation.Nullable StatusEnum status) {
-    this.status = status;
-    return this;
-  }
-
-  /**
-   * Get status
-   * @return status
-   */
-  @javax.annotation.Nullable
-  public StatusEnum getStatus() {
-    return status;
-  }
-
-  public void setStatus(@javax.annotation.Nullable StatusEnum status) {
-    this.status = status;
-  }
-
-
-  public HubDeliverySearchDTO hubTrackingNumber(@javax.annotation.Nullable String hubTrackingNumber) {
+  public PartnerDeliveryDetail hubTrackingNumber(@javax.annotation.Nullable String hubTrackingNumber) {
     this.hubTrackingNumber = hubTrackingNumber;
     return this;
   }
@@ -468,7 +217,7 @@ public class HubDeliverySearchDTO {
   }
 
 
-  public HubDeliverySearchDTO hubOrderId(@javax.annotation.Nullable String hubOrderId) {
+  public PartnerDeliveryDetail hubOrderId(@javax.annotation.Nullable String hubOrderId) {
     this.hubOrderId = hubOrderId;
     return this;
   }
@@ -487,254 +236,83 @@ public class HubDeliverySearchDTO {
   }
 
 
-  public HubDeliverySearchDTO externalOrderId(@javax.annotation.Nullable String externalOrderId) {
-    this.externalOrderId = externalOrderId;
+  public PartnerDeliveryDetail status(@javax.annotation.Nullable String status) {
+    this.status = status;
     return this;
   }
 
   /**
-   * Get externalOrderId
-   * @return externalOrderId
+   * Get status
+   * @return status
    */
   @javax.annotation.Nullable
-  public String getExternalOrderId() {
-    return externalOrderId;
+  public String getStatus() {
+    return status;
   }
 
-  public void setExternalOrderId(@javax.annotation.Nullable String externalOrderId) {
-    this.externalOrderId = externalOrderId;
+  public void setStatus(@javax.annotation.Nullable String status) {
+    this.status = status;
   }
 
 
-  public HubDeliverySearchDTO providerTrackingId(@javax.annotation.Nullable String providerTrackingId) {
-    this.providerTrackingId = providerTrackingId;
+  public PartnerDeliveryDetail deliveryType(@javax.annotation.Nullable String deliveryType) {
+    this.deliveryType = deliveryType;
     return this;
   }
 
   /**
-   * Get providerTrackingId
-   * @return providerTrackingId
+   * Get deliveryType
+   * @return deliveryType
    */
   @javax.annotation.Nullable
-  public String getProviderTrackingId() {
-    return providerTrackingId;
+  public String getDeliveryType() {
+    return deliveryType;
   }
 
-  public void setProviderTrackingId(@javax.annotation.Nullable String providerTrackingId) {
-    this.providerTrackingId = providerTrackingId;
+  public void setDeliveryType(@javax.annotation.Nullable String deliveryType) {
+    this.deliveryType = deliveryType;
   }
 
 
-  public HubDeliverySearchDTO providerTrackingUrl(@javax.annotation.Nullable String providerTrackingUrl) {
-    this.providerTrackingUrl = providerTrackingUrl;
+  public PartnerDeliveryDetail providerType(@javax.annotation.Nullable String providerType) {
+    this.providerType = providerType;
     return this;
   }
 
   /**
-   * Get providerTrackingUrl
-   * @return providerTrackingUrl
+   * Get providerType
+   * @return providerType
    */
   @javax.annotation.Nullable
-  public String getProviderTrackingUrl() {
-    return providerTrackingUrl;
+  public String getProviderType() {
+    return providerType;
   }
 
-  public void setProviderTrackingUrl(@javax.annotation.Nullable String providerTrackingUrl) {
-    this.providerTrackingUrl = providerTrackingUrl;
+  public void setProviderType(@javax.annotation.Nullable String providerType) {
+    this.providerType = providerType;
   }
 
 
-  public HubDeliverySearchDTO scheduledPickupTime(@javax.annotation.Nullable OffsetDateTime scheduledPickupTime) {
-    this.scheduledPickupTime = scheduledPickupTime;
+  public PartnerDeliveryDetail merchantId(@javax.annotation.Nullable UUID merchantId) {
+    this.merchantId = merchantId;
     return this;
   }
 
   /**
-   * Get scheduledPickupTime
-   * @return scheduledPickupTime
+   * Get merchantId
+   * @return merchantId
    */
   @javax.annotation.Nullable
-  public OffsetDateTime getScheduledPickupTime() {
-    return scheduledPickupTime;
+  public UUID getMerchantId() {
+    return merchantId;
   }
 
-  public void setScheduledPickupTime(@javax.annotation.Nullable OffsetDateTime scheduledPickupTime) {
-    this.scheduledPickupTime = scheduledPickupTime;
-  }
-
-
-  public HubDeliverySearchDTO estimatedArrival(@javax.annotation.Nullable OffsetDateTime estimatedArrival) {
-    this.estimatedArrival = estimatedArrival;
-    return this;
-  }
-
-  /**
-   * Get estimatedArrival
-   * @return estimatedArrival
-   */
-  @javax.annotation.Nullable
-  public OffsetDateTime getEstimatedArrival() {
-    return estimatedArrival;
-  }
-
-  public void setEstimatedArrival(@javax.annotation.Nullable OffsetDateTime estimatedArrival) {
-    this.estimatedArrival = estimatedArrival;
+  public void setMerchantId(@javax.annotation.Nullable UUID merchantId) {
+    this.merchantId = merchantId;
   }
 
 
-  public HubDeliverySearchDTO createdDate(@javax.annotation.Nullable OffsetDateTime createdDate) {
-    this.createdDate = createdDate;
-    return this;
-  }
-
-  /**
-   * Get createdDate
-   * @return createdDate
-   */
-  @javax.annotation.Nullable
-  public OffsetDateTime getCreatedDate() {
-    return createdDate;
-  }
-
-  public void setCreatedDate(@javax.annotation.Nullable OffsetDateTime createdDate) {
-    this.createdDate = createdDate;
-  }
-
-
-  public HubDeliverySearchDTO pickupContactName(@javax.annotation.Nullable String pickupContactName) {
-    this.pickupContactName = pickupContactName;
-    return this;
-  }
-
-  /**
-   * Get pickupContactName
-   * @return pickupContactName
-   */
-  @javax.annotation.Nullable
-  public String getPickupContactName() {
-    return pickupContactName;
-  }
-
-  public void setPickupContactName(@javax.annotation.Nullable String pickupContactName) {
-    this.pickupContactName = pickupContactName;
-  }
-
-
-  public HubDeliverySearchDTO pickupContactPhone(@javax.annotation.Nullable String pickupContactPhone) {
-    this.pickupContactPhone = pickupContactPhone;
-    return this;
-  }
-
-  /**
-   * Get pickupContactPhone
-   * @return pickupContactPhone
-   */
-  @javax.annotation.Nullable
-  public String getPickupContactPhone() {
-    return pickupContactPhone;
-  }
-
-  public void setPickupContactPhone(@javax.annotation.Nullable String pickupContactPhone) {
-    this.pickupContactPhone = pickupContactPhone;
-  }
-
-
-  public HubDeliverySearchDTO pickupLocation(@javax.annotation.Nullable HubDeliveryLocationDTO pickupLocation) {
-    this.pickupLocation = pickupLocation;
-    return this;
-  }
-
-  /**
-   * Get pickupLocation
-   * @return pickupLocation
-   */
-  @javax.annotation.Nullable
-  public HubDeliveryLocationDTO getPickupLocation() {
-    return pickupLocation;
-  }
-
-  public void setPickupLocation(@javax.annotation.Nullable HubDeliveryLocationDTO pickupLocation) {
-    this.pickupLocation = pickupLocation;
-  }
-
-
-  public HubDeliverySearchDTO dropoffContactName(@javax.annotation.Nullable String dropoffContactName) {
-    this.dropoffContactName = dropoffContactName;
-    return this;
-  }
-
-  /**
-   * Get dropoffContactName
-   * @return dropoffContactName
-   */
-  @javax.annotation.Nullable
-  public String getDropoffContactName() {
-    return dropoffContactName;
-  }
-
-  public void setDropoffContactName(@javax.annotation.Nullable String dropoffContactName) {
-    this.dropoffContactName = dropoffContactName;
-  }
-
-
-  public HubDeliverySearchDTO dropoffContactPhone(@javax.annotation.Nullable String dropoffContactPhone) {
-    this.dropoffContactPhone = dropoffContactPhone;
-    return this;
-  }
-
-  /**
-   * Get dropoffContactPhone
-   * @return dropoffContactPhone
-   */
-  @javax.annotation.Nullable
-  public String getDropoffContactPhone() {
-    return dropoffContactPhone;
-  }
-
-  public void setDropoffContactPhone(@javax.annotation.Nullable String dropoffContactPhone) {
-    this.dropoffContactPhone = dropoffContactPhone;
-  }
-
-
-  public HubDeliverySearchDTO dropoffLocation(@javax.annotation.Nullable HubDeliveryLocationDTO dropoffLocation) {
-    this.dropoffLocation = dropoffLocation;
-    return this;
-  }
-
-  /**
-   * Get dropoffLocation
-   * @return dropoffLocation
-   */
-  @javax.annotation.Nullable
-  public HubDeliveryLocationDTO getDropoffLocation() {
-    return dropoffLocation;
-  }
-
-  public void setDropoffLocation(@javax.annotation.Nullable HubDeliveryLocationDTO dropoffLocation) {
-    this.dropoffLocation = dropoffLocation;
-  }
-
-
-  public HubDeliverySearchDTO stuckPollCount(@javax.annotation.Nullable Integer stuckPollCount) {
-    this.stuckPollCount = stuckPollCount;
-    return this;
-  }
-
-  /**
-   * Get stuckPollCount
-   * @return stuckPollCount
-   */
-  @javax.annotation.Nullable
-  public Integer getStuckPollCount() {
-    return stuckPollCount;
-  }
-
-  public void setStuckPollCount(@javax.annotation.Nullable Integer stuckPollCount) {
-    this.stuckPollCount = stuckPollCount;
-  }
-
-
-  public HubDeliverySearchDTO merchantName(@javax.annotation.Nullable String merchantName) {
+  public PartnerDeliveryDetail merchantName(@javax.annotation.Nullable String merchantName) {
     this.merchantName = merchantName;
     return this;
   }
@@ -753,7 +331,7 @@ public class HubDeliverySearchDTO {
   }
 
 
-  public HubDeliverySearchDTO businessType(@javax.annotation.Nullable String businessType) {
+  public PartnerDeliveryDetail businessType(@javax.annotation.Nullable String businessType) {
     this.businessType = businessType;
     return this;
   }
@@ -772,6 +350,299 @@ public class HubDeliverySearchDTO {
   }
 
 
+  public PartnerDeliveryDetail externalOrderId(@javax.annotation.Nullable String externalOrderId) {
+    this.externalOrderId = externalOrderId;
+    return this;
+  }
+
+  /**
+   * Get externalOrderId
+   * @return externalOrderId
+   */
+  @javax.annotation.Nullable
+  public String getExternalOrderId() {
+    return externalOrderId;
+  }
+
+  public void setExternalOrderId(@javax.annotation.Nullable String externalOrderId) {
+    this.externalOrderId = externalOrderId;
+  }
+
+
+  public PartnerDeliveryDetail providerTrackingId(@javax.annotation.Nullable String providerTrackingId) {
+    this.providerTrackingId = providerTrackingId;
+    return this;
+  }
+
+  /**
+   * Get providerTrackingId
+   * @return providerTrackingId
+   */
+  @javax.annotation.Nullable
+  public String getProviderTrackingId() {
+    return providerTrackingId;
+  }
+
+  public void setProviderTrackingId(@javax.annotation.Nullable String providerTrackingId) {
+    this.providerTrackingId = providerTrackingId;
+  }
+
+
+  public PartnerDeliveryDetail providerTrackingUrl(@javax.annotation.Nullable String providerTrackingUrl) {
+    this.providerTrackingUrl = providerTrackingUrl;
+    return this;
+  }
+
+  /**
+   * Get providerTrackingUrl
+   * @return providerTrackingUrl
+   */
+  @javax.annotation.Nullable
+  public String getProviderTrackingUrl() {
+    return providerTrackingUrl;
+  }
+
+  public void setProviderTrackingUrl(@javax.annotation.Nullable String providerTrackingUrl) {
+    this.providerTrackingUrl = providerTrackingUrl;
+  }
+
+
+  public PartnerDeliveryDetail scheduledPickupTime(@javax.annotation.Nullable OffsetDateTime scheduledPickupTime) {
+    this.scheduledPickupTime = scheduledPickupTime;
+    return this;
+  }
+
+  /**
+   * Get scheduledPickupTime
+   * @return scheduledPickupTime
+   */
+  @javax.annotation.Nullable
+  public OffsetDateTime getScheduledPickupTime() {
+    return scheduledPickupTime;
+  }
+
+  public void setScheduledPickupTime(@javax.annotation.Nullable OffsetDateTime scheduledPickupTime) {
+    this.scheduledPickupTime = scheduledPickupTime;
+  }
+
+
+  public PartnerDeliveryDetail estimatedArrival(@javax.annotation.Nullable OffsetDateTime estimatedArrival) {
+    this.estimatedArrival = estimatedArrival;
+    return this;
+  }
+
+  /**
+   * Get estimatedArrival
+   * @return estimatedArrival
+   */
+  @javax.annotation.Nullable
+  public OffsetDateTime getEstimatedArrival() {
+    return estimatedArrival;
+  }
+
+  public void setEstimatedArrival(@javax.annotation.Nullable OffsetDateTime estimatedArrival) {
+    this.estimatedArrival = estimatedArrival;
+  }
+
+
+  public PartnerDeliveryDetail createdDate(@javax.annotation.Nullable OffsetDateTime createdDate) {
+    this.createdDate = createdDate;
+    return this;
+  }
+
+  /**
+   * Get createdDate
+   * @return createdDate
+   */
+  @javax.annotation.Nullable
+  public OffsetDateTime getCreatedDate() {
+    return createdDate;
+  }
+
+  public void setCreatedDate(@javax.annotation.Nullable OffsetDateTime createdDate) {
+    this.createdDate = createdDate;
+  }
+
+
+  public PartnerDeliveryDetail pickupContactName(@javax.annotation.Nullable String pickupContactName) {
+    this.pickupContactName = pickupContactName;
+    return this;
+  }
+
+  /**
+   * Get pickupContactName
+   * @return pickupContactName
+   */
+  @javax.annotation.Nullable
+  public String getPickupContactName() {
+    return pickupContactName;
+  }
+
+  public void setPickupContactName(@javax.annotation.Nullable String pickupContactName) {
+    this.pickupContactName = pickupContactName;
+  }
+
+
+  public PartnerDeliveryDetail pickupContactPhone(@javax.annotation.Nullable String pickupContactPhone) {
+    this.pickupContactPhone = pickupContactPhone;
+    return this;
+  }
+
+  /**
+   * Get pickupContactPhone
+   * @return pickupContactPhone
+   */
+  @javax.annotation.Nullable
+  public String getPickupContactPhone() {
+    return pickupContactPhone;
+  }
+
+  public void setPickupContactPhone(@javax.annotation.Nullable String pickupContactPhone) {
+    this.pickupContactPhone = pickupContactPhone;
+  }
+
+
+  public PartnerDeliveryDetail pickupLocation(@javax.annotation.Nullable PartnerDeliveryLocation pickupLocation) {
+    this.pickupLocation = pickupLocation;
+    return this;
+  }
+
+  /**
+   * Get pickupLocation
+   * @return pickupLocation
+   */
+  @javax.annotation.Nullable
+  public PartnerDeliveryLocation getPickupLocation() {
+    return pickupLocation;
+  }
+
+  public void setPickupLocation(@javax.annotation.Nullable PartnerDeliveryLocation pickupLocation) {
+    this.pickupLocation = pickupLocation;
+  }
+
+
+  public PartnerDeliveryDetail dropoffContactName(@javax.annotation.Nullable String dropoffContactName) {
+    this.dropoffContactName = dropoffContactName;
+    return this;
+  }
+
+  /**
+   * Get dropoffContactName
+   * @return dropoffContactName
+   */
+  @javax.annotation.Nullable
+  public String getDropoffContactName() {
+    return dropoffContactName;
+  }
+
+  public void setDropoffContactName(@javax.annotation.Nullable String dropoffContactName) {
+    this.dropoffContactName = dropoffContactName;
+  }
+
+
+  public PartnerDeliveryDetail dropoffContactPhone(@javax.annotation.Nullable String dropoffContactPhone) {
+    this.dropoffContactPhone = dropoffContactPhone;
+    return this;
+  }
+
+  /**
+   * Get dropoffContactPhone
+   * @return dropoffContactPhone
+   */
+  @javax.annotation.Nullable
+  public String getDropoffContactPhone() {
+    return dropoffContactPhone;
+  }
+
+  public void setDropoffContactPhone(@javax.annotation.Nullable String dropoffContactPhone) {
+    this.dropoffContactPhone = dropoffContactPhone;
+  }
+
+
+  public PartnerDeliveryDetail dropoffLocation(@javax.annotation.Nullable PartnerDeliveryLocation dropoffLocation) {
+    this.dropoffLocation = dropoffLocation;
+    return this;
+  }
+
+  /**
+   * Get dropoffLocation
+   * @return dropoffLocation
+   */
+  @javax.annotation.Nullable
+  public PartnerDeliveryLocation getDropoffLocation() {
+    return dropoffLocation;
+  }
+
+  public void setDropoffLocation(@javax.annotation.Nullable PartnerDeliveryLocation dropoffLocation) {
+    this.dropoffLocation = dropoffLocation;
+  }
+
+
+  public PartnerDeliveryDetail route(@javax.annotation.Nullable List<List<Double>> route) {
+    this.route = route;
+    return this;
+  }
+
+  public PartnerDeliveryDetail addRouteItem(List<Double> routeItem) {
+    if (this.route == null) {
+      this.route = new ArrayList<>();
+    }
+    this.route.add(routeItem);
+    return this;
+  }
+
+  /**
+   * Road-network route as GeoJSON [longitude, latitude] pairs (null if not routed yet)
+   * @return route
+   */
+  @javax.annotation.Nullable
+  public List<List<Double>> getRoute() {
+    return route;
+  }
+
+  public void setRoute(@javax.annotation.Nullable List<List<Double>> route) {
+    this.route = route;
+  }
+
+
+  public PartnerDeliveryDetail distanceMeters(@javax.annotation.Nullable Long distanceMeters) {
+    this.distanceMeters = distanceMeters;
+    return this;
+  }
+
+  /**
+   * Road-network distance between pickup and dropoff in meters (null if not routed)
+   * @return distanceMeters
+   */
+  @javax.annotation.Nullable
+  public Long getDistanceMeters() {
+    return distanceMeters;
+  }
+
+  public void setDistanceMeters(@javax.annotation.Nullable Long distanceMeters) {
+    this.distanceMeters = distanceMeters;
+  }
+
+
+  public PartnerDeliveryDetail courier(@javax.annotation.Nullable PartnerCourier courier) {
+    this.courier = courier;
+    return this;
+  }
+
+  /**
+   * Currently-assigned courier (null if none assigned yet)
+   * @return courier
+   */
+  @javax.annotation.Nullable
+  public PartnerCourier getCourier() {
+    return courier;
+  }
+
+  public void setCourier(@javax.annotation.Nullable PartnerCourier courier) {
+    this.courier = courier;
+  }
+
+
 
   @Override
   public boolean equals(Object o) {
@@ -781,47 +652,51 @@ public class HubDeliverySearchDTO {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    HubDeliverySearchDTO hubDeliverySearchDTO = (HubDeliverySearchDTO) o;
-    return Objects.equals(this.deliveryId, hubDeliverySearchDTO.deliveryId) &&
-        Objects.equals(this.userId, hubDeliverySearchDTO.userId) &&
-        Objects.equals(this.deliveryType, hubDeliverySearchDTO.deliveryType) &&
-        Objects.equals(this.providerType, hubDeliverySearchDTO.providerType) &&
-        Objects.equals(this.status, hubDeliverySearchDTO.status) &&
-        Objects.equals(this.hubTrackingNumber, hubDeliverySearchDTO.hubTrackingNumber) &&
-        Objects.equals(this.hubOrderId, hubDeliverySearchDTO.hubOrderId) &&
-        Objects.equals(this.externalOrderId, hubDeliverySearchDTO.externalOrderId) &&
-        Objects.equals(this.providerTrackingId, hubDeliverySearchDTO.providerTrackingId) &&
-        Objects.equals(this.providerTrackingUrl, hubDeliverySearchDTO.providerTrackingUrl) &&
-        Objects.equals(this.scheduledPickupTime, hubDeliverySearchDTO.scheduledPickupTime) &&
-        Objects.equals(this.estimatedArrival, hubDeliverySearchDTO.estimatedArrival) &&
-        Objects.equals(this.createdDate, hubDeliverySearchDTO.createdDate) &&
-        Objects.equals(this.pickupContactName, hubDeliverySearchDTO.pickupContactName) &&
-        Objects.equals(this.pickupContactPhone, hubDeliverySearchDTO.pickupContactPhone) &&
-        Objects.equals(this.pickupLocation, hubDeliverySearchDTO.pickupLocation) &&
-        Objects.equals(this.dropoffContactName, hubDeliverySearchDTO.dropoffContactName) &&
-        Objects.equals(this.dropoffContactPhone, hubDeliverySearchDTO.dropoffContactPhone) &&
-        Objects.equals(this.dropoffLocation, hubDeliverySearchDTO.dropoffLocation) &&
-        Objects.equals(this.stuckPollCount, hubDeliverySearchDTO.stuckPollCount) &&
-        Objects.equals(this.merchantName, hubDeliverySearchDTO.merchantName) &&
-        Objects.equals(this.businessType, hubDeliverySearchDTO.businessType);
+    PartnerDeliveryDetail partnerDeliveryDetail = (PartnerDeliveryDetail) o;
+    return Objects.equals(this.deliveryId, partnerDeliveryDetail.deliveryId) &&
+        Objects.equals(this.hubTrackingNumber, partnerDeliveryDetail.hubTrackingNumber) &&
+        Objects.equals(this.hubOrderId, partnerDeliveryDetail.hubOrderId) &&
+        Objects.equals(this.status, partnerDeliveryDetail.status) &&
+        Objects.equals(this.deliveryType, partnerDeliveryDetail.deliveryType) &&
+        Objects.equals(this.providerType, partnerDeliveryDetail.providerType) &&
+        Objects.equals(this.merchantId, partnerDeliveryDetail.merchantId) &&
+        Objects.equals(this.merchantName, partnerDeliveryDetail.merchantName) &&
+        Objects.equals(this.businessType, partnerDeliveryDetail.businessType) &&
+        Objects.equals(this.externalOrderId, partnerDeliveryDetail.externalOrderId) &&
+        Objects.equals(this.providerTrackingId, partnerDeliveryDetail.providerTrackingId) &&
+        Objects.equals(this.providerTrackingUrl, partnerDeliveryDetail.providerTrackingUrl) &&
+        Objects.equals(this.scheduledPickupTime, partnerDeliveryDetail.scheduledPickupTime) &&
+        Objects.equals(this.estimatedArrival, partnerDeliveryDetail.estimatedArrival) &&
+        Objects.equals(this.createdDate, partnerDeliveryDetail.createdDate) &&
+        Objects.equals(this.pickupContactName, partnerDeliveryDetail.pickupContactName) &&
+        Objects.equals(this.pickupContactPhone, partnerDeliveryDetail.pickupContactPhone) &&
+        Objects.equals(this.pickupLocation, partnerDeliveryDetail.pickupLocation) &&
+        Objects.equals(this.dropoffContactName, partnerDeliveryDetail.dropoffContactName) &&
+        Objects.equals(this.dropoffContactPhone, partnerDeliveryDetail.dropoffContactPhone) &&
+        Objects.equals(this.dropoffLocation, partnerDeliveryDetail.dropoffLocation) &&
+        Objects.equals(this.route, partnerDeliveryDetail.route) &&
+        Objects.equals(this.distanceMeters, partnerDeliveryDetail.distanceMeters) &&
+        Objects.equals(this.courier, partnerDeliveryDetail.courier);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(deliveryId, userId, deliveryType, providerType, status, hubTrackingNumber, hubOrderId, externalOrderId, providerTrackingId, providerTrackingUrl, scheduledPickupTime, estimatedArrival, createdDate, pickupContactName, pickupContactPhone, pickupLocation, dropoffContactName, dropoffContactPhone, dropoffLocation, stuckPollCount, merchantName, businessType);
+    return Objects.hash(deliveryId, hubTrackingNumber, hubOrderId, status, deliveryType, providerType, merchantId, merchantName, businessType, externalOrderId, providerTrackingId, providerTrackingUrl, scheduledPickupTime, estimatedArrival, createdDate, pickupContactName, pickupContactPhone, pickupLocation, dropoffContactName, dropoffContactPhone, dropoffLocation, route, distanceMeters, courier);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class HubDeliverySearchDTO {\n");
+    sb.append("class PartnerDeliveryDetail {\n");
     sb.append("    deliveryId: ").append(toIndentedString(deliveryId)).append("\n");
-    sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
-    sb.append("    deliveryType: ").append(toIndentedString(deliveryType)).append("\n");
-    sb.append("    providerType: ").append(toIndentedString(providerType)).append("\n");
-    sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    hubTrackingNumber: ").append(toIndentedString(hubTrackingNumber)).append("\n");
     sb.append("    hubOrderId: ").append(toIndentedString(hubOrderId)).append("\n");
+    sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    deliveryType: ").append(toIndentedString(deliveryType)).append("\n");
+    sb.append("    providerType: ").append(toIndentedString(providerType)).append("\n");
+    sb.append("    merchantId: ").append(toIndentedString(merchantId)).append("\n");
+    sb.append("    merchantName: ").append(toIndentedString(merchantName)).append("\n");
+    sb.append("    businessType: ").append(toIndentedString(businessType)).append("\n");
     sb.append("    externalOrderId: ").append(toIndentedString(externalOrderId)).append("\n");
     sb.append("    providerTrackingId: ").append(toIndentedString(providerTrackingId)).append("\n");
     sb.append("    providerTrackingUrl: ").append(toIndentedString(providerTrackingUrl)).append("\n");
@@ -834,9 +709,9 @@ public class HubDeliverySearchDTO {
     sb.append("    dropoffContactName: ").append(toIndentedString(dropoffContactName)).append("\n");
     sb.append("    dropoffContactPhone: ").append(toIndentedString(dropoffContactPhone)).append("\n");
     sb.append("    dropoffLocation: ").append(toIndentedString(dropoffLocation)).append("\n");
-    sb.append("    stuckPollCount: ").append(toIndentedString(stuckPollCount)).append("\n");
-    sb.append("    merchantName: ").append(toIndentedString(merchantName)).append("\n");
-    sb.append("    businessType: ").append(toIndentedString(businessType)).append("\n");
+    sb.append("    route: ").append(toIndentedString(route)).append("\n");
+    sb.append("    distanceMeters: ").append(toIndentedString(distanceMeters)).append("\n");
+    sb.append("    courier: ").append(toIndentedString(courier)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -860,12 +735,14 @@ public class HubDeliverySearchDTO {
     // a set of all properties/fields (JSON key names)
     openapiFields = new HashSet<String>();
     openapiFields.add("deliveryId");
-    openapiFields.add("userId");
-    openapiFields.add("deliveryType");
-    openapiFields.add("providerType");
-    openapiFields.add("status");
     openapiFields.add("hubTrackingNumber");
     openapiFields.add("hubOrderId");
+    openapiFields.add("status");
+    openapiFields.add("deliveryType");
+    openapiFields.add("providerType");
+    openapiFields.add("merchantId");
+    openapiFields.add("merchantName");
+    openapiFields.add("businessType");
     openapiFields.add("externalOrderId");
     openapiFields.add("providerTrackingId");
     openapiFields.add("providerTrackingUrl");
@@ -878,9 +755,9 @@ public class HubDeliverySearchDTO {
     openapiFields.add("dropoffContactName");
     openapiFields.add("dropoffContactPhone");
     openapiFields.add("dropoffLocation");
-    openapiFields.add("stuckPollCount");
-    openapiFields.add("merchantName");
-    openapiFields.add("businessType");
+    openapiFields.add("route");
+    openapiFields.add("distanceMeters");
+    openapiFields.add("courier");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();
@@ -890,55 +767,49 @@ public class HubDeliverySearchDTO {
    * Validates the JSON Element and throws an exception if issues found
    *
    * @param jsonElement JSON Element
-   * @throws IOException if the JSON Element is invalid with respect to HubDeliverySearchDTO
+   * @throws IOException if the JSON Element is invalid with respect to PartnerDeliveryDetail
    */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
-        if (!HubDeliverySearchDTO.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in HubDeliverySearchDTO is not found in the empty JSON string", HubDeliverySearchDTO.openapiRequiredFields.toString()));
+        if (!PartnerDeliveryDetail.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
+          throw new IllegalArgumentException(String.format("The required field(s) %s in PartnerDeliveryDetail is not found in the empty JSON string", PartnerDeliveryDetail.openapiRequiredFields.toString()));
         }
       }
 
       Set<Map.Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
       // check to see if the JSON string contains additional fields
       for (Map.Entry<String, JsonElement> entry : entries) {
-        if (!HubDeliverySearchDTO.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `HubDeliverySearchDTO` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
+        if (!PartnerDeliveryDetail.openapiFields.contains(entry.getKey())) {
+          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `PartnerDeliveryDetail` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("deliveryId") != null && !jsonObj.get("deliveryId").isJsonNull()) && !jsonObj.get("deliveryId").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `deliveryId` to be a primitive type in the JSON string but got `%s`", jsonObj.get("deliveryId").toString()));
       }
-      if ((jsonObj.get("userId") != null && !jsonObj.get("userId").isJsonNull()) && !jsonObj.get("userId").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `userId` to be a primitive type in the JSON string but got `%s`", jsonObj.get("userId").toString()));
-      }
-      if ((jsonObj.get("deliveryType") != null && !jsonObj.get("deliveryType").isJsonNull()) && !jsonObj.get("deliveryType").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `deliveryType` to be a primitive type in the JSON string but got `%s`", jsonObj.get("deliveryType").toString()));
-      }
-      // validate the optional field `deliveryType`
-      if (jsonObj.get("deliveryType") != null && !jsonObj.get("deliveryType").isJsonNull()) {
-        DeliveryTypeEnum.validateJsonElement(jsonObj.get("deliveryType"));
-      }
-      if ((jsonObj.get("providerType") != null && !jsonObj.get("providerType").isJsonNull()) && !jsonObj.get("providerType").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `providerType` to be a primitive type in the JSON string but got `%s`", jsonObj.get("providerType").toString()));
-      }
-      // validate the optional field `providerType`
-      if (jsonObj.get("providerType") != null && !jsonObj.get("providerType").isJsonNull()) {
-        ProviderTypeEnum.validateJsonElement(jsonObj.get("providerType"));
-      }
-      if ((jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) && !jsonObj.get("status").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `status` to be a primitive type in the JSON string but got `%s`", jsonObj.get("status").toString()));
-      }
-      // validate the optional field `status`
-      if (jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) {
-        StatusEnum.validateJsonElement(jsonObj.get("status"));
-      }
       if ((jsonObj.get("hubTrackingNumber") != null && !jsonObj.get("hubTrackingNumber").isJsonNull()) && !jsonObj.get("hubTrackingNumber").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `hubTrackingNumber` to be a primitive type in the JSON string but got `%s`", jsonObj.get("hubTrackingNumber").toString()));
       }
       if ((jsonObj.get("hubOrderId") != null && !jsonObj.get("hubOrderId").isJsonNull()) && !jsonObj.get("hubOrderId").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `hubOrderId` to be a primitive type in the JSON string but got `%s`", jsonObj.get("hubOrderId").toString()));
+      }
+      if ((jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) && !jsonObj.get("status").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `status` to be a primitive type in the JSON string but got `%s`", jsonObj.get("status").toString()));
+      }
+      if ((jsonObj.get("deliveryType") != null && !jsonObj.get("deliveryType").isJsonNull()) && !jsonObj.get("deliveryType").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `deliveryType` to be a primitive type in the JSON string but got `%s`", jsonObj.get("deliveryType").toString()));
+      }
+      if ((jsonObj.get("providerType") != null && !jsonObj.get("providerType").isJsonNull()) && !jsonObj.get("providerType").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `providerType` to be a primitive type in the JSON string but got `%s`", jsonObj.get("providerType").toString()));
+      }
+      if ((jsonObj.get("merchantId") != null && !jsonObj.get("merchantId").isJsonNull()) && !jsonObj.get("merchantId").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `merchantId` to be a primitive type in the JSON string but got `%s`", jsonObj.get("merchantId").toString()));
+      }
+      if ((jsonObj.get("merchantName") != null && !jsonObj.get("merchantName").isJsonNull()) && !jsonObj.get("merchantName").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `merchantName` to be a primitive type in the JSON string but got `%s`", jsonObj.get("merchantName").toString()));
+      }
+      if ((jsonObj.get("businessType") != null && !jsonObj.get("businessType").isJsonNull()) && !jsonObj.get("businessType").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `businessType` to be a primitive type in the JSON string but got `%s`", jsonObj.get("businessType").toString()));
       }
       if ((jsonObj.get("externalOrderId") != null && !jsonObj.get("externalOrderId").isJsonNull()) && !jsonObj.get("externalOrderId").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `externalOrderId` to be a primitive type in the JSON string but got `%s`", jsonObj.get("externalOrderId").toString()));
@@ -957,7 +828,7 @@ public class HubDeliverySearchDTO {
       }
       // validate the optional field `pickupLocation`
       if (jsonObj.get("pickupLocation") != null && !jsonObj.get("pickupLocation").isJsonNull()) {
-        HubDeliveryLocationDTO.validateJsonElement(jsonObj.get("pickupLocation"));
+        PartnerDeliveryLocation.validateJsonElement(jsonObj.get("pickupLocation"));
       }
       if ((jsonObj.get("dropoffContactName") != null && !jsonObj.get("dropoffContactName").isJsonNull()) && !jsonObj.get("dropoffContactName").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `dropoffContactName` to be a primitive type in the JSON string but got `%s`", jsonObj.get("dropoffContactName").toString()));
@@ -967,13 +838,15 @@ public class HubDeliverySearchDTO {
       }
       // validate the optional field `dropoffLocation`
       if (jsonObj.get("dropoffLocation") != null && !jsonObj.get("dropoffLocation").isJsonNull()) {
-        HubDeliveryLocationDTO.validateJsonElement(jsonObj.get("dropoffLocation"));
+        PartnerDeliveryLocation.validateJsonElement(jsonObj.get("dropoffLocation"));
       }
-      if ((jsonObj.get("merchantName") != null && !jsonObj.get("merchantName").isJsonNull()) && !jsonObj.get("merchantName").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `merchantName` to be a primitive type in the JSON string but got `%s`", jsonObj.get("merchantName").toString()));
+      // ensure the optional json data is an array if present
+      if (jsonObj.get("route") != null && !jsonObj.get("route").isJsonNull() && !jsonObj.get("route").isJsonArray()) {
+        throw new IllegalArgumentException(String.format("Expected the field `route` to be an array in the JSON string but got `%s`", jsonObj.get("route").toString()));
       }
-      if ((jsonObj.get("businessType") != null && !jsonObj.get("businessType").isJsonNull()) && !jsonObj.get("businessType").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `businessType` to be a primitive type in the JSON string but got `%s`", jsonObj.get("businessType").toString()));
+      // validate the optional field `courier`
+      if (jsonObj.get("courier") != null && !jsonObj.get("courier").isJsonNull()) {
+        PartnerCourier.validateJsonElement(jsonObj.get("courier"));
       }
   }
 
@@ -981,22 +854,22 @@ public class HubDeliverySearchDTO {
     @SuppressWarnings("unchecked")
     @Override
     public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
-       if (!HubDeliverySearchDTO.class.isAssignableFrom(type.getRawType())) {
-         return null; // this class only serializes 'HubDeliverySearchDTO' and its subtypes
+       if (!PartnerDeliveryDetail.class.isAssignableFrom(type.getRawType())) {
+         return null; // this class only serializes 'PartnerDeliveryDetail' and its subtypes
        }
        final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
-       final TypeAdapter<HubDeliverySearchDTO> thisAdapter
-                        = gson.getDelegateAdapter(this, TypeToken.get(HubDeliverySearchDTO.class));
+       final TypeAdapter<PartnerDeliveryDetail> thisAdapter
+                        = gson.getDelegateAdapter(this, TypeToken.get(PartnerDeliveryDetail.class));
 
-       return (TypeAdapter<T>) new TypeAdapter<HubDeliverySearchDTO>() {
+       return (TypeAdapter<T>) new TypeAdapter<PartnerDeliveryDetail>() {
            @Override
-           public void write(JsonWriter out, HubDeliverySearchDTO value) throws IOException {
+           public void write(JsonWriter out, PartnerDeliveryDetail value) throws IOException {
              JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
              elementAdapter.write(out, obj);
            }
 
            @Override
-           public HubDeliverySearchDTO read(JsonReader in) throws IOException {
+           public PartnerDeliveryDetail read(JsonReader in) throws IOException {
              JsonElement jsonElement = elementAdapter.read(in);
              validateJsonElement(jsonElement);
              return thisAdapter.fromJsonTree(jsonElement);
@@ -1007,18 +880,18 @@ public class HubDeliverySearchDTO {
   }
 
   /**
-   * Create an instance of HubDeliverySearchDTO given an JSON string
+   * Create an instance of PartnerDeliveryDetail given an JSON string
    *
    * @param jsonString JSON string
-   * @return An instance of HubDeliverySearchDTO
-   * @throws IOException if the JSON string is invalid with respect to HubDeliverySearchDTO
+   * @return An instance of PartnerDeliveryDetail
+   * @throws IOException if the JSON string is invalid with respect to PartnerDeliveryDetail
    */
-  public static HubDeliverySearchDTO fromJson(String jsonString) throws IOException {
-    return JSON.getGson().fromJson(jsonString, HubDeliverySearchDTO.class);
+  public static PartnerDeliveryDetail fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, PartnerDeliveryDetail.class);
   }
 
   /**
-   * Convert an instance of HubDeliverySearchDTO to an JSON string
+   * Convert an instance of PartnerDeliveryDetail to an JSON string
    *
    * @return JSON string
    */

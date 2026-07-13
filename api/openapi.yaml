@@ -40,6 +40,8 @@ security:
 tags:
 - description: "Create, quote, and track deliveries across carrier providers"
   name: Deliveries
+- description: Delivery views for the authenticated partner's merchants
+  name: Partner Deliveries
 - description: Manage pre-configured pickup locations for deliveries
   name: Pickup Locations
 - description: Manage webhook subscriptions for real-time event notifications
@@ -494,6 +496,45 @@ paths:
       x-content-type: application/json
       x-accepts:
       - application/json
+  /delivery/v1/partner/deliveries/search:
+    post:
+      description: Free-text search + filter/sort/paginate across all deliveries of
+        the authenticated partner's merchants. Server-side; the result set is always
+        scoped to the partner's merchants regardless of the request body. Backs the
+        partner-portal global search.
+      operationId: partnerSearchDeliveries
+      parameters:
+      - description: "Language preference for response content. Supported: en, he"
+        explode: false
+        in: header
+        name: Accept-Language
+        required: false
+        schema:
+          default: en
+          enum:
+          - en
+          - he
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchDeliveriesRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PageResponseListPartnerDeliveryRow'
+          description: OK
+      summary: Search the partner's deliveries
+      tags:
+      - Partner Deliveries
+      x-content-type: application/json
+      x-accepts:
+      - '*/*'
   /delivery/v1/deliveries:
     post:
       description: Dispatches a new delivery order to the best available carrier provider.
@@ -766,6 +807,278 @@ paths:
       summary: Track a delivery by tracking number
       tags:
       - Public Tracking
+      x-accepts:
+      - '*/*'
+  /delivery/v1/partner/recent-deliveries:
+    get:
+      description: "Returns the most-recent deliveries across all of the authenticated\
+        \ partner's merchants (newest first), enriched with each delivery's merchant\
+        \ business name. Backs the partner dashboard's \"Recent activity\" feed."
+      operationId: partnerRecentDeliveries
+      parameters:
+      - description: "Max rows to return (1-50, default 10)"
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          format: int32
+          type: integer
+        style: form
+      - description: "Language preference for response content. Supported: en, he"
+        explode: false
+        in: header
+        name: Accept-Language
+        required: false
+        schema:
+          default: en
+          enum:
+          - en
+          - he
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                items:
+                  $ref: '#/components/schemas/RecentDeliveryResponse'
+                type: array
+          description: OK
+      summary: Get the partner's recent deliveries
+      tags:
+      - Partner Deliveries
+      x-accepts:
+      - '*/*'
+  /delivery/v1/partner/merchants/{merchantId}/deliveries:
+    get:
+      description: Returns a page of the merchant's deliveries (newest first) for
+        the merchant detail-page Deliveries tab. 404 if the merchant is not the partner's.
+      operationId: partnerMerchantDeliveries
+      parameters:
+      - explode: false
+        in: path
+        name: merchantId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          default: 1
+          format: int32
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: size
+        required: false
+        schema:
+          default: 20
+          format: int32
+          type: integer
+        style: form
+      - description: "Language preference for response content. Supported: en, he"
+        explode: false
+        in: header
+        name: Accept-Language
+        required: false
+        schema:
+          default: en
+          enum:
+          - en
+          - he
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PageResponseListMerchantDeliveryRow'
+          description: OK
+      summary: List a merchant's deliveries
+      tags:
+      - Partner Deliveries
+      x-accepts:
+      - '*/*'
+  /delivery/v1/partner/deliveries:
+    get:
+      description: "Returns a page of all deliveries across the authenticated partner's\
+        \ merchants (newest first), enriched with each delivery's owning merchant.\
+        \ Backs the partner-portal deliveries list."
+      operationId: partnerDeliveries
+      parameters:
+      - description: 1-based page number (default 1)
+        explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          default: 1
+          format: int32
+          type: integer
+        style: form
+      - description: "Items per page (1-1000, default 20)"
+        explode: true
+        in: query
+        name: size
+        required: false
+        schema:
+          default: 20
+          format: int32
+          type: integer
+        style: form
+      - description: "Language preference for response content. Supported: en, he"
+        explode: false
+        in: header
+        name: Accept-Language
+        required: false
+        schema:
+          default: en
+          enum:
+          - en
+          - he
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PageResponseListPartnerDeliveryRow'
+          description: OK
+      summary: List the partner's deliveries
+      tags:
+      - Partner Deliveries
+      x-accepts:
+      - '*/*'
+  /delivery/v1/partner/deliveries/{deliveryId}:
+    get:
+      description: Returns the detail of a single delivery owned by one of the authenticated
+        partner's merchants. 404 if the delivery does not exist or is not the partner's.
+      operationId: partnerDelivery
+      parameters:
+      - explode: false
+        in: path
+        name: deliveryId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: "Language preference for response content. Supported: en, he"
+        explode: false
+        in: header
+        name: Accept-Language
+        required: false
+        schema:
+          default: en
+          enum:
+          - en
+          - he
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PartnerDeliveryDetail'
+          description: Delivery detail returned
+        "404":
+          description: Not found or not owned
+      summary: Get one of the partner's deliveries
+      tags:
+      - Partner Deliveries
+      x-accepts:
+      - '*/*'
+  /delivery/v1/partner/deliveries/{deliveryId}/label/{filename}:
+    get:
+      description: "Serves a label asset (barcode.png, qrcode.png, or label.pdf) for\
+        \ a delivery owned by one of the authenticated partner's merchants. 404 if\
+        \ the delivery is not the partner's, 400 for an unknown filename."
+      operationId: partnerDeliveryLabelAsset
+      parameters:
+      - explode: false
+        in: path
+        name: deliveryId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - description: Asset filename
+        example: barcode.png
+        explode: false
+        in: path
+        name: filename
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: "Language preference for response content. Supported: en, he"
+        explode: false
+        in: header
+        name: Accept-Language
+        required: false
+        schema:
+          default: en
+          enum:
+          - en
+          - he
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                format: binary
+                type: string
+          description: OK
+      summary: Download a delivery label asset
+      tags:
+      - Partner Deliveries
+      x-accepts:
+      - '*/*'
+  /delivery/v1/partner/deliveries/status-counts:
+    get:
+      description: Per-HubDeliveryStatus count across the authenticated partner's
+        merchants' deliveries. Drives the partner deliveries list's status-tab counts.
+        Owner-scoped; statuses with no rows are omitted.
+      operationId: partnerDeliveryStatusCounts
+      parameters:
+      - description: "Language preference for response content. Supported: en, he"
+        explode: false
+        in: header
+        name: Accept-Language
+        required: false
+        schema:
+          default: en
+          enum:
+          - en
+          - he
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                additionalProperties:
+                  format: int64
+                  type: integer
+          description: OK
+      summary: Delivery count per status for the partner
+      tags:
+      - Partner Deliveries
       x-accepts:
       - '*/*'
   /delivery/v1/echo:
@@ -2082,6 +2395,152 @@ components:
           type: array
       required:
       - items
+    SearchDeliveriesRequest:
+      description: |
+        Advanced search request for deliveries with filtering, sorting, and pagination capabilities.
+        **Query Fields** (full-text search): `providerTrackingId`, `externalOrderId`
+        **Available Filter/Sort Fields:**
+        - `status` (HubDeliveryStatus, sortable) - CREATED, ASSIGNED, PICKED_UP, IN_TRANSIT, DELIVERED, CANCELLED, FAILED
+        - `deliveryType` (DeliveryType, sortable)
+        - `providerType` (DeliveryProviderType, sortable)
+        - `createdDate` (Instant, sortable)
+        - `userId` (Long, sortable) - Auto-filtered for non-admin users
+        - `deliveryId` (UUID) - exact-match lookup of a single delivery
+        - `hubTrackingNumber` (String) - exact-match lookup by hub tracking number
+      example:
+        pagination:
+          pageNumber: 1
+          itemsPerPage: 10
+        query: John
+        filters:
+          key:
+          - name: email
+            logic: EQ
+            value: ""
+          - name: email
+            logic: EQ
+            value: ""
+        sort:
+        - fieldName: createdDate
+          direction: DESC
+        - fieldName: createdDate
+          direction: DESC
+      properties:
+        query:
+          description: Full-text search query string. Matches against predefined query
+            fields using case-insensitive LIKE.
+          example: John
+          type: string
+        filters:
+          additionalProperties:
+            items:
+              $ref: '#/components/schemas/Filter'
+          description: Filter groups with AND/OR logic. Each group contains a list
+            of filter criteria that are combined using the specified operator.
+        sort:
+          description: Sort criteria applied in order. Only sortable fields are accepted.
+          items:
+            $ref: '#/components/schemas/SortField'
+          type: array
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+    PageResponseListPartnerDeliveryRow:
+      example:
+        total: 1
+        data:
+        - deliveryType: deliveryType
+          estimatedArrival: 2000-01-23T04:56:07.000+00:00
+          externalOrderId: externalOrderId
+          providerType: providerType
+          merchantName: merchantName
+          deliveryId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          dropoffCity: dropoffCity
+          createdDate: 2000-01-23T04:56:07.000+00:00
+          pickupCity: pickupCity
+          merchantId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          hubTrackingNumber: hubTrackingNumber
+          businessType: businessType
+          status: status
+        - deliveryType: deliveryType
+          estimatedArrival: 2000-01-23T04:56:07.000+00:00
+          externalOrderId: externalOrderId
+          providerType: providerType
+          merchantName: merchantName
+          deliveryId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          dropoffCity: dropoffCity
+          createdDate: 2000-01-23T04:56:07.000+00:00
+          pickupCity: pickupCity
+          merchantId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          hubTrackingNumber: hubTrackingNumber
+          businessType: businessType
+          status: status
+        totalPages: 6
+        limit: 5
+        page: 0
+      properties:
+        page:
+          format: int32
+          type: integer
+        totalPages:
+          format: int32
+          type: integer
+        total:
+          format: int64
+          type: integer
+        limit:
+          format: int32
+          type: integer
+        data:
+          items:
+            $ref: '#/components/schemas/PartnerDeliveryRow'
+          type: array
+    PartnerDeliveryRow:
+      description: A delivery in the partner's deliveries list
+      example:
+        deliveryType: deliveryType
+        estimatedArrival: 2000-01-23T04:56:07.000+00:00
+        externalOrderId: externalOrderId
+        providerType: providerType
+        merchantName: merchantName
+        deliveryId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        dropoffCity: dropoffCity
+        createdDate: 2000-01-23T04:56:07.000+00:00
+        pickupCity: pickupCity
+        merchantId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        hubTrackingNumber: hubTrackingNumber
+        businessType: businessType
+        status: status
+      properties:
+        deliveryId:
+          format: uuid
+          type: string
+        hubTrackingNumber:
+          type: string
+        status:
+          type: string
+        deliveryType:
+          type: string
+        providerType:
+          type: string
+        merchantId:
+          format: uuid
+          type: string
+        merchantName:
+          type: string
+        businessType:
+          type: string
+        externalOrderId:
+          type: string
+        pickupCity:
+          type: string
+        dropoffCity:
+          type: string
+        estimatedArrival:
+          format: date-time
+          type: string
+        createdDate:
+          format: date-time
+          type: string
     AddressDTO:
       description: Structured address information
       example:
@@ -2150,6 +2609,35 @@ components:
         id:
           description: Provider-specific place ID
           example: ChIJN1t_tDeuEmsRUsoyG83frY4
+          type: string
+    CustomsDeclarationDTO:
+      description: Customs declaration for an international export shipment
+      example:
+        contentsType: merchandise
+        reasonForExport: sale
+        incoterm: DDU
+        currency: ILS
+      properties:
+        contentsType:
+          description: "What the shipment contains, for customs"
+          enum:
+          - merchandise
+          - gift
+          - sample
+          - documents
+          example: merchandise
+          type: string
+        reasonForExport:
+          description: Reason the goods are being exported
+          example: sale
+          type: string
+        incoterm:
+          description: Incoterm governing who pays duties/taxes
+          example: DDU
+          type: string
+        currency:
+          description: Currency of the declared item values (ISO-4217)
+          example: ILS
           type: string
     HandshakeDeliveryDTO:
       description: PIN handshake configuration for a delivery
@@ -2289,6 +2777,11 @@ components:
         quoteId: a1b2c3d4-e5f6-7890-abcd-ef1234567890
         referralCode: ABC123
         codAmount: 49.9
+        customs:
+          contentsType: merchandise
+          reasonForExport: sale
+          incoterm: DDU
+          currency: ILS
         recipient:
           phoneNumber: "+972501234567"
           name: John Doe
@@ -2304,21 +2797,29 @@ components:
           vehicleClass: standard
         items:
         - quantity: 2
+          valueCurrency: ILS
+          hsCode: 6109.1
           name: Burger Meal
+          originCountry: IL
           description: "No onions, extra sauce"
           widthCm: 20
           heightCm: 15
           lengthCm: 30
           sku: BURGER_MEAL_001
           weightKg: 1.5
+          unitValue: 49.9
         - quantity: 2
+          valueCurrency: ILS
+          hsCode: 6109.1
           name: Burger Meal
+          originCountry: IL
           description: "No onions, extra sauce"
           widthCm: 20
           heightCm: 15
           lengthCm: 30
           sku: BURGER_MEAL_001
           weightKg: 1.5
+          unitValue: 49.9
         scheduledAt: 2026-03-01T14:00:00Z
       properties:
         quoteId:
@@ -2333,6 +2834,7 @@ components:
           - FOOD_IMMEDIATE
           - STORE_NEXT_DAY
           - PASSENGER_TRANSPORT
+          - INTERNATIONAL_EXPORT
           example: FOOD_IMMEDIATE
           type: string
         externalOrderId:
@@ -2355,6 +2857,8 @@ components:
           items:
             $ref: '#/components/schemas/HubItemDTO'
           type: array
+        customs:
+          $ref: '#/components/schemas/CustomsDeclarationDTO'
         codAmount:
           description: Cash-on-delivery amount (null if not COD)
           example: 49.9
@@ -2391,13 +2895,17 @@ components:
       description: An item included in the delivery
       example:
         quantity: 2
+        valueCurrency: ILS
+        hsCode: 6109.1
         name: Burger Meal
+        originCountry: IL
         description: "No onions, extra sauce"
         widthCm: 20
         heightCm: 15
         lengthCm: 30
         sku: BURGER_MEAL_001
         weightKg: 1.5
+        unitValue: 49.9
       properties:
         sku:
           description: Optional SKU or identifier for the item
@@ -2437,6 +2945,23 @@ components:
           example: 15
           format: double
           type: number
+        unitValue:
+          description: "Declared value of a single unit, for customs"
+          example: 49.9
+          type: number
+        valueCurrency:
+          description: Currency of unitValue (ISO-4217). Defaults to the shipment
+            customs currency.
+          example: ILS
+          type: string
+        hsCode:
+          description: Optional HS / tariff classification code
+          example: 6109.1
+          type: string
+        originCountry:
+          description: Country of origin/manufacture (ISO-2)
+          example: IL
+          type: string
       required:
       - name
       - quantity
@@ -2603,6 +3128,7 @@ components:
           - FOOD_IMMEDIATE
           - STORE_NEXT_DAY
           - PASSENGER_TRANSPORT
+          - INTERNATIONAL_EXPORT
           example: FOOD_IMMEDIATE
           type: string
         status:
@@ -2645,55 +3171,6 @@ components:
           description: New delivery status
           example: CANCELLED
           type: string
-    SearchDeliveriesRequest:
-      description: |
-        Advanced search request for deliveries with filtering, sorting, and pagination capabilities.
-        **Query Fields** (full-text search): `providerTrackingId`, `externalOrderId`
-        **Available Filter/Sort Fields:**
-        - `status` (HubDeliveryStatus, sortable) - CREATED, ASSIGNED, PICKED_UP, IN_TRANSIT, DELIVERED, CANCELLED, FAILED
-        - `deliveryType` (DeliveryType, sortable)
-        - `providerType` (DeliveryProviderType, sortable)
-        - `createdDate` (Instant, sortable)
-        - `userId` (Long, sortable) - Auto-filtered for non-admin users
-        - `deliveryId` (UUID) - exact-match lookup of a single delivery
-        - `hubTrackingNumber` (String) - exact-match lookup by hub tracking number
-      example:
-        pagination:
-          pageNumber: 1
-          itemsPerPage: 10
-        query: John
-        filters:
-          key:
-          - name: email
-            logic: EQ
-            value: ""
-          - name: email
-            logic: EQ
-            value: ""
-        sort:
-        - fieldName: createdDate
-          direction: DESC
-        - fieldName: createdDate
-          direction: DESC
-      properties:
-        query:
-          description: Full-text search query string. Matches against predefined query
-            fields using case-insensitive LIKE.
-          example: John
-          type: string
-        filters:
-          additionalProperties:
-            items:
-              $ref: '#/components/schemas/Filter'
-          description: Filter groups with AND/OR logic. Each group contains a list
-            of filter criteria that are combined using the specified operator.
-        sort:
-          description: Sort criteria applied in order. Only sortable fields are accepted.
-          items:
-            $ref: '#/components/schemas/SortField'
-          type: array
-        pagination:
-          $ref: '#/components/schemas/Pagination'
     HubDeliveryLocationDTO:
       example:
         lng: 2.3021358869347655
@@ -2733,11 +3210,14 @@ components:
         userId: userId
         providerType: ZIPPERG
         providerTrackingId: providerTrackingId
+        merchantName: merchantName
         deliveryId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         createdDate: 2000-01-23T04:56:07.000+00:00
         dropoffContactName: dropoffContactName
         hubTrackingNumber: hubTrackingNumber
+        businessType: businessType
         providerTrackingUrl: providerTrackingUrl
+        stuckPollCount: 7
         status: PENDING
         dropoffContactPhone: dropoffContactPhone
       properties:
@@ -2752,6 +3232,7 @@ components:
           - FOOD_IMMEDIATE
           - STORE_NEXT_DAY
           - PASSENGER_TRANSPORT
+          - INTERNATIONAL_EXPORT
           type: string
         providerType:
           enum:
@@ -2759,6 +3240,7 @@ components:
           - ZIPPERW
           - ZIPPERK
           - ZIPPERGP
+          - ZIPPERU
           type: string
         status:
           enum:
@@ -2806,6 +3288,13 @@ components:
           type: string
         dropoffLocation:
           $ref: '#/components/schemas/HubDeliveryLocationDTO'
+        stuckPollCount:
+          format: int32
+          type: integer
+        merchantName:
+          type: string
+        businessType:
+          type: string
     PageResponseListHubDeliverySearchDTO:
       example:
         total: 1
@@ -2830,11 +3319,14 @@ components:
           userId: userId
           providerType: ZIPPERG
           providerTrackingId: providerTrackingId
+          merchantName: merchantName
           deliveryId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
           createdDate: 2000-01-23T04:56:07.000+00:00
           dropoffContactName: dropoffContactName
           hubTrackingNumber: hubTrackingNumber
+          businessType: businessType
           providerTrackingUrl: providerTrackingUrl
+          stuckPollCount: 7
           status: PENDING
           dropoffContactPhone: dropoffContactPhone
         - hubOrderId: hubOrderId
@@ -2857,11 +3349,14 @@ components:
           userId: userId
           providerType: ZIPPERG
           providerTrackingId: providerTrackingId
+          merchantName: merchantName
           deliveryId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
           createdDate: 2000-01-23T04:56:07.000+00:00
           dropoffContactName: dropoffContactName
           hubTrackingNumber: hubTrackingNumber
+          businessType: businessType
           providerTrackingUrl: providerTrackingUrl
+          stuckPollCount: 7
           status: PENDING
           dropoffContactPhone: dropoffContactPhone
         totalPages: 6
@@ -2910,6 +3405,11 @@ components:
             lng: 34.7818
             lat: 32.0853
           email: john@example.com
+        customs:
+          contentsType: merchandise
+          reasonForExport: sale
+          incoterm: DDU
+          currency: ILS
         pickup:
           notes: "Floor 3, door code 1234"
           phone: "+972501234567"
@@ -2935,21 +3435,29 @@ components:
         pickupLocationCode: MAIN-01
         items:
         - quantity: 2
+          valueCurrency: ILS
+          hsCode: 6109.1
           name: Burger Meal
+          originCountry: IL
           description: "No onions, extra sauce"
           widthCm: 20
           heightCm: 15
           lengthCm: 30
           sku: BURGER_MEAL_001
           weightKg: 1.5
+          unitValue: 49.9
         - quantity: 2
+          valueCurrency: ILS
+          hsCode: 6109.1
           name: Burger Meal
+          originCountry: IL
           description: "No onions, extra sauce"
           widthCm: 20
           heightCm: 15
           lengthCm: 30
           sku: BURGER_MEAL_001
           weightKg: 1.5
+          unitValue: 49.9
         scheduledAt: 2026-03-01T14:00:00Z
       properties:
         deliveryType:
@@ -2959,6 +3467,7 @@ components:
           - FOOD_IMMEDIATE
           - STORE_NEXT_DAY
           - PASSENGER_TRANSPORT
+          - INTERNATIONAL_EXPORT
           example: FOOD_IMMEDIATE
           type: string
         pickup:
@@ -2970,6 +3479,8 @@ components:
           items:
             $ref: '#/components/schemas/HubItemDTO'
           type: array
+        customs:
+          $ref: '#/components/schemas/CustomsDeclarationDTO'
         scheduledAt:
           description: Scheduled pickup time (null for immediate)
           example: 2026-03-01T14:00:00Z
@@ -3034,6 +3545,7 @@ components:
           - FOOD_IMMEDIATE
           - STORE_NEXT_DAY
           - PASSENGER_TRANSPORT
+          - INTERNATIONAL_EXPORT
           example: FOOD_IMMEDIATE
           type: string
         provider:
@@ -3043,6 +3555,7 @@ components:
           - ZIPPERW
           - ZIPPERK
           - ZIPPERGP
+          - ZIPPERU
           example: ZIPPERW
           type: string
         price:
@@ -3377,6 +3890,273 @@ components:
           type: string
         licensePlate:
           type: string
+    RecentDeliveryResponse:
+      example:
+        deliveryId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        createdDate: 2000-01-23T04:56:07.000+00:00
+        deliveryType: deliveryType
+        hubTrackingNumber: hubTrackingNumber
+        status: status
+        merchantName: merchantName
+      properties:
+        deliveryId:
+          format: uuid
+          type: string
+        hubTrackingNumber:
+          type: string
+        status:
+          type: string
+        deliveryType:
+          type: string
+        merchantName:
+          type: string
+        createdDate:
+          format: date-time
+          type: string
+    MerchantDeliveryRow:
+      description: A delivery belonging to a merchant (detail-page Deliveries tab)
+      example:
+        deliveryId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        dropoffCity: dropoffCity
+        createdDate: 2000-01-23T04:56:07.000+00:00
+        pickupCity: pickupCity
+        deliveryType: deliveryType
+        hubTrackingNumber: hubTrackingNumber
+        providerType: providerType
+        status: status
+      properties:
+        deliveryId:
+          format: uuid
+          type: string
+        hubTrackingNumber:
+          type: string
+        status:
+          type: string
+        providerType:
+          type: string
+        deliveryType:
+          type: string
+        pickupCity:
+          type: string
+        dropoffCity:
+          type: string
+        createdDate:
+          format: date-time
+          type: string
+    PageResponseListMerchantDeliveryRow:
+      example:
+        total: 1
+        data:
+        - deliveryId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          dropoffCity: dropoffCity
+          createdDate: 2000-01-23T04:56:07.000+00:00
+          pickupCity: pickupCity
+          deliveryType: deliveryType
+          hubTrackingNumber: hubTrackingNumber
+          providerType: providerType
+          status: status
+        - deliveryId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          dropoffCity: dropoffCity
+          createdDate: 2000-01-23T04:56:07.000+00:00
+          pickupCity: pickupCity
+          deliveryType: deliveryType
+          hubTrackingNumber: hubTrackingNumber
+          providerType: providerType
+          status: status
+        totalPages: 6
+        limit: 5
+        page: 0
+      properties:
+        page:
+          format: int32
+          type: integer
+        totalPages:
+          format: int32
+          type: integer
+        total:
+          format: int64
+          type: integer
+        limit:
+          format: int32
+          type: integer
+        data:
+          items:
+            $ref: '#/components/schemas/MerchantDeliveryRow'
+          type: array
+    PartnerCourier:
+      description: Currently-assigned courier (partner-visible fields)
+      example:
+        photoUrl: photoUrl
+        licensePlate: licensePlate
+        color: color
+        phone: phone
+        name: name
+        rating: 5.637376656633329
+        providerDriverId: providerDriverId
+        model: model
+        make: make
+        vehicleType: BICYCLE
+      properties:
+        providerDriverId:
+          type: string
+        name:
+          type: string
+        phone:
+          type: string
+        photoUrl:
+          type: string
+        rating:
+          format: double
+          type: number
+        vehicleType:
+          enum:
+          - BICYCLE
+          - MOTORCYCLE
+          - CAR
+          - VAN
+          - TRUCK
+          - ON_FOOT
+          - UNKNOWN
+          type: string
+        licensePlate:
+          type: string
+        make:
+          type: string
+        model:
+          type: string
+        color:
+          type: string
+    PartnerDeliveryDetail:
+      description: Full detail of one of the partner's deliveries
+      example:
+        hubOrderId: hubOrderId
+        pickupContactPhone: pickupContactPhone
+        distanceMeters: 5
+        scheduledPickupTime: 2000-01-23T04:56:07.000+00:00
+        deliveryType: deliveryType
+        dropoffLocation:
+          lng: 6.027456183070403
+          city: city
+          fullAddress: fullAddress
+          lat: 0.8008281904610115
+        estimatedArrival: 2000-01-23T04:56:07.000+00:00
+        externalOrderId: externalOrderId
+        pickupLocation:
+          lng: 6.027456183070403
+          city: city
+          fullAddress: fullAddress
+          lat: 0.8008281904610115
+        pickupContactName: pickupContactName
+        providerType: providerType
+        providerTrackingId: providerTrackingId
+        merchantName: merchantName
+        deliveryId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        createdDate: 2000-01-23T04:56:07.000+00:00
+        route:
+        - - 1.4658129805029452
+          - 1.4658129805029452
+        - - 1.4658129805029452
+          - 1.4658129805029452
+        merchantId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        courier:
+          photoUrl: photoUrl
+          licensePlate: licensePlate
+          color: color
+          phone: phone
+          name: name
+          rating: 5.637376656633329
+          providerDriverId: providerDriverId
+          model: model
+          make: make
+          vehicleType: BICYCLE
+        dropoffContactName: dropoffContactName
+        hubTrackingNumber: hubTrackingNumber
+        businessType: businessType
+        providerTrackingUrl: providerTrackingUrl
+        status: status
+        dropoffContactPhone: dropoffContactPhone
+      properties:
+        deliveryId:
+          format: uuid
+          type: string
+        hubTrackingNumber:
+          type: string
+        hubOrderId:
+          type: string
+        status:
+          type: string
+        deliveryType:
+          type: string
+        providerType:
+          type: string
+        merchantId:
+          format: uuid
+          type: string
+        merchantName:
+          type: string
+        businessType:
+          type: string
+        externalOrderId:
+          type: string
+        providerTrackingId:
+          type: string
+        providerTrackingUrl:
+          type: string
+        scheduledPickupTime:
+          format: date-time
+          type: string
+        estimatedArrival:
+          format: date-time
+          type: string
+        createdDate:
+          format: date-time
+          type: string
+        pickupContactName:
+          type: string
+        pickupContactPhone:
+          type: string
+        pickupLocation:
+          $ref: '#/components/schemas/PartnerDeliveryLocation'
+        dropoffContactName:
+          type: string
+        dropoffContactPhone:
+          type: string
+        dropoffLocation:
+          $ref: '#/components/schemas/PartnerDeliveryLocation'
+        route:
+          description: "Road-network route as GeoJSON [longitude, latitude] pairs\
+            \ (null if not routed yet)"
+          items:
+            items:
+              format: double
+              type: number
+            type: array
+          type: array
+        distanceMeters:
+          description: Road-network distance between pickup and dropoff in meters
+            (null if not routed)
+          format: int64
+          type: integer
+        courier:
+          $ref: '#/components/schemas/PartnerCourier'
+    PartnerDeliveryLocation:
+      description: A delivery pickup/dropoff location
+      example:
+        lng: 6.027456183070403
+        city: city
+        fullAddress: fullAddress
+        lat: 0.8008281904610115
+      properties:
+        lat:
+          format: double
+          type: number
+        lng:
+          format: double
+          type: number
+        fullAddress:
+          type: string
+        city:
+          type: string
     EchoResponse:
       description: Echo response containing the echoed message and API version
       example:
@@ -3415,16 +4195,86 @@ components:
           description: URL to the label PDF
           example: https://api.example.com/api/v1/deliveries/HUB-0000001000/label/label.pdf
           type: string
+    DaySchedule:
+      example:
+        intervals:
+        - close: close
+          open: open
+        - close: close
+          open: open
+        closed: true
+      properties:
+        closed:
+          type: boolean
+        intervals:
+          items:
+            $ref: '#/components/schemas/TimeInterval'
+          type: array
+    HubDeliveryCourierDTO:
+      description: Currently-assigned courier (admin views only)
+      example:
+        rawVehicleType: rawVehicleType
+        color: color
+        lng: 1.4658129805029452
+        assignedAt: 2000-01-23T04:56:07.000+00:00
+        rating: 0.8008281904610115
+        photoUrl: photoUrl
+        licensePlate: licensePlate
+        phone: phone
+        name: name
+        providerDriverId: providerDriverId
+        model: model
+        make: make
+        vehicleType: BICYCLE
+        lat: 6.027456183070403
+      properties:
+        providerDriverId:
+          type: string
+        name:
+          type: string
+        phone:
+          type: string
+        photoUrl:
+          type: string
+        rating:
+          format: double
+          type: number
+        vehicleType:
+          enum:
+          - BICYCLE
+          - MOTORCYCLE
+          - CAR
+          - VAN
+          - TRUCK
+          - ON_FOOT
+          - UNKNOWN
+          type: string
+        rawVehicleType:
+          type: string
+        licensePlate:
+          type: string
+        make:
+          type: string
+        model:
+          type: string
+        color:
+          type: string
+        lat:
+          format: double
+          type: number
+        lng:
+          format: double
+          type: number
+        assignedAt:
+          format: date-time
+          type: string
     HubDeliveryStatusResponse:
       description: Full delivery status including tracking and history
       example:
-        hubOrderId: ORD-789012
-        distanceMeters: 5200
-        trackingUrl: https://track.zipper-go.com/en/HUB-0000001000
-        durationSeconds: 900
-        pickupReferenceNumber: INV-2026-78432
-        estimatedArrival: 2026-03-01T14:30:00Z
+        nextRetryAt: 2000-01-23T04:56:07.000+00:00
+        smsNotifications: true
         pickupContactName: John Doe
+        merchantName: merchantName
         deliveryId: 550e8400-e29b-41d4-a716-446655440000
         routeMeta:
           summary: summary
@@ -3432,6 +4282,123 @@ components:
           pickupSnapMeters: 1.4658129805029452
           weight: 6.027456183070403
           dropoffSnapMeters: 5.962133916683182
+        originalQuotedEta: 2000-01-23T04:56:07.000+00:00
+        pickupSite:
+          code: code
+          city: city
+          contactEmail: contactEmail
+          contactName: contactName
+          timezone: timezone
+          postalCode: postalCode
+          latitude: 5.637376656633329
+          houseNumber: houseNumber
+          deliveryTypeConfig:
+            key:
+              key: ""
+          externalId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          type: STORE
+          entranceFloor: entranceFloor
+          default: true
+          countryCode: countryCode
+          name: name
+          addressLine1: addressLine1
+          addressLine2: addressLine2
+          openingHours:
+            schedule:
+              key:
+                intervals:
+                - close: close
+                  open: open
+                - close: close
+                  open: open
+                closed: true
+          region: region
+          contactPhone: contactPhone
+          pickupInstructions: pickupInstructions
+          status: ACTIVE
+          longitude: 2.3021358869347655
+        recipientName: recipientName
+        pickupEmail: pickup@example.com
+        lastPolledAt: 2000-01-23T04:56:07.000+00:00
+        pickupContactPhone: "+972501234567"
+        recipientPhone: recipientPhone
+        dispatchAttempts:
+        - attemptNumber: 5
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          providerOrderId: providerOrderId
+          providerTrackingUrl: providerTrackingUrl
+          providerType: ZIPPERG
+          providerTrackingId: providerTrackingId
+          status: PENDING
+        - attemptNumber: 5
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          providerOrderId: providerOrderId
+          providerTrackingUrl: providerTrackingUrl
+          providerType: ZIPPERG
+          providerTrackingId: providerTrackingId
+          status: PENDING
+        dropoffLocation:
+          lng: 2.3021358869347655
+          city: city
+          fullAddress: fullAddress
+          lat: 5.637376656633329
+        externalOrderId: externalOrderId
+        dropoffEmail: dropoff@example.com
+        quoteId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        courier:
+          rawVehicleType: rawVehicleType
+          color: color
+          lng: 1.4658129805029452
+          assignedAt: 2000-01-23T04:56:07.000+00:00
+          rating: 0.8008281904610115
+          photoUrl: photoUrl
+          licensePlate: licensePlate
+          phone: phone
+          name: name
+          providerDriverId: providerDriverId
+          model: model
+          make: make
+          vehicleType: BICYCLE
+          lat: 6.027456183070403
+        pinCode: pinCode
+        pickupNotes: Ring doorbell twice
+        items:
+        - quantity: 2
+          valueCurrency: ILS
+          hsCode: 6109.1
+          name: Burger Meal
+          originCountry: IL
+          description: "No onions, extra sauce"
+          widthCm: 20
+          heightCm: 15
+          lengthCm: 30
+          sku: BURGER_MEAL_001
+          weightKg: 1.5
+          unitValue: 49.9
+        - quantity: 2
+          valueCurrency: ILS
+          hsCode: 6109.1
+          name: Burger Meal
+          originCountry: IL
+          description: "No onions, extra sauce"
+          widthCm: 20
+          heightCm: 15
+          lengthCm: 30
+          sku: BURGER_MEAL_001
+          weightKg: 1.5
+          unitValue: 49.9
+        status: IN_TRANSIT
+        dropoffContactPhone: "+972509876543"
+        hubOrderId: ORD-789012
+        distanceMeters: 5200
+        dispatchRetryCount: 7
+        providerData:
+          key: providerData
+        trackingUrl: https://track.zipper-go.com/en/HUB-0000001000
+        durationSeconds: 900
+        pickupReferenceNumber: INV-2026-78432
+        estimatedArrival: 2026-03-01T14:30:00Z
+        pinRequired: true
         provider: ZIPPERW
         routeGeometry:
           coordinates:
@@ -3440,22 +4407,21 @@ components:
           - - 0.8008281904610115
             - 0.8008281904610115
           type: type
+        maxDispatchRetries: 9
         dropoffContactName: Jane Smith
-        pickupEmail: pickup@example.com
         hubTrackingNumber: HUB-123456
-        pickupContactPhone: "+972501234567"
+        recipientEmail: recipientEmail
+        scheduledPickupTime: 2000-01-23T04:56:07.000+00:00
+        lastModifiedDate: 2000-01-23T04:56:07.000+00:00
+        idempotencyKey: idempotencyKey
+        lastModifiedBy: lastModifiedBy
         deliveryType: FOOD_IMMEDIATE
-        dropoffLocation:
-          lng: 2.3021358869347655
-          city: city
-          fullAddress: fullAddress
-          lat: 5.637376656633329
         pickupLocation:
           lng: 2.3021358869347655
           city: city
           fullAddress: fullAddress
           lat: 5.637376656633329
-        dropoffEmail: dropoff@example.com
+        userId: b2c3d4e5-...
         hubBarcode: 1234567890123
         providerTrackingId: WLT-789012
         dropoffNotes: Leave at the door
@@ -3468,32 +4434,111 @@ components:
           description: Courier picked up the order
           proofOfDeliveryUrl: proofOfDeliveryUrl
           status: PICKED_UP
+        createdDate: 2026-03-01T14:00:00Z
+        createdBy: createdBy
         proofOfDeliveryUrl: proofOfDeliveryUrl
-        pickupNotes: Ring doorbell twice
-        items:
-        - quantity: 2
-          name: Burger Meal
-          description: "No onions, extra sauce"
-          widthCm: 20
-          heightCm: 15
-          lengthCm: 30
-          sku: BURGER_MEAL_001
-          weightKg: 1.5
-        - quantity: 2
-          name: Burger Meal
-          description: "No onions, extra sauce"
-          widthCm: 20
-          heightCm: 15
-          lengthCm: 30
-          sku: BURGER_MEAL_001
-          weightKg: 1.5
-        status: IN_TRANSIT
-        dropoffContactPhone: "+972509876543"
+        businessType: businessType
+        stuckPollCount: 3
       properties:
         deliveryId:
           description: Unique delivery identifier
           example: 550e8400-e29b-41d4-a716-446655440000
           format: uuid
+          type: string
+        userId:
+          description: Owner (merchant/user) id — admin views only
+          example: b2c3d4e5-...
+          type: string
+        createdDate:
+          description: When the delivery was created — admin views only
+          example: 2026-03-01T14:00:00Z
+          format: date-time
+          type: string
+        courier:
+          $ref: '#/components/schemas/HubDeliveryCourierDTO'
+        dispatchAttempts:
+          description: Provider dispatch attempts (chronological) — admin views only
+          items:
+            $ref: '#/components/schemas/HubDispatchAttemptDTO'
+          type: array
+        pickupSite:
+          $ref: '#/components/schemas/HubPickupLocationDTO'
+        externalOrderId:
+          description: Merchant's external order id — admin views only
+          type: string
+        merchantName:
+          description: Owner merchant business name (from partner_merchant mirror)
+            — admin views only
+          type: string
+        businessType:
+          description: Owner merchant business type (food/retail) — admin views only
+          type: string
+        recipientName:
+          description: Recipient name — admin views only
+          type: string
+        recipientPhone:
+          description: Recipient phone — admin views only
+          type: string
+        recipientEmail:
+          description: Recipient email — admin views only
+          type: string
+        pinCode:
+          description: PIN handshake code — admin views only
+          type: string
+        pinRequired:
+          description: Whether a PIN handshake is required — admin views only
+          type: boolean
+        smsNotifications:
+          description: Whether SMS notifications are enabled — admin views only
+          type: boolean
+        scheduledPickupTime:
+          description: Scheduled pickup time (null = immediate) — admin views only
+          format: date-time
+          type: string
+        originalQuotedEta:
+          description: Originally quoted ETA — admin views only
+          format: date-time
+          type: string
+        dispatchRetryCount:
+          description: Dispatch retry count — admin views only
+          format: int32
+          type: integer
+        maxDispatchRetries:
+          description: Max dispatch retries — admin views only
+          format: int32
+          type: integer
+        stuckPollCount:
+          description: Stuck poll count — admin views only
+          format: int32
+          type: integer
+        nextRetryAt:
+          description: Next scheduled retry — admin views only
+          format: date-time
+          type: string
+        lastPolledAt:
+          description: Last poll time — admin views only
+          format: date-time
+          type: string
+        providerData:
+          additionalProperties:
+            type: string
+          description: Raw provider data — admin views only
+        idempotencyKey:
+          description: Idempotency key — admin views only
+          type: string
+        quoteId:
+          description: Quote id — admin views only
+          format: uuid
+          type: string
+        createdBy:
+          description: Created by (audit) — admin views only
+          type: string
+        lastModifiedDate:
+          description: Last modified time (audit) — admin views only
+          format: date-time
+          type: string
+        lastModifiedBy:
+          description: Last modified by (audit) — admin views only
           type: string
         deliveryType:
           description: Type of delivery
@@ -3502,6 +4547,7 @@ components:
           - FOOD_IMMEDIATE
           - STORE_NEXT_DAY
           - PASSENGER_TRANSPORT
+          - INTERNATIONAL_EXPORT
           example: FOOD_IMMEDIATE
           type: string
         status:
@@ -3528,6 +4574,7 @@ components:
           - ZIPPERW
           - ZIPPERK
           - ZIPPERGP
+          - ZIPPERU
           example: ZIPPERW
           type: string
         providerTrackingId:
@@ -3624,6 +4671,147 @@ components:
           $ref: '#/components/schemas/GeoJsonLineString'
         routeMeta:
           $ref: '#/components/schemas/RouteMeta'
+    HubDispatchAttemptDTO:
+      description: A single provider dispatch attempt (admin views only)
+      example:
+        attemptNumber: 5
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        providerOrderId: providerOrderId
+        providerTrackingUrl: providerTrackingUrl
+        providerType: ZIPPERG
+        providerTrackingId: providerTrackingId
+        status: PENDING
+      properties:
+        attemptNumber:
+          format: int32
+          type: integer
+        providerType:
+          enum:
+          - ZIPPERG
+          - ZIPPERW
+          - ZIPPERK
+          - ZIPPERGP
+          - ZIPPERU
+          type: string
+        providerOrderId:
+          type: string
+        providerTrackingId:
+          type: string
+        providerTrackingUrl:
+          type: string
+        status:
+          enum:
+          - PENDING
+          - DISPATCHED
+          - PROVIDER_ACCEPTED
+          - ASSIGNED
+          - READY_FOR_PICKUP
+          - PICKED_UP
+          - IN_TRANSIT
+          - DELIVERED
+          - CANCELLED
+          - FAILED
+          - REJECTED
+          - AWAITING_DRIVER
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+    HubPickupLocationDTO:
+      description: Pickup site (warehouse/store/hub) with opening hours (admin views
+        only)
+      example:
+        code: code
+        city: city
+        contactEmail: contactEmail
+        contactName: contactName
+        timezone: timezone
+        postalCode: postalCode
+        latitude: 5.637376656633329
+        houseNumber: houseNumber
+        deliveryTypeConfig:
+          key:
+            key: ""
+        externalId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        type: STORE
+        entranceFloor: entranceFloor
+        default: true
+        countryCode: countryCode
+        name: name
+        addressLine1: addressLine1
+        addressLine2: addressLine2
+        openingHours:
+          schedule:
+            key:
+              intervals:
+              - close: close
+                open: open
+              - close: close
+                open: open
+              closed: true
+        region: region
+        contactPhone: contactPhone
+        pickupInstructions: pickupInstructions
+        status: ACTIVE
+        longitude: 2.3021358869347655
+      properties:
+        externalId:
+          format: uuid
+          type: string
+        name:
+          type: string
+        code:
+          type: string
+        type:
+          enum:
+          - STORE
+          - WAREHOUSE
+          - HUB
+          type: string
+        status:
+          enum:
+          - ACTIVE
+          - INACTIVE
+          type: string
+        addressLine1:
+          type: string
+        addressLine2:
+          type: string
+        houseNumber:
+          type: string
+        entranceFloor:
+          type: string
+        city:
+          type: string
+        region:
+          type: string
+        postalCode:
+          type: string
+        countryCode:
+          type: string
+        latitude:
+          format: double
+          type: number
+        longitude:
+          format: double
+          type: number
+        contactName:
+          type: string
+        contactPhone:
+          type: string
+        contactEmail:
+          type: string
+        openingHours:
+          $ref: '#/components/schemas/OpeningHours'
+        pickupInstructions:
+          type: string
+        timezone:
+          type: string
+        deliveryTypeConfig:
+          additionalProperties:
+            additionalProperties: {}
+        default:
+          type: boolean
     HubStatusEventDTO:
       description: A single status change event in the delivery lifecycle
       example:
@@ -3660,6 +4848,29 @@ components:
           type: string
         proofOfDeliveryUrl:
           description: URL to proof-of-delivery image (only for DELIVERED status)
+          type: string
+    OpeningHours:
+      example:
+        schedule:
+          key:
+            intervals:
+            - close: close
+              open: open
+            - close: close
+              open: open
+            closed: true
+      properties:
+        schedule:
+          additionalProperties:
+            $ref: '#/components/schemas/DaySchedule'
+    TimeInterval:
+      example:
+        close: close
+        open: open
+      properties:
+        open:
+          type: string
+        close:
           type: string
     HubHandshakeDeliveryResponse:
       description: Handshake PIN information for a delivery
